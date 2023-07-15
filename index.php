@@ -67,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-
+				<?php in ?>
 				<!-- Headre Comes Here Shiva -->
 			<div role="main" class="main shop pt-4">
 
@@ -84,8 +84,7 @@
 											<div class="product-thumb-info border-0 mb-3">
 
 												<div class="product-thumb-info-badges-wrapper">
-<span class="badge badge-ecommerce badge-success">NEW</span>
-
+													<span class="badge badge-ecommerce badge-success">NEW</span>
 												</div>
 
 												<div class="addtocart-btn-wrapper">
@@ -126,8 +125,8 @@
 											<div class="product-thumb-info border-0 mb-3">
 
 												<div class="product-thumb-info-badges-wrapper">
-<span class="badge badge-ecommerce badge-success">NEW</span>
-<span class="badge badge-ecommerce badge-danger">27% OFF</span>
+													<span class="badge badge-ecommerce badge-success">NEW</span>
+													<span class="badge badge-ecommerce badge-danger">27% OFF</span>
 												</div>
 
 												<div class="addtocart-btn-wrapper">
@@ -207,8 +206,7 @@
 											<div class="product-thumb-info border-0 mb-3">
 
 												<div class="product-thumb-info-badges-wrapper">
-
-<span class="badge badge-ecommerce badge-danger">27% OFF</span>
+													<span class="badge badge-ecommerce badge-danger">27% OFF</span>
 												</div>
 
 												<div class="addtocart-btn-wrapper">

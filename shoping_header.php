@@ -5,8 +5,8 @@
 							<div class="header-row justify-content-between">
 								<div class="header-column col-auto px-0">
 									<div class="header-row">
-										<p class="font-weight-semibold text-1 mb-0 d-none d-sm-block d-md-none">FREE SHIPPING ORDERS $99+</p>
-										<p class="font-weight-semibold text-1 mb-0 d-none d-md-block">FREE RETURNS, STANDARD SHIPPING ORDERS $99+</p>
+										<p class="font-weight-semibold text-1 mb-0 d-none d-sm-block d-md-none">FREE CLASS ROOM DELIVERY</p>
+										<p class="font-weight-semibold text-1 mb-0 d-none d-md-block">DELIVERY WITHIN CAMPU</p>
 									</div>
 								</div>
 								<div class="header-column justify-content-end col-auto px-0">
@@ -20,7 +20,7 @@
 													</a>
 													<div class="dropdown-menu" aria-labelledby="dropdownMobileMore">
 														<a class="dropdown-item" href="#">About</a>
-														<a class="dropdown-item" href="#">Our Stores</a>
+														<a class="dropdown-item" href="#">Our Store</a>
 														<a class="dropdown-item" href="#">Blog</a>
 														<a class="dropdown-item" href="#">Contact</a>
 														<a class="dropdown-item" href="#">Help & FAQs</a>
@@ -107,10 +107,6 @@
 																<select name="category" class="form-control form-select">
 																	<option value="all" selected>All Categories</option>
 																	<option value="fashion">Fashion</option>
-																	<option value="electronics">Electronics</option>
-																	<option value="homegarden">Home & Garden</option>
-																	<option value="motors">Motors</option>
-																	<option value="features">Features</option>
 																</select>
 															</div>
 															<button class="btn" type="submit" aria-label="Search">
