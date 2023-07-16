@@ -67,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-				<?php in ?>
+				<?php include "shoping_header.php" ?>
 				<!-- Headre Comes Here Shiva -->
 			<div role="main" class="main shop pt-4">
 
