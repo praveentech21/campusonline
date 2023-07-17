@@ -234,7 +234,7 @@
 																Shop
 															</a>
 														</li>
-														<li class="dropdown ms-lg-auto">
+														<!-- <li class="dropdown ms-lg-auto">
 															<a href="#" class="dropdown-item">
 																Outlet
 															</a>
@@ -243,7 +243,7 @@
 															<a href="#" class="dropdown-item">
 																Buy Porto!
 															</a>
-														</li>
+														</li> -->
 													</ul>
 												</nav>
 											</div>
