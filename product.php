@@ -387,7 +387,7 @@
 										<div class="product-thumb-info border-0 mb-3">
 
 											<div class="product-thumb-info-badges-wrapper">
-<span class="badge badge-ecommerce badge-success">NEW</span>
+												<span class="badge badge-ecommerce badge-success">NEW</span>
 
 											</div>
 
@@ -426,8 +426,8 @@
 										<div class="product-thumb-info border-0 mb-3">
 
 											<div class="product-thumb-info-badges-wrapper">
-<span class="badge badge-ecommerce badge-success">NEW</span>
-<span class="badge badge-ecommerce badge-danger">27% OFF</span>
+												<span class="badge badge-ecommerce badge-success">NEW</span>
+												<span class="badge badge-ecommerce badge-danger">27% OFF</span>
 											</div>
 
 											<div class="addtocart-btn-wrapper">
@@ -502,7 +502,7 @@
 
 											<div class="product-thumb-info-badges-wrapper">
 
-<span class="badge badge-ecommerce badge-danger">27% OFF</span>
+												<span class="badge badge-ecommerce badge-danger">27% OFF</span>
 											</div>
 
 											<div class="addtocart-btn-wrapper">
@@ -829,15 +829,15 @@
 			</div>
 
 		</div>
-
+		<?php include 'shoping_fotter.php'; ?>
 		<!-- Fotter Comes Hera Shiva -->
 	</div>
 
 		<!-- Vendor -->
-	<script src="BHavani/vendor/plugins/js/plugins.min.js"></script>
-	<script src="BHavani/vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
-	<script src="BHavani/vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js"></script>
-	<script src="BHavani/vendor/elevatezoom/jquery.elevatezoom.min.js"></script>
+	<script src="Bhavani/vendor/plugins/js/plugins.min.js"></script>
+	<script src="Bhavani/vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
+	<script src="Bhavani/vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js"></script>
+	<script src="Bhavani/vendor/elevatezoom/jquery.elevatezoom.min.js"></script>
 
 	<!-- Theme Base, Components and Settings -->
 	<script src="Bhavani/js/theme.js"></script>
