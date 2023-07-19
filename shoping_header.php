@@ -197,7 +197,7 @@
 																	<a href="product.php?product_id=<?php echo $row['product_id'] ?>"><?php echo $product_details['product_name'] ?></a>
 																</p>
 																<p class="qty-price">
-																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php echo $product_details['product_price']?></span>
+																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php echo $product_details['discount_price']?></span>
 																</p>
 																<a href="removefromcart.php?product_id=<?php echo $row['product_id']; ?>" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>

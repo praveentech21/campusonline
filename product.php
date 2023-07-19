@@ -1,9 +1,49 @@
 <?php 
 	include "connect.php";
 	if(isset($_GET['product_id'])){
+		$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
+		$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
 		$product= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['product_id']}'"));
-		
-	}	 
+		$products = mysqli_query($con,"SELECT * FROM products where category_id = '{$product['category_id']}' and sku != '{$_GET['product_id']}' and no_units != 0");
+		$category= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM categorys WHERE category_id = '{$product['category_id']}'"));
+		$checkwishlist = mysqli_query($con,"select * from wishlist where coustmer_id='{$_SESSION['student_id']}' and product_id='{$_GET['product_id']}'");
+		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$product['sku']}'");
+		$productId = $_GET['product_id'];
+		$additional_information = mysqli_fetch_assoc(mysqli_query($con,"select * from product_details where product_id = '{$_GET['product_id']}'"));
+		$customerId = $_SESSION['student_id'];
+		$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
+		if(isset($_POST['addtocart'])){
+			$quantity = $_POST['quantity'];
+			$addtocart = "INSERT INTO `cart`(`coustmer_id`, `product_id`, `product_quantity`) VALUES (?,?,?)";
+			$addtocart = mysqli_prepare($con,$addtocart);
+			mysqli_stmt_bind_param($addtocart,"ssi",$customerId,$productId,$quantity);
+			try {
+				if (mysqli_stmt_execute($addtocart)) {
+					echo "<script> alert('{$product['product_name']} added to cart successfully'); </script>";
+					$removefromwishlist = mysqli_query($con,"DELETE FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
+				}
+			} catch (mysqli_sql_exception $e) {
+				if ($e->getCode() === 1062) {
+					echo "<script>alert('This Product is Already in Your Cart');</script>";
+				} else {
+					echo "<script>alert('Error: {$e->getMessage()}');</script>";
+				}
+			}
+		}
+		if(isset($_POST['ratingofproduct'])){
+			$rating = $_POST['rating'];
+			$name = $_POST['name'];
+			$email = $_POST['email'];
+			$review = $_POST['review'];
+			$ratingofproduct = "INSERT INTO `reviews`(`coustmer_id`, `product_id`, `rating`, `name`, `email`, `review`) VALUES (?,?,?,?,?,?)";
+			$ratingofproduct = mysqli_prepare($con,$ratingofproduct);
+			mysqli_stmt_bind_param($ratingofproduct,"ssisss",$customerId,$productId,$rating,$name,$email,$review);
+			mysqli_stmt_execute($ratingofproduct);
+		}
+	}
+	else{
+		echo "<script> window.location.href = 'index.php'; </script>";
+	}	
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +186,7 @@
 
 										<div class="review-num">
 											<a href="#description" class="text-decoration-none text-color-default text-color-hover-primary" data-hash data-hash-offset="0" data-hash-offset-lg="75" data-hash-trigger-click=".nav-link-reviews" data-hash-trigger-click-delay="1000">
-												<span class="count text-color-inherit" itemprop="ratingCount">(</span> reviews)
+												<span class="count text-color-inherit" itemprop="ratingCount">(<?php echo mysqli_num_rows($reviews); ?></span> reviews)
 											</a>
 										</div>
 									</div>
@@ -156,19 +196,25 @@
 									</div>
 
 									<p class="price mb-3">
-										<span class="sale text-color-dark">$15,00</span>
-										<span class="amount">$22,00</span>
+										<span class="sale text-color-dark">&#8377; <?php echo $product['discount_price'] ?></span>
+										<span class="amount">&#8377; <?php echo $product['product_price'] ?></span>
 									</p>
 
-									<p class="text-3-5 mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus nibh sed elimttis adipiscing. Fusce in hendrerit purus. Lorem ipsum dolor sit amet.</p>
+									<p class="text-3-5 mb-3"><?php echo $product['about_product'] ?></p>
 
 									<ul class="list list-unstyled text-2">
-										<li class="mb-0">AVAILABILITY: <strong class="text-color-dark">AVAILABLE</strong></li>
-										<li class="mb-0">SKU: <strong class="text-color-dark">1234567890</strong></li>
+										<li class="mb-0">AVAILABILITY: <strong class="text-color-dark"><?php 
+										if($product['no_units'] == 0) echo "OUT OF STOCK";
+										else{ 
+											echo $product['no_units'].' Units';	
+											if(!empty($product['product_start_time'])) echo '<br>Avabile between '.$product['product_start_time'] .' to '. $product['product_end_time'];
+										}
+										?></strong></li>
+										<li class="mb-0">SKU: <strong class="text-color-dark"><?php echo $_GET['product_id'] ?></strong></li>
 									</ul>
 
-									<form enctype="multipart/form-data" method="post" class="cart" action="shop-cart.html">
-										<table class="table table-borderless" style="max-width: 300px;">
+									<form enctype="multipart/form-data" method="post" class="cart" action="#">
+										<!-- <table class="table table-borderless" style="max-width: 300px;">
 											<tbody>
 												<tr>
 													<td class="align-middle text-2 px-0 py-2">SIZE:</td>
@@ -197,14 +243,14 @@
 													</td>
 												</tr>
 											</tbody>
-										</table>
+										</table> -->
 										<hr>
 										<div class="quantity quantity-lg">
 											<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
 											<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
 											<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
 										</div>
-										<button type="submit" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Add to cart</button>
+										<button type="submit" name="addtocart" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Add to cart</button>
 										<hr>
 									</form>
 
@@ -212,32 +258,38 @@
 										<ul class="social-icons social-icons-medium social-icons-clean-with-border social-icons-clean-with-border-border-grey social-icons-clean-with-border-icon-dark me-3 mb-0">
 											<!-- Facebook -->
 											<li class="social-icons-facebook">
-												<a href="http://www.facebook.com/sharer.php?u=https://www.okler.net" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
+												<a href="http://www.facebook.com/sharer.php?u=https://www.saipraveen.free.nf" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
 													<i class="fab fa-facebook-f"></i>
 												</a>
 											</li>
 											<!-- Google+ -->
 											<li class="social-icons-googleplus">
-												<a href="https://plus.google.com/share?url=https://www.okler.net" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
+												<a href="https://plus.google.com/share?url=https://www.saipraveen.free.nf" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
 													<i class="fab fa-google-plus-g"></i>
 												</a>
 											</li>
 											<!-- Twitter -->
 											<li class="social-icons-twitter">
-												<a href="https://twitter.com/share?url=https://www.okler.net&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
+												<a href="https://twitter.com/share?url=https://www.saipraveen.free.nf&amp;text=Sai%20Praveen&amp;hashtags=#csd" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
 													<i class="fab fa-twitter"></i>
 												</a>
 											</li>
 											<!-- Email -->
 											<li class="social-icons-email">
-												<a href="mailto:?Subject=Share This Page&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 https://www.okler.net" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
+												<a href="mailto:?Subject=Share This Page&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 https://www.saipraveen.free.nf" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
 													<i class="far fa-envelope"></i>
 												</a>
 											</li>
 										</ul>
-										<a href="#" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+										<?php if(mysqli_num_rows($checkwishlist) == 0){ ?>
+										<a href="addtowishlist.php?product_id=<?php echo $productId ?>" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
 											<i class="far fa-heart me-1"></i> SAVE TO WISHLIST
 										</a>
+										<?php }else{ ?>
+											<a href="#" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+											<i class="far fa-heart me-1"></i> Already in Wishlist
+											</a>
+										<?php } ?>
 									</div>
 
 								</div>
@@ -255,11 +307,11 @@
 									</ul>
 									<div class="tab-content p-0">
 										<div class="tab-pane px-0 py-3 active" id="productDescription">
-											<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis, massa fringilla consequat blandit, mauris ligula porta nisi, non tristique enim sapien vel nisl. Suspendisse vestibulum lobortis dapibus. </p>
-											<p class="m-0">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis, massa fringilla consequat blandit, mauris ligula porta nisi, non tristique enim sapien vel nisl. Suspendisse vestibulum lobortis dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+											<p><?php echo $additional_information['description'] ?></p>
 										</div>
 										<div class="tab-pane px-0 py-3" id="productInfo">
-											<table class="table table-striped m-0">
+											<p><?php echo $additional_information['additional_info'] ?></p>
+											<!-- <table class="table table-striped m-0">
 												<tbody>
 													<tr>
 														<th class="border-top-0">
@@ -286,19 +338,23 @@
 														</td>
 													</tr>
 												</tbody>
-											</table>
+											</table> -->
 										</div>
 										<div class="tab-pane px-0 py-3" id="productReviews">
 											<ul class="comments">
+												<?php 
+													while($row = mysqli_fetch_assoc($reviews)){
+														$coustmer = mysqli_fetch_assoc(mysqli_query($con,"select * from students where student_id = '{$row['coustmer_id']}'"));
+												?>
 												<li>
 													<div class="comment">
 														<div class="img-thumbnail border-0 p-0 d-none d-md-block">
-															<img class="avatar rounded-circle" alt="" src="Bhavani/img/avatars/avatar-2.jpg">
+															<img class="avatar rounded-circle" alt="" src="Bhavani/img/avatars/<?php echo $coustmer['photo'] ?>">
 														</div>
 														<div class="comment-block">
 															<div class="comment-arrow"></div>
 															<span class="comment-by">
-																<strong>Jack Doe</strong>
+																<strong><?php echo $coustmer['student_name'] ?></strong>
 																<span class="float-end">
 																	<div class="pb-0 clearfix">
 																		<div title="Rated 3 out of 5" class="float-start">
@@ -306,51 +362,27 @@
 																		</div>
 
 																		<div class="review-num">
-																			<span class="count" itemprop="ratingCount">2</span> reviews
+																			<span class="count" itemprop="ratingCount"><?php echo $row['rating'] ?></span> reviews
 																		</div>
 																	</div>
 																</span>
 															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae.</p>
+															<p><?php echo $row['review'] ?></p>
 														</div>
 													</div>
 												</li>
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail border-0 p-0 d-none d-md-block">
-															<img class="avatar rounded-circle" alt="" src="Bhavani/img/avatars/avatar.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-end">
-																	<div class="pb-0 clearfix">
-																		<div title="Rated 3 out of 5" class="float-start">
-																			<input type="text" class="d-none" value="3" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'primary', 'size':'xs'}">
-																		</div>
-
-																		<div class="review-num">
-																			<span class="count" itemprop="ratingCount">2</span> reviews
-																		</div>
-																	</div>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra odio, gravida urna varius vitae, gravida pellentesque urna varius vitae.</p>
-														</div>
-													</div>
-												</li>
+												<?php } ?>
 											</ul>
 											<hr class="solid my-5">
 											<h4>Add a review</h4>
 											<div class="row">
 												<div class="col">
 
-													<form action="" id="submitReview" method="post">
+													<form action="#" id="submitReview" method="post">
 														<div class="row">
 															<div class="form-group col pb-2">
 																<label class="form-label required font-weight-bold text-dark">Rating</label>
-																<input type="text" class="rating-loading" value="0" title="" data-plugin-star-rating data-plugin-options="{'color': 'primary', 'size':'sm'}">
+																<input type="text" name="rating" class="rating-loading" value="0" title="" data-plugin-star-rating data-plugin-options="{'color': 'primary', 'size':'sm'}">
 															</div>
 														</div>
 														<div class="row">
@@ -360,7 +392,7 @@
 															</div>
 															<div class="form-group col-lg-6">
 																<label class="form-label required font-weight-bold text-dark">Email Address</label>
-																<input type="email" value="" data-msg-required="Please enter your email address." data-msg-email="Please enter a valid email address." maxlength="100" class="form-control" name="email" required>
+																<input type="email" value="" data-msg-required="Please enter your email address." data-msg-email="Please enter a valid email address." maxlength="100" class="form-control" name="email">
 															</div>
 														</div>
 														<div class="row">
@@ -371,7 +403,7 @@
 														</div>
 														<div class="row">
 															<div class="form-group col mb-0">
-																<input type="submit" value="Post Review" class="btn btn-primary btn-modern" data-loading-text="Loading...">
+																<input type="submit" name="ratingofproduct" value="Post Review" class="btn btn-primary btn-modern" data-loading-text="Loading...">
 															</div>
 														</div>
 													</form>
@@ -390,329 +422,70 @@
 						<div class="products row">
 							<div class="col">
 								<div class="owl-carousel owl-theme show-nav-title nav-dark mb-0" data-plugin-options="{'loop': false, 'autoplay': false,'items': 4, 'nav': true, 'dots': false, 'margin': 20, 'autoplayHoverPause': true, 'autoHeight': true}">
-
+									<?php while($row = mysqli_fetch_array($products)){
+										$today = date("Y-m-d");
+										$nooffdays = (strtotime($today) - strtotime($row['date_create'])) / (60 * 60 * 24);
+										if($row['discount_price'] != 0){
+											$discount = ($row['product_price'] - $row['discount_price']) * 100 / $row['product_price'];
+										}
+										$category_name = mysqli_fetch_assoc(mysqli_query($con,"SELECT category_name FROM `categorys` WHERE `category_id` ='{$row['category_id']}' "))['category_name'];
+									?>
 									<div class="product mb-0">
 										<div class="product-thumb-info border-0 mb-3">
 
 											<div class="product-thumb-info-badges-wrapper">
+											<?php if($nooffdays <= 30){ ?>
 												<span class="badge badge-ecommerce badge-success">NEW</span>
-
+												<?php } if($row['discount_price'] != 0){ ?>
+												<span class="badge badge-ecommerce badge-danger"><?php echo (integer)$discount ?>% OFF</span>
+												<?php } ?>
 											</div>
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
+											<?php if($row['no_units'] != 0){ ?>
+												<div class="addtocart-btn-wrapper">
+													<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
+														<i class="icons icon-bag"></i>
+													</a>
+												</div>
+											<?php } else{ ?>
+												<div class="addtocart-btn-wrapper">
+													<a href="#" class="text-decoration-none addtocart-btn" title="Out of Stock">
+														<i class="icons icon-bag"></i>
+													</a>
+												</div>
+											<?php } ?>
 											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
 												QUICK VIEW
 											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-1.jpg">
+											<a href="product.php?product_id=<?php echo $row['sku'] ?>">	
+													<div class="product-thumb-info-image product-thumb-info-image-effect">
+														<?php if($row['photo1'] != null){ ?>
+														<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $row['photo1'] ?>">
 
-												</div>
-											</a>
+															<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $row['photo1'] ?>">
+														<?php } else{ ?>
+														<img alt="" class="img-fluid" src="Bhavani/img/products/noimage.jpg">
+
+															<img alt="" class="img-fluid" src="Bhavani/img/products/noimage.jpg">
+														<?php } ?>
+													</div>
+												</a>
 										</div>
 										<div class="d-flex justify-content-between">
 											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">electronics</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Photo Camera</a></h3>
+												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1"><?php echo $category_name; ?></a>
+												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary"><?php echo $row['product_name'] ?></a></h3>
 											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+											<a href="addtowishlist.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
 										</div>
 										<div title="Rated 5 out of 5">
 											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
 										</div>
 										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$69,00</span>
-											<span class="amount">$59,00</span>
+											<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
+											<span class="amount"><?php echo $row['product_price'] ?></span>
 										</p>
 									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="product-thumb-info-badges-wrapper">
-												<span class="badge badge-ecommerce badge-success">NEW</span>
-												<span class="badge badge-ecommerce badge-danger">27% OFF</span>
-											</div>
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image product-thumb-info-image-effect">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg">
-
-														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-2.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Porto Headphone</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
-											<span class="amount">$99,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-2.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Golf Bag</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$29,00</span>
-											<span class="amount">$19,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="product-thumb-info-badges-wrapper">
-
-												<span class="badge badge-ecommerce badge-danger">27% OFF</span>
-											</div>
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-3.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Workout</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$40,00</span>
-											<span class="amount">$30,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-4.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Luxury Bag</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
-											<span class="amount">$79,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-5.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Styled Bag</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
-											<span class="amount">$119,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-6.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">hat</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Blue Hat</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$299,00</span>
-											<span class="amount">$289,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-8.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Adventurer Bag</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
-											<span class="amount">$79,00</span>
-										</p>
-									</div>
-
-									<div class="product mb-0">
-										<div class="product-thumb-info border-0 mb-3">
-
-											<div class="addtocart-btn-wrapper">
-												<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-													<i class="icons icon-bag"></i>
-												</a>
-											</div>
-											<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-												QUICK VIEW
-											</a>
-											<a href="shop-product-sidebar-left.html">
-												<div class="product-thumb-info-image">
-													<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-9.jpg">
-
-												</div>
-											</a>
-										</div>
-										<div class="d-flex justify-content-between">
-											<div>
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Baseball Ball</a></h3>
-											</div>
-											<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-										</div>
-										<div title="Rated 5 out of 5">
-											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-										</div>
-										<p class="price text-5 mb-3">
-											<span class="sale text-color-dark font-weight-semi-bold">$399,00</span>
-											<span class="amount">$299,00</span>
-										</p>
-									</div>
+									<?php } ?>
 
 								</div>
 							</div>
@@ -729,106 +502,46 @@
 							</form>
 							<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 							<ul class="nav nav-list flex-column">
-								<li class="nav-item"><a class="nav-link" href="#">Arts & Crafts</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Automotive</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Baby</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Books</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Eletronics</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Women's Fashion</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Men's Fashion</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Health & Household</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Home & Kitchen</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Military Accessories</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Movies & Television</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Sports & Outdoors</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Tools & Home Improvement</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Toys & Games</a></li>
+								<?php while($row = mysqli_fetch_array($categories)){ ?>
+									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_name'] ?></a></li>
+								<?php } ?>
 							</ul>
 							<h5 class="font-weight-semi-bold pt-5">Tags</h5>
 							<div class="mb-3 pb-1">
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Nike</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Travel</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Sport</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">TV</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Books</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Tech</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Adidas</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Promo</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Reading</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Social</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Books</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">Tech</span></a>
-								<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">New</span></a>
+								<?php while($row = mysqli_fetch_array($tags)){ ?>
+									<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1"><?php echo $row['tag_name'] ?></span></a>
+								<?php } ?>
 							</div>
 							<div class="row mb-5">
 								<div class="col">
 									<h5 class="font-weight-semi-bold pt-5">Top Rated Products</h5>
-									<div class="product row row-gutter-sm align-items-center mb-4">
-										<div class="col-5 col-lg-5">
-											<div class="product-thumb-info border-0">
-												<a href="shop-product-sidebar-left.html">
-													<div class="product-thumb-info-image">
-														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-6.jpg">
-													</div>
-												</a>
+									<?php while($row = mysqli_fetch_array($top_rated)){ 
+											$product_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+											$category_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT category_name FROM categorys WHERE category_id = '{$product_details['category_id']}'"))['category_name'];
+										?>
+										<div class="product row row-gutter-sm align-items-center mb-4">
+											<div class="col-5 col-lg-5">
+												<div class="product-thumb-info border-0">
+													<a href="shop-product-sidebar-left.html">
+														<div class="product-thumb-info-image">
+															<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>">
+														</div>
+													</a>
+												</div>
+											</div>	
+											<div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
+												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2"><?php echo $category_name ?></a>
+												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none"><?php echo $product_details['product_name'] ?></a></h3>
+												<div title="Rated 5 out of 5">
+													<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
+												</div>
+												<p class="price text-4 mb-0">
+													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product_details['discount_price'] ?></span>
+													<span class="amount"><?php echo $product_details['product_price'] ?></span>
+												</p>
 											</div>
 										</div>
-										<div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
-											<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2">hat</a>
-											<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none">Blue Hat</a></h3>
-											<div title="Rated 5 out of 5">
-												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
-											</div>
-											<p class="price text-4 mb-0">
-												<span class="sale text-color-dark font-weight-semi-bold">$299,00</span>
-												<span class="amount">$289,00</span>
-											</p>
-										</div>
-									</div>
-									<div class="product row row-gutter-sm align-items-center mb-4">
-										<div class="col-5 col-lg-5">
-											<div class="product-thumb-info border-0">
-												<a href="shop-product-sidebar-left.html">
-													<div class="product-thumb-info-image">
-														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-8.jpg">
-													</div>
-												</a>
-											</div>
-										</div>
-										<div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
-											<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2">accessories</a>
-											<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none">Adventurer Bag</a></h3>
-											<div title="Rated 5 out of 5">
-												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
-											</div>
-											<p class="price text-4 mb-0">
-												<span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
-												<span class="amount">$79,00</span>
-											</p>
-										</div>
-									</div>
-									<div class="product row row-gutter-sm align-items-center mb-4">
-										<div class="col-5 col-lg-5">
-											<div class="product-thumb-info border-0">
-												<a href="shop-product-sidebar-left.html">
-													<div class="product-thumb-info-image">
-														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-9.jpg">
-													</div>
-												</a>
-											</div>
-										</div>
-										<div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
-											<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2">sports</a>
-											<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none">Baseball Ball</a></h3>
-											<div title="Rated 5 out of 5">
-												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
-											</div>
-											<p class="price text-4 mb-0">
-												<span class="sale text-color-dark font-weight-semi-bold">$399,00</span>
-												<span class="amount">$299,00</span>
-											</p>
-										</div>
-									</div>
+									<?php } ?>
 								</div>
 							</div>
 						</aside>
