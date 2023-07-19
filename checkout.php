@@ -67,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-
+				<?php include 'shoping_header.php'; ?>
 				<!-- Header Starts here Shiva -->
 			<div role="main" class="main shop pb-4">
 
@@ -442,6 +442,7 @@
 				</div>
 
 			</div>
+			<?php include 'shoping_fotter.php'; ?>
 			<!-- Footer Starts here Shiva -->
 			</div>
 

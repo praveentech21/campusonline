@@ -68,7 +68,7 @@
 				</div>
 			</div>
 				<!-- Hearder Comes Here Shiva -->
-
+				<?php include 'shoping_header.php'; ?>
 			<div role="main" class="main shop pb-4">
 
 				<div class="container">
@@ -212,7 +212,7 @@
 				</div>
 
 			</div>
-
+			<?php include"shoping_fotter.php" ?>
 			<!-- Fotter Start Here Shiva -->
 		</div>
 

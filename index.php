@@ -1,14 +1,11 @@
 <?php
-session_start();
-// if(empty($_SESSION['std_id']))
-// {
-// 	header("location:login.php");
-// }
 include "connect.php";
+if(empty($_SESSION['student_id'])) header("location:login.php");
 	$products = mysqli_query($con,"SELECT * FROM products");
 	$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 	$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
 	$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
+	$student_details = mysqli_query($con,"SELECT * FROM students where student_id = '{$_SESSION['student_id']}'");
 
 
 ?>
@@ -113,7 +110,7 @@ include "connect.php";
 													<?php if($nooffdays <= 30){ ?>
 													<span class="badge badge-ecommerce badge-success">NEW</span>
 													<?php } if($row['discount_price'] != 0){ ?>
-													<span class="badge badge-ecommerce badge-danger"><?php echo $discount_price ?>% OFF</span>
+													<span class="badge badge-ecommerce badge-danger"><?php echo (integer)$discount_price ?>% OFF</span>
 													<?php } ?>
 												</div>
 												<?php if($row['no_units'] != 0){ ?>
@@ -127,7 +124,7 @@ include "connect.php";
 												<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
 													QUICK VIEW
 												</a>
-												<?php if($row['no_units'] != 0){ ?>
+												<?php //if($row['no_units'] != 0){ ?>
 												<a href="shop-product-sidebar-left.html">
 													<div class="product-thumb-info-image product-thumb-info-image-effect">
 														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg">
@@ -136,7 +133,7 @@ include "connect.php";
 
 													</div>
 												</a>
-												<?php } ?>
+												<?php // } ?>
 											</div>
 											<div class="d-flex justify-content-between">
 												<div>
@@ -182,7 +179,7 @@ include "connect.php";
 								<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 								<ul class="nav nav-list flex-column">
 									<?php while($row = mysqli_fetch_array($categories)){ ?>
-									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_name'] ?></a></li>
+									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_id'] ?></a></li>
 									<?php } ?>
 								</ul>
 								<h5 class="font-weight-semi-bold pt-5">Tags</h5>

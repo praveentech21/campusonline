@@ -1,3 +1,7 @@
+<?php 
+	$category = mysqli_query($con,"SELECT * FROM categorys");
+	$wishlist = mysqli_query($con,"SELECT * FROM wishlist WHERE coustmer_id = '{$_SESSION['student_id']}'");
+?>
 <header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 135, 'stickySetTop': '-135px', 'stickyChangeLogo': true}">
 				<div class="header-body header-body-bottom-border-fixed box-shadow-none border-top-0">
 					<div class="header-top header-top-small-minheight header-top-simple-border-bottom">
@@ -6,7 +10,7 @@
 								<div class="header-column col-auto px-0">
 									<div class="header-row">
 										<p class="font-weight-semibold text-1 mb-0 d-none d-sm-block d-md-none">FREE CLASS ROOM DELIVERY</p>
-										<p class="font-weight-semibold text-1 mb-0 d-none d-md-block">DELIVERY WITHIN CAMPU</p>
+										<p class="font-weight-semibold text-1 mb-0 d-none d-md-block">DELIVERY WITHIN CAMPUS</p>
 									</div>
 								</div>
 								<div class="header-column justify-content-end col-auto px-0">
@@ -45,7 +49,7 @@
 												<li class="nav-item d-none d-xl-inline-block">
 													<a href="#" class="text-decoration-none text-color-default text-color-hover-primary">Track Order</a>
 												</li>
-												<li class="nav-item dropdown nav-item-left-border">
+												<!-- <li class="nav-item dropdown nav-item-left-border">
 													<a class="nav-link text-color-default text-color-hover-primary" href="#" role="button" id="dropdownCurrency" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														USD
 														<i class="fas fa-angle-down"></i>
@@ -65,7 +69,7 @@
 														<a class="dropdown-item" href="#">FRA</a>
 														<a class="dropdown-item" href="#">ENG</a>
 													</div>
-												</li>
+												</li> -->
 											</ul>
 											<ul class="header-social-icons social-icons social-icons-clean social-icons-icon-gray">
 												<li class="social-icons-facebook">
@@ -89,7 +93,7 @@
 							<div class="header-column w-100">
 								<div class="header-row justify-content-between">
 									<div class="header-logo z-index-2 col-lg-2 px-0">
-										<a href="index.html">
+										<a href="index.php">
 											<img alt="Porto" width="100" height="48" data-sticky-width="82" data-sticky-height="40" data-sticky-top="84" src="Bhavani/img/campus_online_200_96.png">
 										</a>
 									</div>
@@ -106,7 +110,9 @@
 															<div class="custom-select-1">
 																<select name="category" class="form-control form-select">
 																	<option value="all" selected>All Categories</option>
-																	<option value="fashion">Fashion</option>
+																	<?php while($row = mysqli_fetch_assoc($category)){ ?>
+																	<option value="fashion"><?php echo $row['category_name'] ?></option>
+																	<?php } ?>
 																</select>
 															</div>
 															<button class="btn" type="submit" aria-label="Search">
@@ -138,15 +144,44 @@
 													</a>
 												</div>
 											</li>
-											<li class="me-2 ms-3">
-												<div class="header-extra-info-icon">
-													<a href="#" class="text-decoration-none text-color-dark text-color-hover-primary text-2">
-														<i class="icons icon-heart"></i>
-													</a>
-												</div>
-											</li>
 										</ul>
 										<div class="header-nav-features ps-0 ms-1">
+										<div class="header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2">
+												<a href="#" class="header-nav-features-toggle" aria-label="">
+													<img src="Bhavani/img/wishlist_30_30.png" height="30" alt="" class="header-nav-top-icon-img">
+													<span class="cart-info">
+														<span class="cart-qty"><?php echo mysqli_num_rows($wishlist) ?></span>
+													</span>
+												</a>
+												<div class="header-nav-features-dropdown" id="headerTopCartDropdown">
+													<ol class="mini-products-list">
+														<?php while($row = mysqli_fetch_assoc($wishlist)){ 
+															// $product_details = mysqli_fetch_assoc(mysqli_query($con,"select * products where sku = '{$row['product_id']}'"));
+														?>
+														<li class="item">
+															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/product-1.jpg" alt="Camera X1000"></a>
+															<div class="product-details">
+																<p class="product-name">
+																	<a href="#"><?php echo "rama" ?></a>
+																</p>
+																<p class="qty-price">
+																	 1X <span class="price">$890</span>
+																</p>
+																<a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
+															</div>
+														</li>
+														<?php } ?>
+													</ol>
+													<div class="totals">
+														<span class="label">Total:</span>
+														<span class="price-total"><span class="price">$890</span></span>
+													</div>
+													<div class="actions">
+														<a class="btn btn-dark" href="#">View Cart</a>
+														<a class="btn btn-primary" href="#">Checkout</a>
+													</div>
+												</div>
+											</div>
 											<div class="header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2">
 												<a href="#" class="header-nav-features-toggle" aria-label="">
 													<img src="Bhavani/img/icons/icon-cart-big.svg" height="30" alt="" class="header-nav-top-icon-img">
@@ -200,7 +235,7 @@
 												<nav class="collapse w-100">
 													<ul class="nav nav-pills w-100" id="mainNav">
 														<li class="dropdown">
-															<a class="dropdown-item dropdown-toggle" href="index.html">
+															<a class="dropdown-item dropdown-toggle" href="index.php">
 																Home
 															</a>
 														</li>
