@@ -1,12 +1,11 @@
 <?php
 include "connect.php";
 if(empty($_SESSION['student_id'])) header("location:login.php");
-	$products = mysqli_query($con,"SELECT * FROM products");
+	$products = mysqli_query($con,"SELECT * FROM products order by date_create desc");
 	$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 	$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
 	$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
-	$student_details = mysqli_query($con,"SELECT * FROM students where student_id = '{$_SESSION['student_id']}'");
-
+	$student_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM students where student_id = '{$_SESSION['student_id']}'"));
 
 ?>
 <!DOCTYPE html>
@@ -93,12 +92,9 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 								<div class="row products product-thumb-info-list" data-plugin-masonry data-plugin-options="{'layoutMode': 'fitRows'}">
 									<?php while($row = mysqli_fetch_array($products)){
 										$today = date("Y-m-d");
-										$product_added_date = $row['date_create'];
-										$nooffdays = (strtotime($today) - strtotime($product_added_date)) / (60 * 60 * 24);
+										$nooffdays = (strtotime($today) - strtotime($row['date_create'])) / (60 * 60 * 24);
 										if($row['discount_price'] != 0){
-											$discount = $row['discount_price'];
-											$price = $row['product_price'];
-											$discount_price = ($price - $discount) * 100 / $price;
+											$discount = ($row['product_price'] - $row['discount_price']) * 100 / $row['product_price'];
 										}
 										$category_name = mysqli_fetch_assoc(mysqli_query($con,"SELECT category_name FROM `categorys` WHERE `category_id` ='{$row['category_id']}' "))['category_name'];
 									?>
@@ -110,44 +106,57 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 													<?php if($nooffdays <= 30){ ?>
 													<span class="badge badge-ecommerce badge-success">NEW</span>
 													<?php } if($row['discount_price'] != 0){ ?>
-													<span class="badge badge-ecommerce badge-danger"><?php echo (integer)$discount_price ?>% OFF</span>
+													<span class="badge badge-ecommerce badge-danger"><?php echo (integer)$discount ?>% OFF</span>
 													<?php } ?>
 												</div>
 												<?php if($row['no_units'] != 0){ ?>
 												<div class="addtocart-btn-wrapper">
-													<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+													<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
+														<i class="icons icon-bag"></i>
+													</a>
+												</div>
+												<?php } else{ ?>
+												<div class="addtocart-btn-wrapper">
+													<a href="#" class="text-decoration-none addtocart-btn" title="Out of Stock">
 														<i class="icons icon-bag"></i>
 													</a>
 												</div>
 												<?php } ?>
-
 												<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
 													QUICK VIEW
 												</a>
-												<?php //if($row['no_units'] != 0){ ?>
-												<a href="shop-product-sidebar-left.html">
+												<a href="product.php?product_id=<?php echo $row['sku'] ?>">	
 													<div class="product-thumb-info-image product-thumb-info-image-effect">
-														<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg">
+														<?php if($row['photo1'] != null){ ?>
+														<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $row['photo1'] ?>">
 
-															<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-2.jpg">
+															<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $row['photo1'] ?>">
+														<?php } else{ ?>
+														<img alt="" class="img-fluid" src="Bhavani/img/products/noimage.jpg">
 
+															<img alt="" class="img-fluid" src="Bhavani/img/products/noimage.jpg">
+														<?php } ?>
 													</div>
 												</a>
-												<?php // } ?>
 											</div>
 											<div class="d-flex justify-content-between">
 												<div>
 													<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1"><?php echo $category_name; ?></a>
 													<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary"><?php echo $row['product_name'] ?></a></h3>
 												</div>
-												<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+												<a href="addtowishlist.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
 											</div>
 											<div title="Rated 5 out of 5">
 												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
 											</div>
 											<p class="price text-5 mb-3">
-												<span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
-												<span class="amount">$99,00</span>
+												<?php if($row['discount_price'] != 0){ ?>
+													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
+													<span class="amount"><?php echo $row['product_price'] ?></span>
+												<?php } else{ ?>
+												<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
+												<span class="amount"><?php echo $row['product_price'] ?></span>
+												<?php } ?>
 											</p>
 										</div>
 									</div>
@@ -179,7 +188,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 								<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 								<ul class="nav nav-list flex-column">
 									<?php while($row = mysqli_fetch_array($categories)){ ?>
-									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_id'] ?></a></li>
+									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_name'] ?></a></li>
 									<?php } ?>
 								</ul>
 								<h5 class="font-weight-semi-bold pt-5">Tags</h5>
@@ -191,26 +200,29 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 								<div class="row mb-5">
 									<div class="col">
 										<h5 class="font-weight-semi-bold pt-5">Top Rated Products</h5>
-										<?php while($row = mysqli_fetch_array($top_rated)){ ?>
+										<?php while($row = mysqli_fetch_array($top_rated)){ 
+											$product_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+											$category_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT category_name FROM categorys WHERE category_id = '{$product_details['category_id']}'"))['category_name'];
+										?>
 										<div class="product row row-gutter-sm align-items-center mb-4">
 											<div class="col-5 col-lg-5">
 												<div class="product-thumb-info border-0">
 													<a href="shop-product-sidebar-left.html">
 														<div class="product-thumb-info-image">
-															<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-6.jpg">
+															<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>">
 														</div>
 													</a>
 												</div>
 											</div>	
 											<div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
-												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2">category</a>
-												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none">product Name</a></h3>
+												<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2"><?php echo $category_name ?></a>
+												<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary text-decoration-none"><?php echo $product_details['product_name'] ?></a></h3>
 												<div title="Rated 5 out of 5">
 													<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
 												</div>
 												<p class="price text-4 mb-0">
-													<span class="sale text-color-dark font-weight-semi-bold">Discounted Price</span>
-													<span class="amount">Original Price</span>
+													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product_details['discount_price'] ?></span>
+													<span class="amount"><?php echo $product_details['product_price'] ?></span>
 												</p>
 											</div>
 										</div>

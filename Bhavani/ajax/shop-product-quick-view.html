@@ -1,3 +1,12 @@
+<?php
+	include "connect.php";
+	if(isset($_GET['product_id'])){
+		$product = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE product_id = '{$_GET['product_id']}'"));
+	}
+	else{
+		header("location: index.php");
+	}
+?>
 <div class="shop dialog dialog-lg fadeIn animated" style="animation-duration: 300ms;">
 	<div class="row">
 		<div class="col-lg-6">
@@ -5,42 +14,36 @@
 			<div class="thumb-gallery-wrapper">
 				<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
 					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-7.jpg" data-zoom-image="img/products/product-grey-7.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo1']?>" data-zoom-image="../img/products/<?php echo $product['photo1']?>">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-7-2.jpg" data-zoom-image="img/products/product-grey-7-2.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo2']?>" data-zoom-image="../img/products/<?php echo $product['photo2']?>">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-7-3.jpg" data-zoom-image="img/products/product-grey-7-3.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo3']?>" data-zoom-image="../img/products/<?php echo $product['photo3']?>">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-8.jpg" data-zoom-image="img/products/product-grey-8.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo4']?>" data-zoom-image="../img/products/<?php echo $product['photo4']?>">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-6.jpg" data-zoom-image="img/products/product-grey-6.jpg">
-					</div>
-					<div>
-						<img alt="" class="img-fluid" src="img/products/product-grey-5.jpg" data-zoom-image="img/products/product-grey-5.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo5']?>" data-zoom-image="../img/products/<?php echo $product['photo5']?>">
 					</div>
 				</div>
 				<div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-7.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo1']?>">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-7-2.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo2']?>">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-7-3.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo3']?>">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-8.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo4']?>">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-6.jpg">
-					</div>
-					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="img/products/product-grey-5.jpg">
+						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo5']?>">
 					</div>
 				</div>
 			</div>
