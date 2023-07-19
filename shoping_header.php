@@ -1,6 +1,8 @@
 <?php 
 	$category = mysqli_query($con,"SELECT * FROM categorys");
 	$wishlist = mysqli_query($con,"SELECT * FROM wishlist WHERE coustmer_id = '{$_SESSION['student_id']}'");
+	$cart = mysqli_query($con,"SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
+	$total_price = 0;
 ?>
 <header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 135, 'stickySetTop': '-135px', 'stickyChangeLogo': true}">
 				<div class="header-body header-body-bottom-border-fixed box-shadow-none border-top-0">
@@ -156,16 +158,18 @@
 												<div class="header-nav-features-dropdown" id="headerTopCartDropdown">
 													<ol class="mini-products-list">
 														<?php while($row = mysqli_fetch_assoc($wishlist)){ 
-															// $product_details = mysqli_fetch_assoc(mysqli_query($con,"select * products where sku = '{$row['product_id']}'"));
+															$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+
 														?>
 														<li class="item">
-															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/product-1.jpg" alt="Camera X1000"></a>
+															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>" alt="<?php echo $product_details['product_name'] ?>"></a>
 															<div class="product-details">
 																<p class="product-name">
-																	<a href="#"><?php echo "rama" ?></a>
+																	<a href="product.php?product_id=<?php echo $row['product_id'] ?>"><?php echo $product_details['product_name'] ?></a>
+																	<a href="addtocart.php?product_id=<?php echo $row['product_id'] ?>"><img src="Bhavani/img/icons/icon-cart-big.svg" height="30" alt="Add to Cart" ></a>
 																</p>
 																<p class="qty-price">
-																	 1X <span class="price">$890</span>
+																	<span class="price"><?php echo $product_details['product_price']?></span>
 																</p>
 																<a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
@@ -191,18 +195,23 @@
 												</a>
 												<div class="header-nav-features-dropdown" id="headerTopCartDropdown">
 													<ol class="mini-products-list">
+														<?php while($row = mysqli_fetch_assoc($cart)){ 
+															$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+															
+														?>
 														<li class="item">
-															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/product-1.jpg" alt="Camera X1000"></a>
+															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/product-1.jpg" alt="<?php echo $product_details['product_name'] ?>"></a>
 															<div class="product-details">
 																<p class="product-name">
-																	<a href="#">Camera X1000 </a>
+																	<a href="#"><?php echo $product_details['product_name'] ?></a>
 																</p>
 																<p class="qty-price">
-																	 1X <span class="price">$890</span>
+																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php echo $product_details['product_price']?></span>
 																</p>
 																<a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
 														</li>
+														<?php } ?>
 													</ol>
 													<div class="totals">
 														<span class="label">Total:</span>
