@@ -1,4 +1,11 @@
-<?php include "connect.php" ?>
+<?php 
+	include "connect.php";
+	if(isset($_GET['product_id'])){
+		$product= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['product_id']}'"));
+		
+	}	 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -83,36 +90,36 @@
 								<div class="thumb-gallery-wrapper">
 									<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
 										<div>
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg" data-zoom-image="Bhavani/img/products/product-grey-7.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo1'] ?>" data-zoom-image="Bhavani/img/products/<?php echo $product['photo1'] ?>">
 										</div>
 										<div>
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-2.jpg" data-zoom-image="Bhavani/img/products/product-grey-7-2.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo2'] ?>" data-zoom-image="Bhavani/img/products/<?php echo $product['photo2'] ?>">
 										</div>
 										<div>
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-3.jpg" data-zoom-image="Bhavani/img/products/product-grey-7-3.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo3'] ?>" data-zoom-image="Bhavani/img/products/<?php echo $product['photo3'] ?>">
 										</div>
 										<div>
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-4.jpg" data-zoom-image="Bhavani/img/products/product-grey-7-4.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo4'] ?>" data-zoom-image="Bhavani/img/products/<?php echo $product['photo4'] ?>">
 										</div>
 										<div>
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-5.jpg" data-zoom-image="Bhavani/img/products/product-grey-7-5.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo5'] ?>" data-zoom-image="Bhavani/img/products/<?php echo $product['photo5'] ?>">
 										</div>
 									</div>
 									<div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
 										<div class="cur-pointer">
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo1'] ?>">
 										</div>
 										<div class="cur-pointer">
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-2.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo2'] ?>">
 										</div>
 										<div class="cur-pointer">
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-3.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo3'] ?>">
 										</div>
 										<div class="cur-pointer">
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-4.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo4'] ?>">
 										</div>
 										<div class="cur-pointer">
-											<img alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7-5.jpg">
+											<img alt="" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo5'] ?>">
 										</div>
 									</div>
 								</div>
@@ -130,7 +137,7 @@
 										</div>
 									</div>
 
-									<h1 class="mb-0 font-weight-bold text-7">Porto Headphone</h1>
+									<h1 class="mb-0 font-weight-bold text-7"><?php echo $product['product_name'] ?></h1>
 
 									<div class="pb-0 clearfix d-flex align-items-center">
 										<div title="Rated 3 out of 5" class="float-start">
@@ -139,7 +146,7 @@
 
 										<div class="review-num">
 											<a href="#description" class="text-decoration-none text-color-default text-color-hover-primary" data-hash data-hash-offset="0" data-hash-offset-lg="75" data-hash-trigger-click=".nav-link-reviews" data-hash-trigger-click-delay="1000">
-												<span class="count text-color-inherit" itemprop="ratingCount">(2</span> reviews)
+												<span class="count text-color-inherit" itemprop="ratingCount">(</span> reviews)
 											</a>
 										</div>
 									</div>
