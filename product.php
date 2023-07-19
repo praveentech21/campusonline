@@ -7,6 +7,7 @@
 		$products = mysqli_query($con,"SELECT * FROM products where category_id = '{$product['category_id']}' and sku != '{$_GET['product_id']}' and no_units != 0");
 		$category= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM categorys WHERE category_id = '{$product['category_id']}'"));
 		$checkwishlist = mysqli_query($con,"select * from wishlist where coustmer_id='{$_SESSION['student_id']}' and product_id='{$_GET['product_id']}'");
+		$checkcart = mysqli_query($con,"select * from cart where coustmer_id='{$_SESSION['student_id']}' and product_id='{$_GET['product_id']}'");
 		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$product['sku']}'");
 		$productId = $_GET['product_id'];
 		$additional_information = mysqli_fetch_assoc(mysqli_query($con,"select * from product_details where product_id = '{$_GET['product_id']}'"));
@@ -250,7 +251,11 @@
 											<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
 											<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
 										</div>
+										<?php if(mysqli_num_rows($checkcart)==0){ ?>
 										<button type="submit" name="addtocart" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Add to cart</button>
+										<?php }else{ ?>
+											<a href="cart.php"><button type="button" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">view Cart</button></a>
+										<?php } ?>
 										<hr>
 									</form>
 
