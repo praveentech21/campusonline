@@ -159,7 +159,6 @@
 													<ol class="mini-products-list">
 														<?php while($row = mysqli_fetch_assoc($wishlist)){ 
 															$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
-
 														?>
 														<li class="item">
 															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>" alt="<?php echo $product_details['product_name'] ?>"></a>
@@ -171,55 +170,47 @@
 																<p class="qty-price">
 																	<span class="price"><?php echo $product_details['product_price']?></span>
 																</p>
-																<a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
+																<a href="removefromwishlist.php?product_id=<?php echo $row['product_id']; ?>" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
 														</li>
 														<?php } ?>
 													</ol>
-													<div class="totals">
-														<span class="label">Total:</span>
-														<span class="price-total"><span class="price">$890</span></span>
-													</div>
-													<div class="actions">
-														<a class="btn btn-dark" href="#">View Cart</a>
-														<a class="btn btn-primary" href="#">Checkout</a>
-													</div>
 												</div>
 											</div>
 											<div class="header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2">
 												<a href="#" class="header-nav-features-toggle" aria-label="">
 													<img src="Bhavani/img/icons/icon-cart-big.svg" height="30" alt="" class="header-nav-top-icon-img">
 													<span class="cart-info">
-														<span class="cart-qty">1</span>
+														<span class="cart-qty"><?php echo mysqli_num_rows($cart) ?></span>
 													</span>
 												</a>
 												<div class="header-nav-features-dropdown" id="headerTopCartDropdown">
 													<ol class="mini-products-list">
 														<?php while($row = mysqli_fetch_assoc($cart)){ 
 															$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
-															
+															$total_price += $product_details['product_price']* $row['product_quantity'];
 														?>
 														<li class="item">
-															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/product-1.jpg" alt="<?php echo $product_details['product_name'] ?>"></a>
+															<a href="#" title="Camera X1000" class="product-image"><img src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>" alt="<?php echo $product_details['product_name'] ?>"></a>
 															<div class="product-details">
 																<p class="product-name">
-																	<a href="#"><?php echo $product_details['product_name'] ?></a>
+																	<a href="product.php?product_id=<?php echo $row['product_id'] ?>"><?php echo $product_details['product_name'] ?></a>
 																</p>
 																<p class="qty-price">
 																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php echo $product_details['product_price']?></span>
 																</p>
-																<a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
+																<a href="removefromcart.php?product_id=<?php echo $row['product_id']; ?>" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
 														</li>
 														<?php } ?>
 													</ol>
 													<div class="totals">
 														<span class="label">Total:</span>
-														<span class="price-total"><span class="price">$890</span></span>
+														<span class="price-total"><span class="price"><?php echo $total_price ?></span></span>
 													</div>
 													<div class="actions">
-														<a class="btn btn-dark" href="#">View Cart</a>
-														<a class="btn btn-primary" href="#">Checkout</a>
+														<a class="btn btn-dark" href="cart.php">View Cart</a>
+														<a class="btn btn-primary" href="checkout.php">Checkout</a>
 													</div>
 												</div>
 											</div>
@@ -291,9 +282,9 @@
 													</ul>
 												</nav>
 											</div>
-											<button class="btn header-btn-collapse-nav" data-bs-toggle="collapse" data-bs-target=".header-nav-main nav">
+											<!-- <button class="btn header-btn-collapse-nav" data-bs-toggle="collapse" data-bs-target=".header-nav-main nav">
 												<i class="fas fa-bars"></i>
-											</button>
+											</button> -->
 										</div>
 									</div>
 								</div>

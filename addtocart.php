@@ -2,7 +2,8 @@
 include "connect.php";
 if(isset($_GET['product_id'])){
     $addtocart = mysqli_query($con,"INSERT INTO cart (product_id,coustmer_id) VALUES ('{$_GET['product_id']}','{$_SESSION['student_id']}')");
-    if($addtocart){
+    if(mysqli_errno($con) === 1062) echo "<script>alert('This Product was Alredy in Your Cart');</script>";
+    elseif($addtocart){
         $removefromwishlist = mysqli_query($con,"DELETE FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
         echo "<script> alert('Product added to cart successfully'); window.location.href = 'index.php'; </script>";
     }
