@@ -16,12 +16,10 @@
 		}
 		if(isset($_POST['ratingofproduct'])){
 			$rating = $_POST['rating'];
-			$name = $_POST['name'];
-			$email = $_POST['email'];
 			$review = $_POST['review'];
-			$ratingofproduct = "INSERT INTO `reviews`(`coustmer_id`, `product_id`, `rating`, `name`, `email`, `review`) VALUES (?,?,?,?,?,?)";
+			$ratingofproduct = "INSERT INTO `reviews`(`coustmer_id`, `product_id`, `rating`,`review`) VALUES (?,?,?,?)";
 			$ratingofproduct = mysqli_prepare($con,$ratingofproduct);
-			mysqli_stmt_bind_param($ratingofproduct,"ssisss",$_SESSION['student_id'],$_GET['product_id'],$rating,$name,$email,$review);
+			mysqli_stmt_bind_param($ratingofproduct,"ssis",$_SESSION['student_id'],$_GET['product_id'],$rating,$review);
 			mysqli_stmt_execute($ratingofproduct);
 		}
 	}
@@ -279,9 +277,7 @@
 											</a>
 										<?php } ?>
 									</div>
-
 								</div>
-
 							</div>
 						</div>
 
@@ -291,7 +287,7 @@
 									<ul class="nav nav-tabs justify-content-start">
 										<li class="nav-item"><a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="#productDescription" data-bs-toggle="tab">Description</a></li>
 										<li class="nav-item"><a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#productInfo" data-bs-toggle="tab">Additional Information</a></li>
-										<li class="nav-item"><a class="nav-link nav-link-reviews font-weight-bold text-3 text-uppercase py-2 px-3" href="#productReviews" data-bs-toggle="tab">Reviews (2)</a></li>
+										<li class="nav-item"><a class="nav-link nav-link-reviews font-weight-bold text-3 text-uppercase py-2 px-3" href="#productReviews" data-bs-toggle="tab">Reviews (<?php echo mysqli_num_rows($reviews) ?>)</a></li>
 									</ul>
 									<div class="tab-content p-0">
 										<div class="tab-pane px-0 py-3 active" id="productDescription">
@@ -350,7 +346,7 @@
 																		</div>
 
 																		<div class="review-num">
-																			<span class="count" itemprop="ratingCount"><?php echo $row['rating'] ?></span> reviews
+																			<span class="count" itemprop="ratingCount"><?php echo $row['rating'] ?></span> Ratings
 																		</div>
 																	</div>
 																</span>
@@ -374,16 +370,6 @@
 															</div>
 														</div>
 														<div class="row">
-															<div class="form-group col-lg-6">
-																<label class="form-label required font-weight-bold text-dark">Name</label>
-																<input type="text" value="" data-msg-required="Please enter your name." maxlength="100" class="form-control" name="name" required>
-															</div>
-															<div class="form-group col-lg-6">
-																<label class="form-label required font-weight-bold text-dark">Email Address</label>
-																<input type="email" value="" data-msg-required="Please enter your email address." data-msg-email="Please enter a valid email address." maxlength="100" class="form-control" name="email">
-															</div>
-														</div>
-														<div class="row">
 															<div class="form-group col">
 																<label class="form-label required font-weight-bold text-dark">Review</label>
 																<textarea maxlength="5000" data-msg-required="Please enter your review." rows="8" class="form-control" name="review" id="review" required></textarea>
@@ -396,7 +382,6 @@
 														</div>
 													</form>
 												</div>
-
 											</div>
 										</div>
 									</div>
@@ -469,8 +454,12 @@
 											<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
 										</div>
 										<p class="price text-5 mb-3">
+											<?php if($row['discount_price'] != 0){ ?>
 											<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
 											<span class="amount"><?php echo $row['product_price'] ?></span>
+											<?php }else{ ?>
+												<span class="amount"><?php echo $row['product_price'] ?></span>
+											<?php } ?>
 										</p>
 									</div>
 									<?php } ?>
@@ -482,12 +471,12 @@
 					</div>
 					<div class="col-lg-3">
 						<aside class="sidebar">
-							<form action="page-search-results.html" method="get">
+							<!-- <form action="page-search-results.html" method="get">
 								<div class="input-group mb-3 pb-1">
 									<input class="form-control text-1" placeholder="Search..." name="s" id="s" type="text">
 									<button type="submit" class="btn btn-dark text-1 p-2"><i class="fas fa-search m-2"></i></button>
 								</div>
-							</form>
+							</form> -->
 							<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 							<ul class="nav nav-list flex-column">
 								<?php while($row = mysqli_fetch_array($categories)){ ?>
@@ -503,7 +492,7 @@
 							<div class="row mb-5">
 								<div class="col">
 									<h5 class="font-weight-semi-bold pt-5">Top Rated Products</h5>
-									<?php while($row = mysqli_fetch_array($top_rated)){ 
+										<?php while($row = mysqli_fetch_array($top_rated)){ 
 											$product_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
 											$category_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT category_name FROM categorys WHERE category_id = '{$product_details['category_id']}'"))['category_name'];
 										?>
@@ -524,8 +513,12 @@
 													<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
 												</div>
 												<p class="price text-4 mb-0">
+													<?php if($product_details['discount_price'] != 0){ ?>
 													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product_details['discount_price'] ?></span>
 													<span class="amount"><?php echo $product_details['product_price'] ?></span>
+													<?php }else{ ?>
+														<span class="amount"><?php echo $product_details['product_price'] ?></span>
+													<?php } ?>
 												</p>
 											</div>
 										</div>
