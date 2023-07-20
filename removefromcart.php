@@ -2,18 +2,13 @@
     include "connect.php";
     if(isset($_GET['product_id'])){
         $removefromcart = mysqli_query($con,"DELETE FROM cart WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
-        if($removefromcart){
-            $checkwishlist = mysqli_query($con,"SELECT * FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
-            if(mysqli_num_rows($checkwishlist) == 0) {
+        $checkwishlist = mysqli_query($con,"SELECT * FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
+        if(mysqli_num_rows($checkwishlist) == 0) {
             $addtowishlist = mysqli_query($con,"INSERT INTO wishlist (product_id,coustmer_id) VALUES ('{$_GET['product_id']}','{$_SESSION['student_id']}')");
             echo "<script> alert('Product removed from cart successfully'); window.location.href = 'index.php'; </script>";
-            }
-            else{
-                echo "<script> alert('Product removed from cart successfully'); window.location.href = 'index.php'; </script>";
-            }
-        }
+         }
         else{
-            echo "<script> alert('Product not removed from cart'); window.location.href = 'index.php'; </script>";  
+            echo "<script> alert('Product removed from cart Successfully'); window.location.href = 'index.php'; </script>";  
         }
     }
 ?>

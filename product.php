@@ -3,33 +3,16 @@
 	if(isset($_GET['product_id'])){
 		$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 		$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
-		$product= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['product_id']}'"));
-		$products = mysqli_query($con,"SELECT * FROM products where category_id = '{$product['category_id']}' and sku != '{$_GET['product_id']}' and no_units != 0");
-		$category= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM categorys WHERE category_id = '{$product['category_id']}'"));
+		$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
 		$checkwishlist = mysqli_query($con,"select * from wishlist where coustmer_id='{$_SESSION['student_id']}' and product_id='{$_GET['product_id']}'");
 		$checkcart = mysqli_query($con,"select * from cart where coustmer_id='{$_SESSION['student_id']}' and product_id='{$_GET['product_id']}'");
+		$product= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['product_id']}'"));
+		$related_products = mysqli_query($con,"SELECT * FROM products where category_id = '{$product['category_id']}' and sku != '{$_GET['product_id']}' and no_units != 0");
+		$category= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM categorys WHERE category_id = '{$product['category_id']}'"));
 		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$product['sku']}'");
-		$productId = $_GET['product_id'];
 		$additional_information = mysqli_fetch_assoc(mysqli_query($con,"select * from product_details where product_id = '{$_GET['product_id']}'"));
-		$customerId = $_SESSION['student_id'];
-		$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
 		if(isset($_POST['addtocart'])){
-			$quantity = $_POST['quantity'];
-			$addtocart = "INSERT INTO `cart`(`coustmer_id`, `product_id`, `product_quantity`) VALUES (?,?,?)";
-			$addtocart = mysqli_prepare($con,$addtocart);
-			mysqli_stmt_bind_param($addtocart,"ssi",$customerId,$productId,$quantity);
-			try {
-				if (mysqli_stmt_execute($addtocart)) {
-					echo "<script> alert('{$product['product_name']} added to cart successfully'); </script>";
-					$removefromwishlist = mysqli_query($con,"DELETE FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
-				}
-			} catch (mysqli_sql_exception $e) {
-				if ($e->getCode() === 1062) {
-					echo "<script>alert('This Product is Already in Your Cart');</script>";
-				} else {
-					echo "<script>alert('Error: {$e->getMessage()}');</script>";
-				}
-			}
+			header("location:addtocart.php?product_id={$_GET['product_id']}&quantity={$_POST['quantity']}");
 		}
 		if(isset($_POST['ratingofproduct'])){
 			$rating = $_POST['rating'];
@@ -38,7 +21,7 @@
 			$review = $_POST['review'];
 			$ratingofproduct = "INSERT INTO `reviews`(`coustmer_id`, `product_id`, `rating`, `name`, `email`, `review`) VALUES (?,?,?,?,?,?)";
 			$ratingofproduct = mysqli_prepare($con,$ratingofproduct);
-			mysqli_stmt_bind_param($ratingofproduct,"ssisss",$customerId,$productId,$rating,$name,$email,$review);
+			mysqli_stmt_bind_param($ratingofproduct,"ssisss",$_SESSION['student_id'],$_GET['product_id'],$rating,$name,$email,$review);
 			mysqli_stmt_execute($ratingofproduct);
 		}
 	}
@@ -287,7 +270,7 @@
 											</li>
 										</ul>
 										<?php if(mysqli_num_rows($checkwishlist) == 0){ ?>
-										<a href="addtowishlist.php?product_id=<?php echo $productId ?>" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+										<a href="addtowishlist.php?product_id=<?php echo $_GET['product_id'] ?>" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
 											<i class="far fa-heart me-1"></i> SAVE TO WISHLIST
 										</a>
 										<?php }else{ ?>
@@ -427,7 +410,7 @@
 						<div class="products row">
 							<div class="col">
 								<div class="owl-carousel owl-theme show-nav-title nav-dark mb-0" data-plugin-options="{'loop': false, 'autoplay': false,'items': 4, 'nav': true, 'dots': false, 'margin': 20, 'autoplayHoverPause': true, 'autoHeight': true}">
-									<?php while($row = mysqli_fetch_array($products)){
+									<?php while($row = mysqli_fetch_array($related_products)){
 										$today = date("Y-m-d");
 										$nooffdays = (strtotime($today) - strtotime($row['date_create'])) / (60 * 60 * 24);
 										if($row['discount_price'] != 0){

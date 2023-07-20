@@ -5,8 +5,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 	$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 	$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
 	$top_rated = mysqli_query($con,"SELECT product_id FROM reviews group by product_id order by rating desc");
-	$student_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM students where student_id = '{$_SESSION['student_id']}'"));
-
+	$today = date("Y-m-d");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +90,6 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 							<div class="masonry-loader masonry-loader-showing">
 								<div class="row products product-thumb-info-list" data-plugin-masonry data-plugin-options="{'layoutMode': 'fitRows'}">
 									<?php while($row = mysqli_fetch_array($products)){
-										$today = date("Y-m-d");
 										$nooffdays = (strtotime($today) - strtotime($row['date_create'])) / (60 * 60 * 24);
 										if($row['discount_price'] != 0){
 											$discount = ($row['product_price'] - $row['discount_price']) * 100 / $row['product_price'];
@@ -146,16 +144,15 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 												</div>
 												<a href="addtowishlist.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
 											</div>
-											<div title="Rated 5 out of 5">
+											<!-- <div title="Rated 5 out of 5">
 												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-											</div>
+											</div>  -->
 											<p class="price text-5 mb-3">
 												<?php if($row['discount_price'] != 0){ ?>
-													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
-													<span class="amount"><?php echo $row['product_price'] ?></span>
+													<span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $row['discount_price'] ?></span>
+													<span class="amount">&#8377; <?php echo $row['product_price'] ?></span>
 												<?php } else{ ?>
-												<span class="sale text-color-dark font-weight-semi-bold"><?php echo $row['discount_price'] ?></span>
-												<span class="amount"><?php echo $row['product_price'] ?></span>
+												<span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $row['product_price'] ?></span>
 												<?php } ?>
 											</p>
 										</div>
@@ -179,12 +176,12 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 						</div>
 						<div class="col-lg-3">
 							<aside class="sidebar">
-								<form action="page-search-results.html" method="get">
+								<!-- <form action="page-search-results.html" method="get">
 									<div class="input-group mb-3 pb-1">
 										<input class="form-control text-1" placeholder="Search..." name="s" id="s" type="text">
 										<button type="submit" class="btn btn-dark text-1 p-2"><i class="fas fa-search m-2"></i></button>
 									</div>
-								</form>
+								</form> -->
 								<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 								<ul class="nav nav-list flex-column">
 									<?php while($row = mysqli_fetch_array($categories)){ ?>
@@ -221,8 +218,12 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 													<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'dark', 'size':'xs'}">
 												</div>
 												<p class="price text-4 mb-0">
+													<?php if($product_details['discount_price'] != 0){ ?>
 													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product_details['discount_price'] ?></span>
 													<span class="amount"><?php echo $product_details['product_price'] ?></span>
+													<?php } else{ ?>
+													<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product_details['product_price'] ?></span>
+													<?php } ?>
 												</p>
 											</div>
 										</div>

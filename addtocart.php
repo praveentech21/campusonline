@@ -1,14 +1,20 @@
 <?php
 include "connect.php";
 if(isset($_GET['product_id'])){
-    $addtocart = mysqli_query($con,"INSERT INTO cart (product_id,coustmer_id) VALUES ('{$_GET['product_id']}','{$_SESSION['student_id']}')");
-    if(mysqli_errno($con) === 1062) echo "<script>alert('This Product was Alredy in Your Cart');</script>";
-    elseif($addtocart){
-        $removefromwishlist = mysqli_query($con,"DELETE FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
-        echo "<script> alert('Product added to cart successfully'); window.location.href = 'index.php'; </script>";
+    $quantity = 1;
+    if(isset($_GET['quantity'])) $quantity = $_GET['quantity'];
+    $checkcart = mysqli_query($con,"SELECT * FROM cart WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
+    if(mysqli_num_rows($checkcart) == 0) {
+    $addtocart = mysqli_query($con,"INSERT INTO cart (product_id,coustmer_id,product_quantity) VALUES ('{$_GET['product_id']}','{$_SESSION['student_id']}','$quantity')");
+    $removefromwishlist = mysqli_query($con,"DELETE FROM wishlist WHERE product_id = '{$_GET['product_id']}' AND coustmer_id = '{$_SESSION['student_id']}'");
+    if(isset($_GET['quantity'])){ ?> 
+    <script> alert('Product added to cart successfully');  window.location.href = 'product.php?product_id=<?php echo $_GET['product_id']; ?>';  </script>;
+    <?php }
+    else echo "<script> alert('Product added to cart successfully'); window.location.href = 'index.php'; </script>";
     }
     else{
-        echo "<script> alert('Product not added to cart'); window.location.href = 'index.php'; </script>";  
+        if(isset($_GET['quantity'])) echo "<script> alert('Product added to cart successfully'); window.location.href = 'product.php?product_id'".$_GET['product_id']."; </script>";
+        else echo "<script> alert('Product already added to cart'); window.location.href = 'index.php'; </script>";  
     }
 }
 ?>
