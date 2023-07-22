@@ -168,7 +168,7 @@
 																	<a href="addtocart.php?product_id=<?php echo $row['product_id'] ?>"><img src="Bhavani/img/icons/icon-cart-big.svg" height="30" alt="Add to Cart" ></a>
 																</p>
 																<p class="qty-price">
-																	<span class="price"><?php echo $product_details['product_price']?></span>
+																	<span class="price"><?php if($product_details['discount_price'] != 0) echo $product_details['discount_price']; else echo $product_details['product_price'];?></span>
 																</p>
 																<a href="removefromwishlist.php?product_id=<?php echo $row['product_id']; ?>" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
@@ -197,7 +197,7 @@
 																	<a href="product.php?product_id=<?php echo $row['product_id'] ?>"><?php echo $product_details['product_name'] ?></a>
 																</p>
 																<p class="qty-price">
-																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php echo $product_details['discount_price']?></span>
+																	 <?php echo $row['product_quantity'] ?> X <span class="price"><?php if($product_details['discount_price'] != 0) echo $product_details['discount_price']; else echo $product_details['product_price'];?></span>
 																</p>
 																<a href="removefromcart.php?product_id=<?php echo $row['product_id']; ?>" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
 															</div>
@@ -210,7 +210,7 @@
 													</div>
 													<div class="actions">
 														<a class="btn btn-dark" href="cart.php">View Cart</a>
-														<a class="btn btn-primary" href="checkout.php">Checkout</a>
+														<!-- <a class="btn btn-primary" href="checkout.php">Checkout</a> -->
 													</div>
 												</div>
 											</div>

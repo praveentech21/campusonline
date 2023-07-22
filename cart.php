@@ -1,4 +1,82 @@
-<?php include "connect.php" ?>
+<?php 
+	include "connect.php"; 
+	$cartproducts = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
+	$subtotal = 0;
+	$discountprice = 0;
+	$coupanprice = 0;
+	if(mysqli_num_rows($cartproducts) == 0) echo "<script>alert('Your Cart is Empty'); window.location.href='index.php';</script>";
+	if(isset($_POST['applycoupan'])){
+		$checkcoupan = mysqli_query($con, "SELECT * FROM coupans WHERE coupan_name = '{$_POST['couponCode']}'");
+		if(mysqli_num_rows($checkcoupan) != 0){
+			$coupan = mysqli_fetch_array($checkcoupan);
+			$checkcoupan_used = mysqli_query($con, "SELECT * FROM coupans_used WHERE coupan_id = '{$coupan['coupan_id']}' and coustmer_id = '{$_SESSION['student_id']}'");
+			if(mysqli_num_rows($checkcoupan_used) == 0){
+				$products_cart = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
+				$checkcoupan_applied = mysqli_query($con, "SELECT * FROM coupan_applicable WHERE coupan_id = '{$coupan['coupan_id']}'");
+				$cat_in_coupan = array();
+				$cat_in_cart = array();
+				$pro_in_coupan = array();
+				$pro_in_cart = array();
+				while($rcat = mysqli_fetch_array($products_cart)){
+					$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$rcat['product_id']}'"));
+					array_intersect($product['category_id'], $cat_in_cart);
+					array_intersect($product['product_id'], $pro_in_cart);
+				}
+				while($rcoupan = mysqli_fetch_array($checkcoupan_applied)){
+					array_intersect($rcoupan['category_id'], $cat_in_coupan);
+					array_intersect($rcoupan['product_id'], $pro_in_coupan);
+				}
+				$cat_in_cartandcoupan = array_intersect($cat_in_cart, $cat_in_coupan);
+				$pro_in_cartandcoupan = array_intersect($pro_in_cart, $pro_in_coupan);
+				if(count($cat_in_cartandcoupan) != 0){
+					$cat_to_apply_coupan = mysqli_query($con,"select * from cart where category_id = '{$cat_in_cartandcoupan[0]}' and coustmer_id = '{$_SESSION['student_id']}'");
+					$coupan_applicable_price = 0;
+					while($row = mysqli_fetch_array($cat_to_apply_coupan)){
+						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+						if($product['discount_price'] != 0){
+							$coupan_applicable_price  += $product['discount_price']*$row['product_quantity'];
+						}else{
+							$coupan_applicable_price  += $product['product_price']*$row['product_quantity'];
+						}
+					}
+					if($coupan['coupan_type'] == 2){
+						$coupanprice = $coupan_applicable_price * $coupan['coupan_price'] / 100;
+						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
+					}else{
+						$coupanprice = $coupan['coupan_price'];
+						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
+					}
+				}
+				else if(count($pro_in_cartandcoupan) != 0){
+					$coupan_applicable_price = 0;
+					foreach($pro_in_cartandcoupan as $product_id){
+						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$product_id}'"));
+						if($product['discount_price'] != 0){
+							$coupan_applicable_price  += $product['discount_price']*$row['product_quantity'];
+						}else{
+							$coupan_applicable_price  += $product['product_price']*$row['product_quantity'];
+						}
+					}
+					if($coupan['coupan_type'] == 2){
+						$coupanprice = $coupan_applicable_price * $coupan['coupan_price'] / 100;
+						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
+					}else{
+						$coupanprice = $coupan['coupan_price'];
+						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
+					}
+				}
+				else{
+					echo "<script>alert('This coupan is not applicable for your cart'); window.location.href = 'cart.php';</script>";
+				}
+			}
+			else{
+				echo "<script>alert('You have already used this coupan');</script>";
+			}
+		}else{
+			echo "<script>alert('Invalid Coupan Code');</script>";
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -78,13 +156,13 @@
 						<div class="col">
 							<ul class="breadcrumb font-weight-bold text-6 justify-content-center my-5">
 								<li class="text-transform-none me-2">
-									<a href="shop-cart.html" class="text-decoration-none text-color-primary">Shopping Cart</a>
+									<a href="cart.php" class="text-decoration-none text-color-primary">Shopping Cart</a>
 								</li>
 								<li class="text-transform-none text-color-grey-lighten me-2">
-									<a href="shop-checkout.html" class="text-decoration-none text-color-grey-lighten text-color-hover-primary">Checkout</a>
+									<a href="checkout.php" class="text-decoration-none text-color-grey-lighten text-color-hover-primary">Checkout</a>
 								</li>
 								<li class="text-transform-none text-color-grey-lighten">
-									<a href="shop-order-complete.html" class="text-decoration-none text-color-grey-lighten text-color-hover-primary">Order Complete</a>
+									<a href="ordercomplete.php" class="text-decoration-none text-color-grey-lighten text-color-hover-primary">Order Complete</a>
 								</li>
 							</ul>
 						</div>
@@ -114,163 +192,70 @@
 											</tr>
 										</thead>
 										<tbody>
-
+											<?php
+												while($row = mysqli_fetch_array($cartproducts)){
+													$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+											?>
 											<tr class="cart_table_item">
 												<td class="product-thumbnail">
 													<div class="product-thumbnail-wrapper">
-														<a href="#" class="product-thumbnail-remove" title="Remove Product">
+														<a href="removefromcart.php?product_id=<?php echo $row['product_id']; ?>" class="product-thumbnail-remove" title="Remove Product">
 															<i class="fas fa-times"></i>
 														</a>
-														<a href="shop-product-sidebar-right.html" class="product-thumbnail-image" title="Photo Camera">
-															<img width="90" height="90" alt="" class="img-fluid" src="Bhavani/img/products/product-grey-1.jpg">
+														<a href="product.php?product_id=<?php echo $row['product_id']; ?>" class="product-thumbnail-image" title="<?php echo $product['product_name']; ?>">
+															<img width="90" height="90" alt="<?php echo $product['product_name']; ?>" class="img-fluid" src="Bhavani/img/products/<?php echo $product['photo1']; ?>">
 														</a>
 													</div>
 												</td>
 												<td class="product-name">
-													<a href="shop-product-sidebar-right.html" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none">Photo Camera</a>
+													<a href="product.php?product_id=<?php echo $row['product_id']; ?>" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none"><?php echo $product['product_name']; ?></a>
 												</td>
 												<td class="product-price">
-													<span class="amount font-weight-medium text-color-grey">$59</span>
+													<p class="price text-5 mb-3">
+														<?php if($product['discount_price'] != 0){	?>
+															<span class="sale text-color-dark font-weight-semi-bold"><?php echo $product['discount_price'] ?></span>
+															<span class="amount"><?php echo $product['product_price'] ?></span>
+															<?php }else{  ?>
+															<span class="amount"><?php echo $product['product_price'] ?></span>
+														<?php } ?>
+													</p>
 												</td>
 												<td class="product-quantity">
 													<div class="quantity float-none m-0">
-														<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-														<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-														<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
+														<a href="reducecart.php?product_id=<?php echo $row['product_id'] ?>"><input type="button"  class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-"></a>
+														<input type="text" class="input-text qty text" title="Qty" value="<?php echo $row['product_quantity'];?>" name="quantity" min="1" step="1">
+														<a href="incresecart.php?product_id=<?php echo $row['product_id'] ?>"><input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+"></a>
 													</div>
 												</td>
 												<td class="product-subtotal text-end">
-													<span class="amount text-color-dark font-weight-bold text-4">$59</span>
+													<span class="amount text-color-dark font-weight-bold text-4">
+														<?php
+															if($product['discount_price'] != 0){
+																echo $product['discount_price']*$row['product_quantity'];
+																$discountprice += $product['product_price']*$row['product_quantity'] - $product['discount_price']*$row['product_quantity'];
+															}else{
+																echo $product['product_price']*$row['product_quantity'];
+															}
+														?>
+													</span>
 												</td>
 											</tr>
-
-											<tr class="cart_table_item">
-												<td class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<a href="#" class="product-thumbnail-remove" title="Remove Product">
-															<i class="fas fa-times"></i>
-														</a>
-														<a href="shop-product-sidebar-right.html" class="product-thumbnail-image" title="Porto Headphone">
-															<img width="90" height="90" alt="" class="img-fluid" src="Bhavani/img/products/product-grey-7.jpg">
-														</a>
-													</div>
-												</td>
-												<td class="product-name">
-													<a href="shop-product-sidebar-right.html" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none">Porto Headphone</a>
-												</td>
-												<td class="product-price">
-													<span class="amount font-weight-medium text-color-grey">$99</span>
-												</td>
-												<td class="product-quantity">
-													<div class="quantity float-none m-0">
-														<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-														<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-														<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
-													</div>
-												</td>
-												<td class="product-subtotal text-end">
-													<span class="amount text-color-dark font-weight-bold text-4">$99</span>
-												</td>
-											</tr>
-
-											<tr class="cart_table_item">
-												<td class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<a href="#" class="product-thumbnail-remove" title="Remove Product">
-															<i class="fas fa-times"></i>
-														</a>
-														<a href="shop-product-sidebar-right.html" class="product-thumbnail-image" title="Golf Bag">
-															<img width="90" height="90" alt="" class="img-fluid" src="Bhavani/img/products/product-grey-2.jpg">
-														</a>
-													</div>
-												</td>
-												<td class="product-name">
-													<a href="shop-product-sidebar-right.html" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none">Golf Bag</a>
-												</td>
-												<td class="product-price">
-													<span class="amount font-weight-medium text-color-grey">$19</span>
-												</td>
-												<td class="product-quantity">
-													<div class="quantity float-none m-0">
-														<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-														<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-														<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
-													</div>
-												</td>
-												<td class="product-subtotal text-end">
-													<span class="amount text-color-dark font-weight-bold text-4">$19</span>
-												</td>
-											</tr>
-
-											<tr class="cart_table_item">
-												<td class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<a href="#" class="product-thumbnail-remove" title="Remove Product">
-															<i class="fas fa-times"></i>
-														</a>
-														<a href="shop-product-sidebar-right.html" class="product-thumbnail-image" title="Workout">
-															<img width="90" height="90" alt="" class="img-fluid" src="Bhavani/img/products/product-grey-3.jpg">
-														</a>
-													</div>
-												</td>
-												<td class="product-name">
-													<a href="shop-product-sidebar-right.html" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none">Workout</a>
-												</td>
-												<td class="product-price">
-													<span class="amount font-weight-medium text-color-grey">$30</span>
-												</td>
-												<td class="product-quantity">
-													<div class="quantity float-none m-0">
-														<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-														<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-														<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
-													</div>
-												</td>
-												<td class="product-subtotal text-end">
-													<span class="amount text-color-dark font-weight-bold text-4">$30</span>
-												</td>
-											</tr>
-
-											<tr class="cart_table_item">
-												<td class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<a href="#" class="product-thumbnail-remove" title="Remove Product">
-															<i class="fas fa-times"></i>
-														</a>
-														<a href="shop-product-sidebar-right.html" class="product-thumbnail-image" title="Luxury Bag">
-															<img width="90" height="90" alt="" class="img-fluid" src="Bhavani/img/products/product-grey-4.jpg">
-														</a>
-													</div>
-												</td>
-												<td class="product-name">
-													<a href="shop-product-sidebar-right.html" class="font-weight-semi-bold text-color-dark text-color-hover-primary text-decoration-none">Luxury Bag</a>
-												</td>
-												<td class="product-price">
-													<span class="amount font-weight-medium text-color-grey">$79</span>
-												</td>
-												<td class="product-quantity">
-													<div class="quantity float-none m-0">
-														<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-														<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-														<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
-													</div>
-												</td>
-												<td class="product-subtotal text-end">
-													<span class="amount text-color-dark font-weight-bold text-4">$79</span>
-												</td>
-											</tr>
+											<?php 
+												$subtotal += $product['product_price']*$row['product_quantity'];
+												  
+											} ?>
 
 											<tr>
 												<td colspan="5">
 													<div class="row justify-content-between mx-0">
 														<div class="col-md-auto px-0 mb-3 mb-md-0">
 															<div class="d-flex align-items-center">
-																<input type="text" class="form-control h-auto border-radius-0 line-height-1 py-3" name="couponCode" placeholder="Coupon Code" />
-																<button type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 ws-nowrap btn-px-4 py-3 ms-2">Apply Coupon</button>
+																<input type="text" class="form-control h-auto border-radius-0 line-height-1 py-3" name="couponCode" placeholder="Share Your Secrete with us...." />
+																<input type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 ws-nowrap btn-px-4 py-3 ms-2" name="applycoupan" value="Apply Coupan">
 															</div>
 														</div>
 														<div class="col-md-auto px-0">
-															<button type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 btn-px-4 py-3">Update Cart</button>
+															<input value="Update Cart" name="updatecart" type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 btn-px-4 py-3">
 														</div>
 													</div>
 												</td>
@@ -283,18 +268,42 @@
 						<div class="col-lg-4 position-relative">
 							<div class="card border-width-3 border-radius-0 border-color-hover-dark" data-plugin-sticky data-plugin-options="{'minWidth': 991, 'containerSelector': '.row', 'padding': {'top': 85}}">
 								<div class="card-body">
-									<h4 class="font-weight-bold text-uppercase text-4 mb-3">Cart Totals</h4>
+									<h4 class="font-weight-bold text-uppercase text-4 mb-3">Your Order</h4>
 									<table class="shop_table cart-totals mb-4">
 										<tbody>
-											<tr class="cart-subtotal">
+										<tr class="cart-subtotal">
 												<td class="border-top-0">
 													<strong class="text-color-dark">Subtotal</strong>
 												</td>
 												<td class="border-top-0 text-end">
-													<strong><span class="amount font-weight-medium">$431</span></strong>
+													<strong><span class="amount font-weight-medium">&#8377; <?php echo $subtotal ?></span></strong>
 												</td>
 											</tr>
-											<tr class="shipping">
+											<tr class="cart-subtotal">
+												<td class="border-top-0">
+													<strong class="text-color-dark">Discount </strong>
+												</td>
+												<td class="border-top-0 text-end">
+													<strong><span class="amount font-weight-medium"><b>&#8377; <?php echo $discountprice ?></b></span></strong>
+												</td>
+											</tr>
+											<tr class="cart-subtotal">
+												<td class="border-top-0">
+													<strong class="text-color-dark">Coupan </strong>
+												</td>
+												<td class="border-top-0 text-end">
+													<strong><span class="amount font-weight-medium"><b>&#8377; <?php echo $coupanprice ?></b></span></strong>
+												</td>
+											</tr>
+											<tr class="cart-subtotal">
+												<td class="border-top-0">
+													<strong class="text-color-dark">Shipping </strong>
+												</td>
+												<td class="border-top-0 text-end">
+													<strong><span class="amount font-weight-medium"><b> &#8377; 0 </b></span></strong>
+												</td>
+											</tr>
+											<!-- <tr class="shipping">
 												<td colspan="2">
 													<strong class="d-block text-color-dark mb-2">Shipping</strong>
 
@@ -313,13 +322,13 @@
 														</label>
 													</div>
 												</td>
-											</tr>
+											</tr> -->
 											<tr class="total">
 												<td>
 													<strong class="text-color-dark text-3-5">Total</strong>
 												</td>
 												<td class="text-end">
-													<strong class="text-color-dark"><span class="amount text-color-dark text-5">$431</span></strong>
+													<strong class="text-color-dark"><span class="amount text-color-dark text-5"><?php echo $subtotal - $discountprice - $coupanprice; ?></span></strong>
 												</td>
 											</tr>
 										</tbody>
@@ -702,6 +711,7 @@
 
 		<!-- Theme Initialization Files -->
 		<script src="Bhavani/js/theme.init.js"></script>
+
 
 	</body>
 </html>

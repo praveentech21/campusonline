@@ -178,8 +178,12 @@
 									</div>
 
 									<p class="price mb-3">
+										<?php if($product['discount_price'] != 0){ ?>	
 										<span class="sale text-color-dark">&#8377; <?php echo $product['discount_price'] ?></span>
 										<span class="amount">&#8377; <?php echo $product['product_price'] ?></span>
+										<?php }else{ ?>
+											<span class="amount">&#8377; <?php echo $product['product_price'] ?></span>
+										<?php } ?>
 									</p>
 
 									<p class="text-3-5 mb-3"><?php echo $product['about_product'] ?></p>
