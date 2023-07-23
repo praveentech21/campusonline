@@ -4,6 +4,7 @@
 	$subtotal = 0;
 	$discountprice = 0;
 	$coupanprice = 0;
+	$coupanvalue = 0;
 	if(mysqli_num_rows($cartproducts) == 0) echo "<script>alert('Your Cart is Empty'); window.location.href='index.php';</script>";
 	if(isset($_POST['applycoupan'])){
 		$checkcoupan = mysqli_query($con, "SELECT * FROM coupans WHERE coupan_name = '{$_POST['couponCode']}'");
@@ -35,8 +36,10 @@
 						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
 						if($product['discount_price'] != 0){
 							$coupan_applicable_price  += $product['discount_price']*$row['product_quantity'];
+							$coupanvalue += $coupan['coupan_value'] * $row['product_quantity'];
 						}else{
 							$coupan_applicable_price  += $product['product_price']*$row['product_quantity'];
+							$coupanvalue += $coupan['coupan_value'] * $row['product_quantity'];
 						}
 					}
 					if($coupan['coupan_type'] == 2){
@@ -44,7 +47,7 @@
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}else{
-						$coupanprice = $coupan['coupan_value'];
+						$coupanprice = $coupanvalue;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}
@@ -56,8 +59,10 @@
 						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '$product_id'"));
 						if($product['discount_price'] != 0){
 							$coupan_applicable_price  += $product['discount_price']*$cartdetails['product_quantity'];
+							$coupanvalue += $coupan['coupan_value'] * $cartdetails['product_quantity'];
 						}else{
 							$coupan_applicable_price  += $product['product_price']*$cartdetails['product_quantity'];
+							$coupanvalue += $coupan['coupan_value'] * $cartdetails['product_quantity'];
 						}
 					}
 					if($coupan['coupan_type'] == 2){
@@ -65,7 +70,7 @@
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}else{
-						$coupanprice = $coupan['coupan_value'];
+						$coupanprice = $coupanvalue;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}
