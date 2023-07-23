@@ -232,7 +232,7 @@
 														<strong class="text-color-dark text-3-5">Total</strong>
 													</td>
 													<td class="text-end">
-														<strong class="text-color-dark"><span class="amount text-color-dark text-5"> &#8377; <?php echo $subtotal - $discountprice - $coupanprice; ?></span></strong>
+														<strong class="text-color-dark"><span class="amount text-color-dark text-5"> &#8377; <?php echo $total = $subtotal - $discountprice - $coupanprice; ?></span></strong>
 													</td>
 												</tr>
 												<tr class="payment-methods">
@@ -254,7 +254,7 @@
 												</tr>
 											</tbody>
 										</table>
-										<button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase bg-color-hover-primary border-color-hover-primary border-radius-0 text-3 py-3">Place Order <i class="fas fa-arrow-right ms-2"></i></button>
+										<button type="submit" name="placeorder" class="btn btn-dark btn-modern w-100 text-uppercase bg-color-hover-primary border-color-hover-primary border-radius-0 text-3 py-3">Place Order <i class="fas fa-arrow-right ms-2"></i></button>
 									</div>
 								</div>
 							</div>
