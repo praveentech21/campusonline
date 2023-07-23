@@ -52,11 +52,12 @@
 				else if(count($pro_in_cartandcoupan) != 0){
 					$coupan_applicable_price = 0;
 					foreach($pro_in_cartandcoupan as $product_id){
-						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$product_id}'"));
+						$cartdetails= mysqli_fetch_array(mysqli_query($con, "SELECT * FROM cart WHERE product_id = '$product_id' and coustmer_id = '{$_SESSION['student_id']}'"));
+						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '$product_id'"));
 						if($product['discount_price'] != 0){
-							$coupan_applicable_price  += $product['discount_price']*$row['product_quantity'];
+							$coupan_applicable_price  += $product['discount_price']*$cartdetails['product_quantity'];
 						}else{
-							$coupan_applicable_price  += $product['product_price']*$row['product_quantity'];
+							$coupan_applicable_price  += $product['product_price']*$cartdetails['product_quantity'];
 						}
 					}
 					if($coupan['coupan_type'] == 2){
@@ -259,7 +260,7 @@
 															</div>
 														</div>
 														<div class="col-md-auto px-0">
-															<input value="Update Cart" name="updatecart" type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 btn-px-4 py-3">
+															<!-- <input value="Update Cart" name="updatecart" type="submit" class="btn btn-light btn-modern text-color-dark bg-color-light-scale-2 text-color-hover-light bg-color-hover-primary text-uppercase text-3 font-weight-bold border-0 border-radius-0 btn-px-4 py-3"> -->
 														</div>
 													</div>
 												</td>

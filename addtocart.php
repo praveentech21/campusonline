@@ -14,7 +14,7 @@ if(isset($_GET['product_id'])){
     }
     else{
         if(isset($_GET['quantity'])) echo "<script> alert('Product added to cart successfully'); window.location.href = 'product.php?product_id'".$_GET['product_id']."; </script>";
-        else echo "<script> alert('Product already added to cart'); window.location.href = 'index.php'; </script>";  
+        else echo "<script> alert('Product already added to cart'); window.location.href = 'cart.php'; </script>";  
     }
-}
+}   
 ?>
