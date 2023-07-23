@@ -209,7 +209,7 @@
 														<span class="price-total"><span class="price"><?php echo $total_price ?></span></span>
 													</div>
 													<div class="actions">
-														<a class="btn btn-dark" href="cart.php">View Cart</a>
+														<a href="cart.php"><button class="btn btn-dark btn-modern w-100 text-uppercase bg-color-hover-primary border-color-hover-primary border-radius-0 text-3 py-3">view cart <i class="fas fa-arrow-right ms-2"></i></button></a>
 														<!-- <a class="btn btn-primary" href="checkout.php">Checkout</a> -->
 													</div>
 												</div>

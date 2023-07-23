@@ -44,10 +44,12 @@
 					}
 					if($coupan['coupan_type'] == 2){
 						$coupanprice = $coupan_applicable_price * $coupan['coupan_value'] / 100;
+						$_SESSION['coupanprice'] = $coupanprice;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}else{
 						$coupanprice = $coupanvalue;
+						$_SESSION['coupanprice'] = $coupanprice;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}
@@ -67,10 +69,12 @@
 					}
 					if($coupan['coupan_type'] == 2){
 						$coupanprice = $coupan_applicable_price * $coupan['coupan_value'] / 100;
+						$_SESSION['coupanprice'] = $coupanprice;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}else{
 						$coupanprice = $coupanvalue;
+						$_SESSION['coupanprice'] = $coupanprice;
 						echo "<script>alert('Coupan Applied Successfully');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}
