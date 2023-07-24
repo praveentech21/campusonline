@@ -6,48 +6,6 @@
 	$coupanprice = 0;
 	$total = 0;
 	!empty($_SESSION['coupanprice']) ? $coupanprice = $_SESSION['coupanprice'] : $coupanprice = 0;
-	if(isset($_POST['placeorder'])){
-		echo "<h1>Jai Sri Ram </h1>";
-		function generateRandomOrderId($con, $length = 5) {
-			$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			$randomOrderId = '';
-			$maxTries = 10; 
-			for ($i = 0; $i < $length; $i++) {
-				$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
-			}
-		
-			for ($try = 0; $try < $maxTries; $try++) {
-				if (!isOrderIdUnique($con, $randomOrderId)) {
-					$randomOrderId = '';
-					for ($i = 0; $i < $length; $i++) {
-						$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
-					}
-				} else {
-					break;
-				}
-			}
-		
-			return $randomOrderId;
-		}
-		function isOrderIdUnique($con, $orderId) {
-			$query = "SELECT COUNT(*) AS count FROM your_table_name WHERE your_order_id_column = ?";
-			$stmt = $con->prepare($query);
-			$stmt->bind_param("s", $orderId);
-			$stmt->execute();
-			$result = $stmt->get_result();
-			$row = $result->fetch_assoc();
-			$count = $row['count'];
-			return $count === 0;
-		}
-
-		$ordered_products = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
-		$newOrderId = generateRandomOrderId($con);
-		$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`,`total_amount`, `discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSION['student_id']}','$subtotal','$discountprice','$coupanprice',0,'$total',1),'{$_POST['country']}'");
-		while($row = mysqli_fetch_assoc($ordered_products)){
-			$place_order = mysqli_query($con,"INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`) VALUES ('$newOrderId,'{$_SESSION['student_id']}','{$ordered_products['product_id']}','{$ordered_products['product_quantity']}')");
-		}
-		echo "<script>alert('Order Placed Successfully');</script>";
-	}
 
 ?>
 <!DOCTYPE html>
@@ -148,7 +106,7 @@
 						</div>
 					</div>
 
-					<form action="index.php" class="needs-validation" method="post">
+					<form action="#" class="needs-validation" method="post">
 						<div class="row">
 							<div class="col-lg-7 mb-4 mb-lg-0">
 
@@ -176,33 +134,6 @@
 										</div>
 									</div>
 								</div>
-								<!-- Ship to a differente address fields -->
-								<div class="shipping-field-wrapper collapse">
-									<div class="row">
-										<div class="form-group col">
-											<label class="form-label">Country/Region <span class="text-color-danger">*</span></label>
-											<div class="custom-select-1">
-												<select class="form-select form-control h-auto py-2" name="Country" required>
-													<option value="" selected></option>
-													<option value="Idea Lab">Idea Lab</option>
-													<option value="IT Block">IT Block</option>
-													<option value="CSE Block">CSE Block</option>
-													<option value="Adminstrative Block">Adminstrative Block</option>
-													<option value="ECE Block">ECE Block</option>
-													<option value="EEE Block">EEE Block</option>
-													<option value="Mechnical Block">Mechnical Block</option>
-													<option value="Civil Block">Civil Block</option>
-													<option value="I Block">I Block</option>
-													<option value="S Block">S Block</option>
-													<option value="Girls Hostel Block">Girls Hostel Block</option>
-													<option value="Gym Block">Gym Block</option>
-													<option value="Canteen">Canteen</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<!-- End of Ship to a differente address fields -->
-								</div>	
 							</div>
 							<div class="col-lg-5 position-relative">
 								<div class="card border-width-3 border-radius-0 border-color-hover-dark" data-plugin-sticky data-plugin-options="{'minWidth': 991, 'containerSelector': '.row', 'padding': {'top': 85}}">
@@ -329,5 +260,54 @@
 		<!-- Theme Initialization Files -->
 		<script src="js/theme.init.js"></script>
 
+		<?php
+			if(isset($_POST['placeorder'])){
+				function generateRandomOrderId($con, $length = 5) {
+					$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					$randomOrderId = '';
+					$maxTries = 10; 
+					for ($i = 0; $i < $length; $i++) {
+						$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
+					}
+				
+					for ($try = 0; $try < $maxTries; $try++) {
+						if (!isOrderIdUnique($con, $randomOrderId)) {
+							$randomOrderId = '';
+							for ($i = 0; $i < $length; $i++) {
+								$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
+							}
+						} else {
+							break;
+						}
+					}
+				
+					return $randomOrderId;
+				}
+				function isOrderIdUnique($con, $orderId) {
+					$query = "SELECT COUNT(*) AS count FROM `order_details` WHERE order_id = ?";
+					$stmt = $con->prepare($query);
+					$stmt->bind_param("s", $orderId);
+					$stmt->execute();
+					$result = $stmt->get_result();
+					$row = $result->fetch_assoc();
+					$count = $row['count'];
+					return $count === 0;
+				}
+		
+				$ordered_products = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
+				$newOrderId = generateRandomOrderId($con);
+				$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`, `total_amount`,`discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSIO['student_id']}','$subtotal','$discountprice','$coupanprice','0','$total','1','{$_POST['country']}')");
+				while($row = mysqli_fetch_assoc($ordered_products)){
+					$place_order = mysqli_query($con,"INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`)VALUES ('$newOrderId','{$_SESSION['student_id']}','{$row['product_id']}','{$row['product_quantity']}')");
+				}
+				if(isset($order_details) && isset($place_order)){
+				unset($_SESSION['coupanprice']);
+				$_SESSION['order_id'] = $newOrderId;
+				$deleate_cart = mysqli_query($con,"DELETE FROM `cart` WHERE coustmer_id = '{$_SESSION['student_id']}'");
+				echo "<script>alert('Order Placed Successfully');</script>";
+				header("location:ordercomplete.php");
+				}
+			}
+		?>
 	</body>
 </html>

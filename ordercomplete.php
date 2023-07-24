@@ -1,5 +1,9 @@
 <?php
 	include 'connect.php';
+	if(!isset($_SESSION['order_id'])) header("location: index.php");
+	$order_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `order_details` WHERE order_id = '{$_SESSION['order_id']}'"));
+	$student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `students` WHERE student_id = '{$order_details['coustmer_id']}'"));
+	$order_products = mysqli_query($con, "SELECT * FROM `orders` WHERE order_id = '{$_SESSION['order_id']}'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,13 +84,13 @@
 						<div class="col-lg-8">
 							<ul class="breadcrumb breadcrumb-dividers-no-opacity font-weight-bold text-6 justify-content-center my-5">
 								<li class="text-transform-none me-2">
-									<a href="shop-cart.html" class="text-decoration-none text-color-dark text-color-hover-primary">Shopping Cart</a>
+									<a href="cart.php" class="text-decoration-none text-color-dark text-color-hover-primary">Shopping Cart</a>
 								</li>
 								<li class="text-transform-none text-color-dark me-2">
-									<a href="shop-checkout.html" class="text-decoration-none text-color-dark text-color-hover-primary">Checkout</a>
+									<a href="checkout.php" class="text-decoration-none text-color-dark text-color-hover-primary">Checkout</a>
 								</li>
 								<li class="text-transform-none text-color-dark">
-									<a href="shop-order-complete.html" class="text-decoration-none text-color-primary">Order Complete</a>
+									<a href="ordercomplete.php" class="text-decoration-none text-color-primary">Order Complete</a>
 								</li>
 							</ul>
 						</div>
@@ -103,25 +107,25 @@
 								<div class="text-center">
 									<span>
 										Order Number <br>
-										<strong class="text-color-dark">31891</strong>
+										<strong class="text-color-dark"><?php echo $_SESSION['order_id'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
 										Date <br>
-										<strong class="text-color-dark">June 17, 2020</strong>
+										<strong class="text-color-dark"><?php echo $order_details['order_date'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
-										Email <br>
-										<strong class="text-color-dark">abc@abc.com</strong>
+										Name <br>
+										<strong class="text-color-dark"><?php echo $student_details['student_name'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
 										Total <br>
-										<strong class="text-color-dark">$30</strong>
+										<strong class="text-color-dark"><?php echo $order_details['order_amount'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
@@ -141,30 +145,34 @@
 													<strong class="text-color-dark">Product</strong>
 												</td>
 											</tr>
-											<tr>
-												<td>
-													<strong class="d-block text-color-dark line-height-1 font-weight-semibold">Black Porto Smartwatch <span class="product-qty">x1</span></strong>
-													<span class="text-1">COLOR BLACK</span>
-												</td>
-												<td class="text-end align-top">
-													<span class="amount font-weight-medium text-color-grey">$15</span>
-												</td>
-											</tr>
-											<tr>
-												<td class="border-top-0 pt-0">
-													<strong class="d-block text-color-dark line-height-1 font-weight-semibold">Black Porto Smartwatch <span class="product-qty">x1</span></strong>
-													<span class="text-1">COLOR BLACK</span>
-												</td>
-												<td class="border-top-0 text-end align-top pt-0">
-													<span class="amount font-weight-medium text-color-grey">$15</span>
-												</td>
-											</tr>
+											<?php
+													while($row = mysqli_fetch_array($order_products)){
+													$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
+													$category_name = mysqli_fetch_array(mysqli_query($con, "SELECT category_name FROM categorys WHERE category_id = '{$product['category_id']}'"));
+												?>
+												<tr>
+													<td>
+														<strong class="d-block text-color-dark line-height-1 font-weight-semibold"><?php echo $product['product_name']; ?> <span class="product-qty">x <?php echo $row['product_quantity'];?></span></strong>
+														<span class="text-1"><?php echo $category_name['category_name'];?></span>
+													</td>
+													<td class="text-end align-top">
+													<p class="text-4 mb-2">
+														<?php if($product['discount_price'] != 0){	?>
+															<span class="amount">&#8377; <del><?php echo $product['product_price'] ?></del></span><br>
+															<span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $product['discount_price'] ?></span>
+															<?php }else{  ?>
+															<span class="amount">&#8377; <?php echo $product['product_price'] ?></span>
+														<?php } ?>
+													</p>
+													</td>
+												</tr>
+												<?php } ?>
 											<tr class="cart-subtotal">
 												<td class="border-top-0">
-													<strong class="text-color-dark">Subtotal</strong>
+													<strong class="text-color-dark">Order Amount</strong>
 												</td>
 												<td class="border-top-0 text-end">
-													<strong><span class="amount font-weight-medium">$431</span></strong>
+													<strong><span class="amount font-weight-medium"><?php echo $order_details['order_amount'] ?></span></strong>
 												</td>
 											</tr>
 											<tr class="shipping">
@@ -180,7 +188,7 @@
 													<strong class="text-color-dark text-3-5">Total</strong>
 												</td>
 												<td class="text-end">
-													<strong class="text-color-dark"><span class="amount text-color-dark text-5">$431</span></strong>
+													<strong class="text-color-dark"><span class="amount text-color-dark text-5"><?php echo $order_details['order_amount'] ?></span></strong>
 												</td>
 											</tr>
 										</tbody>
@@ -189,23 +197,11 @@
 							</div>
 							<div class="row pt-3">
 								<div class="col-lg-6 mb-4 mb-lg-0">
-									<h2 class="text-color-dark font-weight-bold text-5-5 mb-1">Billing Address</h2>
+									<h2 class="text-color-dark font-weight-bold text-5-5 mb-1"> Address</h2>
 									<ul class="list list-unstyled text-2 mb-0">
-										<li class="mb-0">John Doe Junior</li>
-										<li class="mb-0">Street Name, City</li>
-										<li class="mb-0">State AL 85001</li>
-										<li class="mb-0">123 456 7890</li>
-										<li class="mt-3 mb-0">abc@abc.com</li>
-									</ul>
-								</div>
-								<div class="col-lg-6">
-									<h2 class="text-color-dark font-weight-bold text-5-5 mb-1">Shipping Address</h2>
-									<ul class="list list-unstyled text-2 mb-0">
-										<li class="mb-0">John Doe Junior</li>
-										<li class="mb-0">Street Name, City</li>
-										<li class="mb-0">State AL 85001</li>
-										<li class="mb-0">123 456 7890</li>
-										<li class="mt-3 mb-0">abc@abc.com</li>
+										<li class="mb-0"><?php echo $student_details['student_name'] ?></li>
+										<li class="mb-0"><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></li>
+										<li class="mb-0"><?php echo $order_details['address'] ?></li>
 									</ul>
 								</div>
 							</div>
