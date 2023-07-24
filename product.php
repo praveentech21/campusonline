@@ -236,11 +236,14 @@
 											<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
 											<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
 										</div>
-										<?php if(mysqli_num_rows($checkcart)==0){ ?>
+										<?php if($product['no_units'] == 0){ ?>
+											<a href="index.php"><button type="button" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Out of Stock</button></a>
+										<?php } 
+										else{ if(mysqli_num_rows($checkcart)==0){ ?>
 										<button type="submit" name="addtocart" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Add to cart</button>
 										<?php }else{ ?>
 											<a href="cart.php"><button type="button" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">view Cart</button></a>
-										<?php } ?>
+										<?php }} ?>
 										<hr>
 									</form>
 

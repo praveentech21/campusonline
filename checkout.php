@@ -304,8 +304,7 @@
 				unset($_SESSION['coupanprice']);
 				$_SESSION['order_id'] = $newOrderId;
 				$deleate_cart = mysqli_query($con,"DELETE FROM `cart` WHERE coustmer_id = '{$_SESSION['student_id']}'");
-				echo "<script>alert('Order Placed Successfully');</script>";
-				header("location:ordercomplete.php");
+				echo "<script>alert('Order Placed Successfully');  window.location.href = 'ordercomplete.php';</script>";
 				}
 			}
 		?>
