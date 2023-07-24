@@ -101,7 +101,7 @@
 									</div>
 									<div class="header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0">
 										<div class="header-nav-feature ps-lg-5 pe-lg-4">
-											<form role="search" action="page-search-results.html" method="get">
+											<form role="search" action="index.php" method="get">
 												<div class="search-with-select">
 													<a href="#" class="mobile-search-toggle-btn me-2" data-toggle-class="open">
 														<i class="icons icon-magnifier text-color-dark text-color-hover-primary"></i>
@@ -110,10 +110,10 @@
 														<input class="form-control text-1" id="headerSearch" name="q" type="search" value="" placeholder="Search...">
 														<div class="search-form-select-wrapper">
 															<div class="custom-select-1">
-																<select name="category" class="form-control form-select">
+																<select name="category_id" class="form-control form-select">
 																	<option value="all" selected>All Categories</option>
 																	<?php while($row = mysqli_fetch_assoc($category)){ ?>
-																	<option value="fashion"><?php echo $row['category_name'] ?></option>
+																	<option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
 																	<?php } ?>
 																</select>
 															</div>

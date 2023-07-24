@@ -487,7 +487,7 @@
 							<h5 class="font-weight-semi-bold pt-3">Categories</h5>
 							<ul class="nav nav-list flex-column">
 								<?php while($row = mysqli_fetch_array($categories)){ ?>
-									<li class="nav-item"><a class="nav-link" href="#"><?php echo $row['category_name'] ?></a></li>
+									<li class="nav-item"><a class="nav-link" href="index.php?category_id=<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></a></li>
 								<?php } ?>
 							</ul>
 							<h5 class="font-weight-semi-bold pt-5">Tags</h5>
