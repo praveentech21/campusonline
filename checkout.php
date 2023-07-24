@@ -4,7 +4,51 @@
 	$subtotal = 0;
 	$discountprice = 0;
 	$coupanprice = 0;
+	$total = 0;
 	!empty($_SESSION['coupanprice']) ? $coupanprice = $_SESSION['coupanprice'] : $coupanprice = 0;
+	if(isset($_POST['placeorder'])){
+		echo "<h1>Jai Sri Ram </h1>";
+		function generateRandomOrderId($con, $length = 5) {
+			$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$randomOrderId = '';
+			$maxTries = 10; 
+			for ($i = 0; $i < $length; $i++) {
+				$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
+			}
+		
+			for ($try = 0; $try < $maxTries; $try++) {
+				if (!isOrderIdUnique($con, $randomOrderId)) {
+					$randomOrderId = '';
+					for ($i = 0; $i < $length; $i++) {
+						$randomOrderId .= $characters[rand(0, strlen($characters) - 1)];
+					}
+				} else {
+					break;
+				}
+			}
+		
+			return $randomOrderId;
+		}
+		function isOrderIdUnique($con, $orderId) {
+			$query = "SELECT COUNT(*) AS count FROM your_table_name WHERE your_order_id_column = ?";
+			$stmt = $con->prepare($query);
+			$stmt->bind_param("s", $orderId);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$row = $result->fetch_assoc();
+			$count = $row['count'];
+			return $count === 0;
+		}
+
+		$ordered_products = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
+		$newOrderId = generateRandomOrderId($con);
+		$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`,`total_amount`, `discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSION['student_id']}','$subtotal','$discountprice','$coupanprice',0,'$total',1),'{$_POST['country']}'");
+		while($row = mysqli_fetch_assoc($ordered_products)){
+			$place_order = mysqli_query($con,"INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`) VALUES ('$newOrderId,'{$_SESSION['student_id']}','{$ordered_products['product_id']}','{$ordered_products['product_quantity']}')");
+		}
+		echo "<script>alert('Order Placed Successfully');</script>";
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +148,7 @@
 						</div>
 					</div>
 
-					<form role="form" class="needs-validation" method="post" action="">
+					<form action="index.php" class="needs-validation" method="post">
 						<div class="row">
 							<div class="col-lg-7 mb-4 mb-lg-0">
 
@@ -138,7 +182,7 @@
 										<div class="form-group col">
 											<label class="form-label">Country/Region <span class="text-color-danger">*</span></label>
 											<div class="custom-select-1">
-												<select class="form-select form-control h-auto py-2" name="shippingCountry" required>
+												<select class="form-select form-control h-auto py-2" name="Country" required>
 													<option value="" selected></option>
 													<option value="Idea Lab">Idea Lab</option>
 													<option value="IT Block">IT Block</option>
