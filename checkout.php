@@ -296,7 +296,7 @@
 		
 				$ordered_products = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
 				$newOrderId = generateRandomOrderId($con);
-				$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`, `total_amount`,`discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSIO['student_id']}','$subtotal','$discountprice','$coupanprice','0','$total','1','{$_POST['country']}')");
+				$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`, `total_amount`,`discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSION['student_id']}','$subtotal','$discountprice','$coupanprice','0','$total','1','{$_POST['country']}')");
 				while($row = mysqli_fetch_assoc($ordered_products)){
 					$place_order = mysqli_query($con,"INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`)VALUES ('$newOrderId','{$_SESSION['student_id']}','{$row['product_id']}','{$row['product_quantity']}')");
 				}
