@@ -52,8 +52,55 @@
         <!-- Content Starts Here Shiva-->
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
+              
+                <div class="col-md-6">
+                  <div class="card mb-4">
+                    <h5 class="card-header">Select Category</h5>
+                    <form action="#" method="post">
+                      <div class="card-body">
+                        <div>
+                          <label for="defaultFormControlInput" class="form-label">Category ID</label>
+                          <input type="text"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            placeholder="Rama1"
+                            aria-describedby="defaultFormControlHelp"
+                            type="number"
+                            name="productsku"
+                          />
+                        </div>
+                        <div class="mt-3">
+                          <button type="submit" name="getproduct" class="btn btn-primary">Get Details</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
 
-              <!-- Write Your Code Here Shiva -->
+              <!-- Striped Rows -->
+              <div class="card">
+                <h5 class="card-header">Category Name</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Categories</th>
+                        <th>Price</th>
+                        <th>Discount Price</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr>
+                        <td><strong>Angular Project</strong></td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ Striped Rows -->
               
             </div>
           </div>

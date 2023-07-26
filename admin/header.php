@@ -59,15 +59,15 @@
               </a>
             </li>
             <li class="menu-item ">
-              <a href="edit_categorie.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-box"></i>
-                <div data-i18n="Analytics">Edit Categories</div>
-              </a>
-            </li>
-            <li class="menu-item ">
               <a href="new_categorie.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div data-i18n="Analytics">New Categories</div>
+              </a>
+            </li>
+            <li class="menu-item ">
+              <a href="edit_categorie.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="Analytics">Edit Categories</div>
               </a>
             </li>
             <li class="menu-item ">

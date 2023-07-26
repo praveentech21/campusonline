@@ -53,8 +53,31 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-              <!-- Write Your Code Here Shiva -->
-              
+              <!-- Striped Rows -->
+              <div class="card">
+                <h5 class="card-header">Striped rows</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Category Name</th>
+                        <th>Category ID</th>
+                        <th>weitage</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr>
+                        <td><strong>Shiva Bhavani</strong></td>
+                        <td>Rama1</td>
+                        <td>100</td>
+                        <td>Amma Nana Category</td>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ Striped Rows -->
+
             </div>
           </div>
         <!-- Content Ends Here Shiva -->
