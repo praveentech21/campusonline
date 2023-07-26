@@ -55,7 +55,7 @@
 
                 <!-- Striped Rows -->
                <div class="card">
-                <h5 class="card-header">Striped rows</h5>
+                <h5 class="card-header">Campus Online Products</h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table table-striped">
                     <thead>

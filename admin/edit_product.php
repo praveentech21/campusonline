@@ -84,12 +84,12 @@
                   <div class="col-xl">
                   <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="mb-0">Add New Product</h5>
+                      <h5 class="mb-0">Update Product</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">SKU of Product</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input disabled type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Product Price</label>

@@ -124,7 +124,7 @@
                           <input required type="text" class="form-control" id="basic-default-company" placeholder="About Product ---- " />
                         </div>
                         <div class="mb-3">
-                        <label for="formFileMultiple" class="form-label">Product Photos</label>
+                        <label for="formFileMultiple" class="form-label">Product Photos (select upto 5)</label>
                         <input required class="form-control" type="file" id="formFileMultiple" multiple />
                         </div>
                         <div class="mb-3">
@@ -142,7 +142,7 @@
                 <button type="submit" class="btn btn-primary">Send</button>
               </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
-                
+
             </div>
           </div>
         <!-- Content Ends Here Shiva -->

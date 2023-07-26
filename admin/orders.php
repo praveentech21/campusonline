@@ -72,8 +72,8 @@
                         <tr>
                           <td><strong>Angular Project</strong></td>
                           <td><strong>RAMA121</strong></td>
-                          <td>Shiva Bhavani</td>
                           <td><a href="tel:9052727402">9052727402</a></td>
+                          <td>Shiva Bhavani</td>
                           <td><span class="badge bg-label-primary me-1">Active</span></td>
                         </tr>
                       </tbody>
@@ -102,8 +102,8 @@
                         <tr>
                           <td><strong>Angular Project</strong></td>
                           <td><strong>RAMA121</strong></td>
-                          <td>Shiva Bhavani</td>
                           <td><a href="tel:9052727402">9052727402</a></td>
+                          <td>Shiva Bhavani</td>
                           <td><span class="badge bg-label-primary me-1">Active</span></td>
                         </tr>
                       </tbody>
