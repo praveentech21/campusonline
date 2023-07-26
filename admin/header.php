@@ -99,6 +99,12 @@
               </a>
             </li>
             <li class="menu-item ">
+              <a href="coupon_applicable.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Analytics">Coupon Applicable</div>
+              </a>
+            </li>
+            <li class="menu-item ">
               <a href="coupons_used.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Analytics">Coupons Used</div>

@@ -53,76 +53,88 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-                <div class="col-md-6">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Select Coupon</h5>
-                    <form action="#" method="post">
-                      <div class="card-body">
-                        <div>
-                          <label for="defaultFormControlInput" class="form-label">Coupon ID</label>
-                          <input type="text"
-                            class="form-control"
-                            id="defaultFormControlInput"
-                            placeholder="Rama1"
-                            aria-describedby="defaultFormControlHelp"
-                            type="number"
-                            name="productsku"
-                          />
+              <div class="row">
+                <div class="col-xl">
+                    <div class="card mb-4">
+                      <!-- Striped Rows -->
+                        <div class="card">
+                          <h5 class="card-header">Striped rows</h5>
+                          <div class="table-responsive text-nowrap">
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Categories</th>
+                                </tr>
+                              </thead>
+                              <tbody class="table-border-bottom-0">
+                                <tr>
+                                  <td><strong>Angular Project</strong></td>
+                                  <td>Albert Cook</td>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                        <div class="mt-3">
-                          <button type="submit" name="getproduct" class="btn btn-primary">Get Details</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+                      <!--/ Striped Rows -->
 
-              <!-- New Product Adding Form Starts Here Shiva -->
-              <form action="" method="post">
+                    </div>
+                </div>
+                <div class="col-xl">
+                    <div class="card mb-4">
+                      <!-- Striped Rows -->
+                      <div class="card">
+                        <h5 class="card-header">Striped rows</h5>
+                        <div class="table-responsive text-nowrap">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Categories</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                              <tr>
+                                <td><strong>Angular Project</strong></td>
+                                <td>Albert Cook</td>
+                            </tbody>
+                          </table>
+                        </div>
+                        </div>
+                        <!--/ Striped Rows -->
+
+                     </div>
+                </div>
+              </div>
+
+                            <!-- New Product Adding Form Starts Here Shiva -->
+                            <form action="" method="post">
                 <!-- Basic Layout -->
                 <div class="row">
                   <div class="col-xl">
                     <div class="card mb-4">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Edite Coupon</h5>
+                        <h5 class="mb-0">Apply Coupon to Category or product</h5>
                       </div>
                       <div class="card-body">
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-fullname">Name of Coupon</label>
+                          <label class="form-label" for="basic-default-fullname">Coupon Id</label>
                           <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Value of Coupon</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Price" />
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Coupon Starts Date</label>
-                          <input required type="date" class="form-control" id="basic-default-company" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl">
-                    <div class="card mb-4">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Coupon ID</h5>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-3">
-                          <label for="exampleFormControlSelect1" class="form-label">Coupon Type</label>
+                          <label class="form-label" for="basic-default-company">category to Apply</label>
                           <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
-                            <option selected> Select Product Category </option>
+                            <option selected> Select Category </option>
                             <option value="1">Flat</option>
                             <option value="2">Discount</option>
                           </select>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Prooduct Ends Date</label>
-                          <input required type="date" class="form-control" id="basic-default-company" />
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">About Coupon</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="About Coupon ---- " />
+                          <label class="form-label" for="basic-default-company">Prooduct to Apply</label>
+                          <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
+                            <option selected> Select Product </option>
+                            <option value="1">Flat</option>
+                            <option value="2">Discount</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -131,7 +143,6 @@
                 <button type="submit" class="btn btn-primary">Send</button>
               </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
-
 
               
             </div>

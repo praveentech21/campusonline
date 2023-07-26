@@ -53,7 +53,34 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-              <!-- Write Your Code Here Shiva -->
+              <!-- Striped Rows -->
+              <div class="card">
+                <h5 class="card-header">Coupans</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Coupon Name</th>
+                        <th>Coupon Id</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>Start Date</th>
+                        <th>Ends Date</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr>
+                        <td><strong>Angular Project</strong></td>
+                        <td><strong>Angular Project</strong></td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ Striped Rows -->
               
             </div>
           </div>
