@@ -53,7 +53,33 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-              <!-- Write Your Code Here Shiva -->
+                <!-- Striped Rows -->
+               <div class="card">
+                <h5 class="card-header">Striped rows</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Categories</th>
+                        <th>Price</th>
+                        <th>Discount Price</th>
+                        <th>No Of Units Sold</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr>
+                        <td><strong>Angular Project</strong></td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                        <td>Albert Cook</td>
+                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ Striped Rows -->
+
               
             </div>
           </div>

@@ -53,8 +53,66 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-              <!-- Write Your Code Here Shiva -->
-              
+              <!-- Bordered Table -->
+              <div class="card">
+                <h5 class="card-header">Pending Orders</h5>
+                <div class="card-body">
+                  <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Student Name</th>
+                          <th>Order ID</th>
+                          <th>Mobile</th>
+                          <th>Address</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><strong>Angular Project</strong></td>
+                          <td><strong>RAMA121</strong></td>
+                          <td>Shiva Bhavani</td>
+                          <td><a href="tel:9052727402">9052727402</a></td>
+                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!--/ Bordered Table -->
+             <hr class="my-4">
+              <!-- Bordered Table -->
+              <div class="card">
+                <h5 class="card-header">Completed Orders</h5>
+                <div class="card-body">
+                  <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Student Name</th>
+                          <th>Order ID</th>
+                          <th>Mobile</th>
+                          <th>Address</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><strong>Angular Project</strong></td>
+                          <td><strong>RAMA121</strong></td>
+                          <td>Shiva Bhavani</td>
+                          <td><a href="tel:9052727402">9052727402</a></td>
+                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!--/ Bordered Table -->
+
             </div>
           </div>
         <!-- Content Ends Here Shiva -->

@@ -22,7 +22,7 @@
             </li>
             <li class="menu-item ">
               <a href="orders.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+              <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Analytics">Orders</div>
               </a>
             </li>
@@ -32,13 +32,13 @@
             </li>
             <li class="menu-item ">
               <a href="products.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
                 <div data-i18n="Analytics">All Products</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="new_product.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                 <div data-i18n="Analytics">New Product</div>
               </a>
             </li>
@@ -54,25 +54,25 @@
             </li>
             <li class="menu-item ">
               <a href="categories.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Analytics">All Categories</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="edit_categorie.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="Analytics">Edit Categories</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="new_categorie.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div data-i18n="Analytics">New Categories</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="products_in_categorie.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
+                <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Analytics">Products Categories</div>
               </a>
             </li>
@@ -82,25 +82,25 @@
             </li>
             <li class="menu-item ">
               <a href="coupons.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Analytics">Coupons</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="new_coupon.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Analytics">New Coupon</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="edit_coupon.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <i class="menu-icon tf-icons bx bx-support"></i>
                 <div data-i18n="Analytics">Edit Coupons</div>
               </a>
             </li>
             <li class="menu-item ">
               <a href="coupons_used.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
+                <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Analytics">Coupons Used</div>
               </a>
             </li>

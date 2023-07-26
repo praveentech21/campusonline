@@ -53,7 +53,93 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-              <!-- Write Your Code Here Shiva -->
+              <!-- Basic Layout -->
+              <div class="row">
+              <div class="col-xl">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Add New Product</h5>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-fullname">SKU of Product</label>
+                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Product Price</label>
+                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Price" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Prooduct Starts Time</label>
+                          <input required type="time" class="form-control" id="basic-default-company" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-fullname">No of Units Avabile</label>
+                          <input required type="number" class="form-control" id="basic-default-fullname" placeholder="If limated stock is sold give that stock else give a large number" />
+                        </div>
+                        <div class="mb-3">
+                        <label for="exampleFormControlSelect1" class="form-label">Select Category</label>
+                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
+                          <option selected> Select Product Category </option>
+                          <option value="1">one</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Description</label>
+                          <textarea
+                            id="basic-default-message"
+                            class="form-control"
+                            placeholder="Give a brief description about the product"
+                          ></textarea>
+                        </div>
+                        <!-- <button type="submit" class="btn btn-primary">Send</button> -->
+                      <!-- </form> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">More About Product</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Product Name</label>
+                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Name" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Discount Price</label>
+                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Discount Price" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Prooduct Ends Time</label>
+                          <input required type="time" class="form-control" id="basic-default-company" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">About Prooduct</label>
+                          <input required type="text" class="form-control" id="basic-default-company" placeholder="About Product ---- " />
+                        </div>
+                        <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Product Photos</label>
+                        <input required class="form-control" type="file" id="formFileMultiple" multiple />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Additional Information</label>
+                          <textarea
+                            id="basic-default-message"
+                            class="form-control"
+                            placeholder="All the additional information about the product"
+                          ></textarea>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+                </form>
               
             </div>
           </div>
