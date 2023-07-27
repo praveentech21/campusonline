@@ -1,3 +1,7 @@
+<?php
+  include "connect.php";
+  $all_products = mysqli_query($con, "SELECT * FROM `products`");
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -65,15 +69,25 @@
                         <th>Price</th>
                         <th>Discount Price</th>
                         <th>No Of Units Sold</th>
+                        <th>Sale</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                      <?php 
+                        while($product = mysqli_fetch_assoc($all_products)){
+                          $category = mysqli_fetch_assoc(mysqli_query($con, "SELECT `category_name` FROM `categorys` WHERE `category_id` = '{$product['category_id']}'"))['category_name'];
+                          $no_of_units_sold = mysqli_fetch_assoc(mysqli_query($con, "SELECT count(product_id) FROM `orders` WHERE `product_id` = '{$product['sku']}'"))['count(product_id)'];
+                          $sales = $product['product_price']* $no_of_units_sold;
+                      ?>
                       <tr>
-                        <td><strong>Angular Project</strong></td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        <td><strong><?php echo $product['product_name'] ?></strong></td>
+                        <td><?php echo $category ?></td>
+                        <td><?php echo $product['product_price'] ?></td>
+                        <td><?php echo $product['product_price'] - $product['discount_price'] ?></td>
+                        <td><?php echo $no_of_units_sold ?></td>
+                        <td><?php echo $sales ?></td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
