@@ -1,3 +1,11 @@
+<?php
+  include 'connect.php';
+  $this_week_orders = mysqli_query($con,"SELECT * FROM order_details WHERE order_date BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW() group by order_date");
+  $dashbord = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) , SUM(`total_amount`), SUM(`discount_price`), SUM(`coupan_price`) FROM `order_details`"));
+  $categories = mysqli_query($con,"SELECT * FROM categorys");
+  $coupons = mysqli_query($con,"SELECT * FROM coupans");
+?>
+
 <!DOCTYPE html>
 <html
   lang="en"
@@ -69,12 +77,21 @@
                             </tr>
                           </thead>
                           <tbody>
+                            <?php
+                              while($row = mysqli_fetch_assoc($this_week_orders)){
+                                $order_date = $row['order_date'];
+                                $order_date = date('d-m-Y',strtotime($order_date));
+                                $order_day = date('l',strtotime($order_date));
+                                $today_orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT sum(total_amount),count(*) FROM order_details WHERE order_date = '$row[order_date]'"));  
+
+                            ?>
                             <tr>
-                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Rama Seetha</strong></td>
-                              <td><a href="tel:9052727402">9052727402</a></td>
-                              <td><span class="badge bg-label-warning me-1"> Boxes</span></td>
-                              <td><span class="badge bg-label-primary me-1"> Boxes</span></td>
+                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $order_date; ?></strong></td>
+                              <td><?php echo $order_day; ?></td>
+                              <td><?php echo $today_orders['count(*)']; ?></td>
+                              <td><?php echo $today_orders['sum(total_amount)']; ?></td>
                             </tr>
+                            <?php } ?>
                           </tbody>
                         </table>
                       </div>
@@ -96,7 +113,7 @@
                             </div>
                           </div>
                           <span class="d-block mb-1">Total Orders</span>
-                          <h3 class="card-title text-nowrap mb-2">5 Orders</h3>
+                          <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['COUNT(*)']; ?></h3>
                         </div>
                       </div>
                     </div>
@@ -108,8 +125,8 @@
                               <img src="BHavani/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
-                          <span class="fw-semibold d-block mb-1">In Transition</span>
-                          <h3 class="card-title mb-2">5 Boxes</h3>
+                          <span class="fw-semibold d-block mb-1">Total Sales</span>
+                          <h3 class="card-title mb-2"><?php echo $dashbord['SUM(`total_amount`)']; ?></h3>
                         </div>
                       </div>
                     </div>
@@ -121,8 +138,8 @@
                               <img src="Bhavani/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
-                          <span class="d-block mb-1">Not Picked Up</span>
-                          <h3 class="card-title text-nowrap mb-2">5 Boxes</h3>
+                          <span class="d-block mb-1">Discount Amount</span>
+                          <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['SUM(`discount_price`)']; ?></h3>
                         </div>
                       </div>
                     </div>
@@ -134,8 +151,8 @@
                               <img src="Bhavani/img/icons/unicons/cc-warning.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
-                          <span class="fw-semibold d-block mb-1">In Transition</span>
-                          <h3 class="card-title mb-2">5 Boxes</h3>
+                          <span class="fw-semibold d-block mb-1">Coupon Amount</span>
+                          <h3 class="card-title mb-2"><?php echo (integer)$dashbord['SUM(`coupan_price`)']; ?></h3>
                         </div>
                       </div>
                     </div>
@@ -146,7 +163,7 @@
                 <hr class="my-4">
               <!-- Bordered Table -->
               <div class="card">
-                <h5 class="card-header">category Wise Sales</h5>
+                <h5 class="card-header">Category Wise Sales</h5>
                 <div class="card-body">
                   <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -160,13 +177,22 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          $orders = 0;
+                          $sales = 0;
+                          while($row = mysqli_fetch_assoc($categories)){
+                            $products = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `products` WHERE category_id = '{$row['category_id']}'"))['COUNT(*)'];
+                            $orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`product_id`) FROM orders INNER JOIN products WHERE orders.product_id in (SELECT sku FROM products WHERE products.category_id ='{$row['category_id']}')"))['COUNT(`product_id`)'];
+                            $sales = mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(products.product_price * orders.product_quantity) as sales FROM products INNER JOIN orders WHERE products.sku IN (SELECT product_id FROM products WHERE category_id = '{$row['category_id']}'); "))['sales'];
+                        ?>
                         <tr>
-                          <td><strong>Angular Project</strong></td>
-                          <td>Albert Cook</td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                          <td><strong><?php echo $row['category_name']; ?></strong></td>
+                          <td><?php echo $row['category_id']; ?></td>
+                          <td><?php echo $products ?></td>
+                          <td><?php echo $orders ?></td>
+                          <td><?php echo $sales; ?></td>
                         </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
@@ -184,19 +210,27 @@
                         <tr>
                           <th>Coupon Name</th>
                           <th>Coupon ID</th>
+                          <th>Coupon Value</th>
+                          <th>Coupon Type</th>
                           <th>No of Orders</th>
-                          <th>Sale Amount</th>
-                          <th>Coupon Amount</th>
+                          <th>Coupon Sales</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          while($row = mysqli_fetch_assoc($coupons)){
+                            $no_of_orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `coupans_used` WHERE coupan_id = '{$row['coupan_id']}'"))['COUNT(*)'];
+                            $coupon_sale = mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`coupan_price`) FROM `order_details` WHERE order_id in (select order_id from coupans_used where coupan_id = '{$row['coupan_id']}' ) "))['SUM(`coupan_price`)'];
+                        ?>
                         <tr>
-                          <td><strong>Angular Project</strong></td>
-                          <td>Albert Cook</td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                          <td><strong><?php echo $row['coupan_name'] ?></strong></td>
+                          <td><?php echo $row['coupan_id'] ?></td>
+                          <td><?php echo $row['coupan_value'] ?></td>
+                          <td><?php if($row['coupan_type']==1) echo "Flate"; else echo "Percentage";  ?></td>
+                          <td><?php echo $no_of_orders ?></td>
+                          <td>Active</td>
                         </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
