@@ -1,3 +1,43 @@
+<?php
+  include "connect.php";
+  $categories = mysqli_query($con, "SELECT `category_name`,`category_id` FROM `categorys`");
+  if(isset($_POST['addproduct'])){
+    $sku = $_POST['sku'];
+    $pname = $_POST['pname'];
+    $pprice = $_POST['pprice'];
+    $dprice = $_POST['dprice'];
+    $addinfo = $_POST['addinfo'];
+    $aboutpro = $_POST['aboutpro'];
+    $stime = $_POST['stime'];
+    $pend = $_POST['pend'];
+    $no_of_units = $_POST['no_of_units'];
+    $description = $_POST['description'];
+    $category = $_POST['category'];
+    $photos = array();
+    if(isset($_FILES["photos"]) && !empty($_FILES['photos']['name'][0])){
+      $target_dir = "../Bhavani/img/products/";
+
+      foreach ($_FILES["photos"]["tmp_name"] as $key => $tmpName){
+        $fileName = uniqid() . '_' . $_FILES["photos"]["name"][$key];
+        $photos[] = $fileName;
+        $targetPath = $target_dir . $fileName;
+
+        if(move_uploaded_file($tmpName, $targetPath)){
+          echo "File uploaded successfully.<br>";
+        } else{
+          echo "Error uploading file <br>";
+        }
+      }
+    }
+    $add_new_product = $con -> prepare("INSERT INTO `products`(`sku`, `product_name`, `product_price`, `category_id`, `discount_price`, `about_product`, `no_units`, `product_start_time`, `product_end_time`, `photo1`, `photo2`, `photo3`, `photo4`, `photo5`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $add_new_product -> bind_param("ssdsdssissssss",$sku,$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
+    if($add_new_product -> execute()){
+      echo "<script>alert('Product Added Successfully')</script>";
+    } else {
+      echo "<script>alert('Product Adding Failed')</script>";
+    }
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -54,7 +94,7 @@
             <div class="row">
 
                 <!-- New Product Adding Form Starts Here Shiva -->
-              <form action="" method="post">
+              <form action="#" method="post" enctype="multipart/form-data">
                 <!-- Basic Layout -->
                 <div class="row">
                   <div class="col-xl">
@@ -65,36 +105,37 @@
                     <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">SKU of Product</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input required type="text" name="sku" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Product Price</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Price" />
+                          <input required type="text" name="pprice" class="form-control" id="basic-default-company" placeholder="Product Price" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Prooduct Starts Time</label>
-                          <input required type="time" class="form-control" id="basic-default-company" />
+                          <input type="time" name="stime" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">No of Units Avabile</label>
-                          <input required type="number" class="form-control" id="basic-default-fullname" placeholder="If limated stock is sold give that stock else give a large number" />
+                          <input required type="number" name="no_of_units" class="form-control" id="basic-default-fullname" placeholder="If limated stock is sold give that stock else give a large number" />
                         </div>
                         <div class="mb-3">
                         <label for="exampleFormControlSelect1" class="form-label">Select Category</label>
-                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
+                        <select class="form-select" id="exampleFormControlSelect1" name="category" aria-label="Default select example" required>
                           <option selected> Select Product Category </option>
-                          <option value="1">one</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
+                          <?php while($row = mysqli_fetch_assoc($categories)){ ?>
+                          <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
+                          <?php } ?>
                         </select>
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
                           <textarea
                             id="basic-default-message"
+                            name="description"
                             class="form-control"
-                            placeholder="Give a brief description about the product"
-                          ></textarea>
+                            placeholder="Give a brief description about the product">
+                          </textarea>
                         </div>
                         <!-- <button type="submit" class="btn btn-primary">Send</button> -->
                       <!-- </form> -->
@@ -109,28 +150,29 @@
                     <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Product Name</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Name" />
+                          <input required type="text" name="pname" class="form-control" id="basic-default-company" placeholder="Product Name" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Discount Price</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Discount Price" />
+                          <input required type="text" name="dprice" class="form-control" id="basic-default-company" placeholder="Discount Price" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Prooduct Ends Time</label>
-                          <input required type="time" class="form-control" id="basic-default-company" />
+                          <input type="time" name="pend" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">About Prooduct</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="About Product ---- " />
+                          <input required type="text" name="aboutpro" class="form-control" id="basic-default-company" placeholder="About Product ---- " />
                         </div>
                         <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Product Photos (select upto 5)</label>
-                        <input required class="form-control" type="file" id="formFileMultiple" multiple />
+                        <input required class="form-control" type="file" name="photos[]" id="formFileMultiple" multiple />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Additional Information</label>
                           <textarea
                             id="basic-default-message"
+                            name="addinfo"
                             class="form-control"
                             placeholder="All the additional information about the product"
                           ></textarea>
@@ -139,7 +181,7 @@
                   </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" name="addproduct" class="btn btn-primary">Send</button>
               </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
 
