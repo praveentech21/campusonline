@@ -1,3 +1,8 @@
+<?php
+  include "connect.php";
+  $pending_orders = mysqli_query($con, "SELECT * FROM order_details WHERE status = 1");
+  $completed_orders = mysqli_query($con, "SELECT * FROM order_details WHERE status = 2");
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -69,13 +74,18 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          while($row = mysqli_fetch_assoc($pending_orders)){
+                            $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students WHERE student_id = '{$row['coustmer_id']}'"));
+                        ?>
                         <tr>
-                          <td><strong>Angular Project</strong></td>
-                          <td><strong>RAMA121</strong></td>
-                          <td><a href="tel:9052727402">9052727402</a></td>
-                          <td>Shiva Bhavani</td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                          <td><strong><?php echo $student_details['student_name'] ?></strong></td>
+                          <td><strong><?php echo $row['order_id'] ?></strong></td>
+                          <td><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></td>
+                          <td><?php echo $row['address'] ?></td>
+                          <td><a href="complete_order.php?order_id=<?php echo $row['order_id'] ?>"><span class="badge bg-label-primary me-1">Complete</span></a></td>
                         </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
@@ -93,19 +103,24 @@
                         <tr>
                           <th>Student Name</th>
                           <th>Order ID</th>
+                          <th>Reg No </th>
                           <th>Mobile</th>
                           <th>Address</th>
-                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
+                      <?php
+                          while($row = mysqli_fetch_assoc($completed_orders)){
+                            $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students WHERE student_id = '{$row['coustmer_id']}'"));
+                        ?>
                         <tr>
-                          <td><strong>Angular Project</strong></td>
-                          <td><strong>RAMA121</strong></td>
-                          <td><a href="tel:9052727402">9052727402</a></td>
-                          <td>Shiva Bhavani</td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                          <td><strong><?php echo $student_details['student_name'] ?></strong></td>
+                          <td><strong><?php echo $row['order_id'] ?></strong></td>
+                          <td><?php echo $student_details['student_id'] ?></td>
+                          <td><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></td>
+                          <td><?php echo $row['address'] ?></td>
                         </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
