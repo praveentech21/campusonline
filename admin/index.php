@@ -269,10 +269,10 @@
                         <tr>
                           <td><?php echo $row['order_date'] ?></td>
                           <td><?php echo $row['COUNT(`order_date`)'] ?></td>
-                          <td><?php echo $row['SUM(`order_amount`)'] ?></td>
-                          <td><?php echo $row['SUM(`discount_price`)'] ?></td>
-                          <td><?php echo $row['SUM(`coupan_price`)'] ?></td>
-                          <td><?php echo $row['SUM(`total_amount`)'] ?></td>
+                          <td><?php echo (integer)$row['SUM(`order_amount`)'] ?></td>
+                          <td><?php echo (integer)$row['SUM(`discount_price`)'] ?></td>
+                          <td><?php echo (integer)$row['SUM(`coupan_price`)'] ?></td>
+                          <td><?php echo (integer)$row['SUM(`total_amount`)'] ?></td>
                         </tr>
                         <?php } ?>
                       </tbody>
