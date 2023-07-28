@@ -4,6 +4,7 @@
   $dashbord = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) , SUM(`total_amount`), SUM(`discount_price`), SUM(`coupan_price`) FROM `order_details`"));
   $categories = mysqli_query($con,"SELECT * FROM categorys");
   $coupons = mysqli_query($con,"SELECT * FROM coupans");
+  $date_to_day = mysqli_query($con,"SELECT `order_date`,COUNT(`order_date`),SUM(`coupan_price`),SUM(`discount_price`),SUM(`order_amount`),SUM(`total_amount`) FROM order_details GROUP BY order_date ORDER BY `order_details`.`order_date` DESC ");
 ?>
 
 <!DOCTYPE html>
@@ -178,12 +179,15 @@
                       </thead>
                       <tbody>
                         <?php
-                          $orders = 0;
-                          $sales = 0;
                           while($row = mysqli_fetch_assoc($categories)){
+                            $orders = 0;
+                            $sales = 0;
                             $products = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `products` WHERE category_id = '{$row['category_id']}'"))['COUNT(*)'];
-                            $orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`product_id`) FROM orders INNER JOIN products WHERE orders.product_id in (SELECT sku FROM products WHERE products.category_id ='{$row['category_id']}')"))['COUNT(`product_id`)'];
-                            $sales = mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(products.product_price * orders.product_quantity) as sales FROM products INNER JOIN orders WHERE products.sku IN (SELECT product_id FROM products WHERE category_id = '{$row['category_id']}'); "))['sales'];
+                            $orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`product_id`) FROM orders WHERE `product_id` in (SELECT sku FROM products WHERE `category_id` ='{$row['category_id']}')"))['COUNT(`product_id`)'];
+                            $products_category = mysqli_query($con,"SELECT `sku`,`product_price` FROM `products` WHERE `category_id` = '{$row['category_id']}'");
+                            while($row1 = mysqli_fetch_assoc($products_category)){
+                              $sales += mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`product_quantity`) FROM `orders` WHERE `product_id` = '{$row1['sku']}'"))['SUM(`product_quantity`)'] * $row1['product_price'];
+                            }
                         ?>
                         <tr>
                           <td><strong><?php echo $row['category_name']; ?></strong></td>
@@ -219,8 +223,12 @@
                       <tbody>
                         <?php
                           while($row = mysqli_fetch_assoc($coupons)){
+                            $coupon_sales = 0;
                             $no_of_orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `coupans_used` WHERE coupan_id = '{$row['coupan_id']}'"))['COUNT(*)'];
-                            $coupon_sale = mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`coupan_price`) FROM `order_details` WHERE order_id in (select order_id from coupans_used where coupan_id = '{$row['coupan_id']}' ) "))['SUM(`coupan_price`)'];
+                            $order_id_coupons = mysqli_query($con,"SELECT `order_id` FROM `coupans_used` WHERE `coupan_id` = '{$row['coupan_id']}'");
+                            while($row1 = mysqli_fetch_assoc($order_id_coupons)){
+                              $coupon_sales += mysqli_fetch_assoc(mysqli_query($con,"SELECT `coupan_price` FROM `orders` WHERE `order_id` = '{$row1['order_id']}'"))['coupan_price'];
+                            }
                         ?>
                         <tr>
                           <td><strong><?php echo $row['coupan_name'] ?></strong></td>
@@ -228,7 +236,7 @@
                           <td><?php echo $row['coupan_value'] ?></td>
                           <td><?php if($row['coupan_type']==1) echo "Flate"; else echo "Percentage";  ?></td>
                           <td><?php echo $no_of_orders ?></td>
-                          <td>Active</td>
+                          <td><?php echo $coupon_sales ?></td>
                         </tr>
                         <?php } ?>
                       </tbody>
@@ -240,7 +248,7 @@
               <hr class="my-4">
               <!-- Bordered Table -->
               <div class="card">
-                <h5 class="card-header">Monthly Orders</h5>
+                <h5 class="card-header">Daily Orders</h5>
                 <div class="card-body">
                   <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -248,19 +256,25 @@
                         <tr>
                           <th>Date</th>
                           <th>Orders</th>
-                          <th>Sales</th>
+                          <th>Order Amount</th>
                           <th>Discount</th>
                           <th>Coupon</th>
+                          <th>Sale Amount</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php 
+                          while($row = mysqli_fetch_assoc($date_to_day)){
+                        ?>
                         <tr>
-                          <td><strong>Angular Project</strong></td>
-                          <td>Albert Cook</td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
-                          <td><span class="badge bg-label-primary me-1">Active</span></td>
+                          <td><?php echo $row['order_date'] ?></td>
+                          <td><?php echo $row['COUNT(`order_date`)'] ?></td>
+                          <td><?php echo $row['SUM(`order_amount`)'] ?></td>
+                          <td><?php echo $row['SUM(`discount_price`)'] ?></td>
+                          <td><?php echo $row['SUM(`coupan_price`)'] ?></td>
+                          <td><?php echo $row['SUM(`total_amount`)'] ?></td>
                         </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
