@@ -1,3 +1,9 @@
+<?php
+  include 'connect.php';
+  if(isset($_POST['getcategory'])){
+    $pro_in_cat = mysqli_query($con,"SELECT * FROM `products` WHERE `category_id` = '{$_POST['category_id']}'");
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -66,17 +72,17 @@
                             placeholder="Rama1"
                             aria-describedby="defaultFormControlHelp"
                             type="number"
-                            name="productsku"
+                            name="category_id"
                           />
                         </div>
                         <div class="mt-3">
-                          <button type="submit" name="getproduct" class="btn btn-primary">Get Details</button>
+                          <button type="submit" name="getcategory" class="btn btn-primary">Get Details</button>
                         </div>
                       </div>
                     </form>
                   </div>
                 </div>
-
+              <?php if(isset($pro_in_cat)){ ?>
               <!-- Striped Rows -->
               <div class="card">
                 <h5 class="card-header">Category Name</h5>
@@ -85,22 +91,28 @@
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Categories</th>
+                        <th>Product Sku</th>
                         <th>Price</th>
                         <th>Discount Price</th>
+                        <th>No Of Units</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                      <?php while($row = mysqli_fetch_assoc($pro_in_cat)){ ?>
                       <tr>
-                        <td><strong>Angular Project</strong></td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
+                        <td><strong><?php echo $row['product_name'] ?></strong></td>
+                        <td><?php echo $row['sku'] ?></td>
+                        <td><?php echo $row['product_price'] ?></td>
+                        <td><?php echo $row['discount_price'] ?></td>
+                        <td><?php echo $row['no_units'] ?></td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
               </div>
               <!--/ Striped Rows -->
+              <?php } ?>
               
             </div>
           </div>
