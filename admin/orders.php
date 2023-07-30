@@ -80,7 +80,7 @@
                         ?>
                         <tr>
                           <td><strong><?php echo $student_details['student_name'] ?></strong></td>
-                          <td><strong><?php echo $row['order_id'] ?></strong></td>
+                          <td><a href="order.php?order_id=<?php echo $row['order_id'] ?>"><strong><?php echo $row['order_id'] ?></strong></a></td>
                           <td><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></td>
                           <td><?php echo $row['address'] ?></td>
                           <td><a href="complete_order.php?order_id=<?php echo $row['order_id'] ?>"><span class="badge bg-label-primary me-1">Complete</span></a></td>
@@ -115,7 +115,7 @@
                         ?>
                         <tr>
                           <td><strong><?php echo $student_details['student_name'] ?></strong></td>
-                          <td><strong><?php echo $row['order_id'] ?></strong></td>
+                          <td><a href="order.php?order_id=<?php echo $row['order_id'] ?>"><strong><?php echo $row['order_id'] ?></strong></a></td>
                           <td><?php echo $student_details['student_id'] ?></td>
                           <td><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></td>
                           <td><?php echo $row['address'] ?></td>

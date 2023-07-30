@@ -1,4 +1,12 @@
-
+<?php
+  include 'connect.php';
+  if(isset($_GET['order_id'])){
+    $order_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `order_details` WHERE `order_id` = '{$_GET['order_id']}'"));
+    $coustmer = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `students` WHERE `student_id` = '{$order_details['coustmer_id']}'"));
+    $order_products = mysqli_query($con,"SELECT `product_id`,`product_quantity` FROM `orders` WHERE `order_id` = '{$_GET['order_id']}'");
+  }
+  else header('Location: orders.php');
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -61,7 +69,7 @@
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                         <img
-                          src="Bhavani/img/avatars/sureshsir.png"
+                          src="../Bhavani/img/students/<?php echo $coustmer['photo']; ?>"
                           alt="user-avatar"
                           class="d-block rounded"
                           height="100"
@@ -70,15 +78,21 @@
                         />
                         <div class="button-wrapper">
                           <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                            <span class="d-none d-sm-block">Sai Praveen</span>
+                            <span class="d-none d-sm-block"><?php echo $coustmer['student_name']; ?></span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
                           </label>
-                          <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                          <?php if($order_details['status'] == 2){ ?>
+                          <button class="btn  mb-4">
+                            <span class="d-none d-sm-block" style="color: green;">Completed</span>
+                          </button>
+                          <?php }else{ ?>
+                          <a href="complete_order.php?order_id=<?php echo $_GET['order_id'] ?>"><button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
                             <i class="bx bx-reset d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Complete</span>
-                          </button>
+                          </button></a>
+                          <?php } ?>
 
-                          <p class="text-muted mb-0">Reg no : 21B91A6206</p>
+                          <p class="text-muted mb-0">Reg no : <?php echo $coustmer['student_id'] ?></p>
                         </div>
                       </div>
                     </div>
@@ -95,21 +109,25 @@
                     <table class="table table-bordered">
                         <thead>
                           <tr>
+                            <th>Product</th>
                             <th>Price</th>
                             <th>Discount</th>
-                            <th>Coupon</th>
-                            <th>Shipping</th>
+                            <th>Quantity</th>
                             <th>TOtal</th>
                           </tr>
                         </thead>
                         <tbody>
+                        <?php while($row = mysqli_fetch_assoc($order_products)){
+                            $product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `products` WHERE `sku` = '{$row['product_id']}'"));
+                        ?>
                           <tr>
-                            <td><strong>Price</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Albert Cook</td>
-                            <td>Albert Cook</td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
+                            <td><strong><?php echo $product_details['product_name'] ?></strong></td>
+                            <td><?php echo $product_details['product_price'];  ?></td>
+                            <td><?php echo $product_details['discount_price']; ?></td>
+                            <td><?php echo $row['product_quantity'] ?></td>
+                            <td><span class="badge bg-label-primary me-1"><?php echo $product_details['product_price'] * $row['product_quantity']; ?></span></td>
                           </tr>
+                        <?php } ?>
                         </tbody>
                       </table>
                         <hr class="my-3">
@@ -117,23 +135,23 @@
                         <tbody>
                         <tr>
                             <td><strong>Price</strong></td>
-                            <td>Albert Cook</td>
+                            <td><?php echo $order_details['total_amount'] ?></td>
                           </tr>
                           <tr>
                             <td><strong>Discount</strong></td>
-                            <td>Albert Cook</td>
+                            <td><?php echo $order_details['discount_price'] ?></td>
                           </tr>
                           <tr>
                             <td><strong>Coupon Price</strong></td>
-                            <td>Albert Cook</td>
+                            <td><?php echo $order_details['coupan_price'] ?></td>
                           </tr>
                           <tr>
                             <td><strong>Shipping</strong></td>
-                            <td>Albert Cook</td>
+                            <td>Free Shipping</td>
                           </tr>
                           <tr>
                             <td><strong>Total</strong></td>
-                            <td>Albert Cook</td>
+                            <td><?php echo $order_details['order_amount'] ?></td>
                           </tr>
                         </tbody>
                       </table>
