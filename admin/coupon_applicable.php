@@ -1,3 +1,27 @@
+<?php 
+  include 'connect.php';
+  $all_coupon = mysqli_query($con, "SELECT * FROM `coupans`");
+  $coupons = mysqli_query($con, "SELECT * FROM `coupans`");
+  $all_coupons = mysqli_query($con, "SELECT * FROM `coupans`");
+  $categorys = mysqli_query($con, "SELECT * FROM `categorys`");
+  $products = mysqli_query($con, "SELECT * FROM `products`");
+  if(isset($_POST['applycoupon'])){
+    $coupon = $_POST['coupon'];
+    $category = $_POST['category'];
+    $product = $_POST['product'];
+    $applycoupon = $con -> prepare("INSERT INTO `coupan_applicable`(`coupan_id`, `category_id`, `product_id`) VALUES (?,?,?)");
+    $applycoupon -> bind_param("sss",$coupon,$category,$product);
+    $applycoupon -> execute();
+    if($applycoupon -> affected_rows == 1){
+      echo "<script>alert('Coupon Applied Successfully');</script>";
+      echo "<script>window.location.href='coupon_applicable.php'</script>";
+    }
+    else{
+      echo "<script>alert('Something Went Wrong');</script>";
+      echo "<script>window.location.href='coupon_applicable.php'</script>";
+    }
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -63,14 +87,24 @@
                             <table class="table table-striped">
                               <thead>
                                 <tr>
-                                  <th>Name</th>
-                                  <th>Categories</th>
+                                  <th>Coupon</th>
+                                  <th>Product</th>
+                                  <th>Sku</th>
                                 </tr>
-                              </thead>
+                              </thead>  
                               <tbody class="table-border-bottom-0">
+                                <?php 
+                                  while($row = mysqli_fetch_assoc($all_coupon)){
+                                    $pro_coup = mysqli_query($con, "SELECT `product_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}' and `product_id` != '0'");
+                                    while($row1 = mysqli_fetch_assoc($pro_coup)){
+                                      $product_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT `product_name` FROM `products` WHERE `sku` = '{$row1['product_id']}'"))['product_name'];
+                                  ?>
                                 <tr>
-                                  <td><strong>Angular Project</strong></td>
-                                  <td>Albert Cook</td>
+                                  <td><strong><?php echo $row['coupan_name'] ?></strong></td>
+                                  <td><?php echo $product_name ?></td>
+                                  <td><?php echo $row1['product_id'] ?></td>
+                                </tr>
+                                <?php }} ?>
                               </tbody>
                             </table>
                           </div>
@@ -88,20 +122,28 @@
                           <table class="table table-striped">
                             <thead>
                               <tr>
-                                <th>Name</th>
-                                <th>Categories</th>
+                                <th>Coupon</th>
+                                <th>Category</th>
+                                <th>Category ID</th>
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                              <?php while($row = mysqli_fetch_assoc($all_coupons)){
+                                  $cat_coup = mysqli_query($con, "SELECT `category_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}'");
+                                  while($row1 = mysqli_fetch_assoc($cat_coup)){
+                                    $category_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT `category_name` FROM `categorys` WHERE `category_id` = '{$row1['category_id']}'"))['category_name'];
+                                ?>
                               <tr>
-                                <td><strong>Angular Project</strong></td>
-                                <td>Albert Cook</td>
+                                <td><strong><?php echo $row['coupan_name'] ?></strong></td>
+                                <td><?php echo $category_name ?></td>
+                                <td><?php echo $row1['category_id']?></td>
+                              </tr>
+                              <?php }} ?>
                             </tbody>
                           </table>
                         </div>
                         </div>
                         <!--/ Striped Rows -->
-
                      </div>
                 </div>
               </div>
@@ -118,29 +160,36 @@
                           <div class="card-body">
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-fullname">Coupon Id</label>
-                              <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                              <select class="form-select" name="coupon" id="exampleFormControlSelect1" aria-label="Default select example" required>
+                                <option selected> Select Coupon </option>
+                                <?php while($row = mysqli_fetch_assoc($coupons)){ ?>
+                                <option value="<?php echo $row['coupan_id'] ?>"><?php echo $row['coupan_name'] ?></option>
+                                <?php } ?>
+                              </select>
                             </div>
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">category to Apply</label>
-                              <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
-                                <option selected> Select Category </option>
-                                <option value="1">Flat</option>
-                                <option value="2">Discount</option>
+                              <select class="form-select" name="category" id="exampleFormControlSelect1" aria-label="Default select example" >
+                                <option > Select Category </option>
+                                <?php while($row = mysqli_fetch_assoc($categorys)){ ?>
+                                <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
+                                <?php } ?>
                               </select>
                             </div>
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">Prooduct to Apply</label>
-                              <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
-                                <option selected> Select Product </option>
-                                <option value="1">Flat</option>
-                                <option value="2">Discount</option>
+                              <select class="form-select" name="product" id="exampleFormControlSelect1" aria-label="Default select example" >
+                                <option > Select Product </option>
+                                <?php while($row = mysqli_fetch_assoc($products)){ ?>
+                                <option value="<?php echo $row['sku'] ?>"><?php echo $row['product_name'] ?></option>
+                                <?php } ?>
                               </select>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="submit" name="applycoupon" class="btn btn-primary">Send</button>
                 </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
 

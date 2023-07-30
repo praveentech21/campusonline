@@ -1,3 +1,7 @@
+<?php 
+  include 'connect.php';
+  $all_coupons = mysqli_query($con,"SELECT * FROM `coupans`");
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -69,13 +73,16 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                      <?php while($row = mysqli_fetch_assoc($all_coupons)){ ?>
                       <tr>
-                        <td><strong>Angular Project</strong></td>
-                        <td><strong>Angular Project</strong></td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
+                        <td><strong><?php echo $row['coupan_name'] ?></strong></td>
+                        <td><strong><?php echo $row['coupan_id'] ?></strong></td>
+                        <td><?php if($row['coupan_type'] == 2) echo 'Percentage'; else echo 'Flat'; ?></td>
+                        <td><?php echo $row['coupan_value'] ?></td>
+                        <td><?php echo $row['coupan_starts'] ?></td>
+                        <td><?php echo $row['coupans_ends'] ?></td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>

@@ -1,7 +1,7 @@
 <?php
   include 'connect.php';
   $this_week_orders = mysqli_query($con,"SELECT * FROM order_details WHERE order_date BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW() group by order_date");
-  $dashbord = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) , SUM(`total_amount`), SUM(`discount_price`), SUM(`coupan_price`) FROM `order_details`"));
+  $dashbord = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) , SUM(`order_amount`), SUM(`total_amount`), SUM(`discount_price`), SUM(`coupan_price`) FROM `order_details`"));
   $categories = mysqli_query($con,"SELECT * FROM categorys");
   $coupons = mysqli_query($con,"SELECT * FROM coupans");
   $date_to_day = mysqli_query($con,"SELECT `order_date`,COUNT(`order_date`),SUM(`coupan_price`),SUM(`discount_price`),SUM(`order_amount`),SUM(`total_amount`) FROM order_details GROUP BY order_date ORDER BY `order_details`.`order_date` DESC ");
@@ -83,14 +83,13 @@
                                 $order_date = $row['order_date'];
                                 $order_date = date('d-m-Y',strtotime($order_date));
                                 $order_day = date('l',strtotime($order_date));
-                                $today_orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT sum(total_amount),count(*) FROM order_details WHERE order_date = '$row[order_date]'"));  
-
+                                $today_orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT sum(order_amount),count(*) FROM order_details WHERE order_date = '$row[order_date]'"));  
                             ?>
                             <tr>
                               <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $order_date; ?></strong></td>
                               <td><?php echo $order_day; ?></td>
                               <td><?php echo $today_orders['count(*)']; ?></td>
-                              <td><?php echo $today_orders['sum(total_amount)']; ?></td>
+                              <td><?php echo (integer)$today_orders['sum(order_amount)']; ?></td>
                             </tr>
                             <?php } ?>
                           </tbody>
@@ -113,8 +112,8 @@
                               <img src="BHavani/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
-                          <span class="d-block mb-1">Total Orders</span>
-                          <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['COUNT(*)']; ?></h3>
+                          <span class="d-block mb-1">Total Orders : <?php echo $dashbord['COUNT(*)']; ?></span>
+                          <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['SUM(`total_amount`)']; ?></h3>
                         </div>
                       </div>
                     </div>
@@ -127,9 +126,9 @@
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Total Sales</span>
-                          <h3 class="card-title mb-2"><?php echo $dashbord['SUM(`total_amount`)']; ?></h3>
+                          <h3 class="card-title mb-2"><?php echo (integer)$dashbord['SUM(`order_amount`)']; ?></h3>
                         </div>
-                      </div>
+                      </div>  
                     </div>
                     <div class="col-6 mb-4">
                       <div class="card">
@@ -184,9 +183,11 @@
                             $sales = 0;
                             $products = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `products` WHERE category_id = '{$row['category_id']}'"))['COUNT(*)'];
                             $orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`product_id`) FROM orders WHERE `product_id` in (SELECT sku FROM products WHERE `category_id` ='{$row['category_id']}')"))['COUNT(`product_id`)'];
-                            $products_category = mysqli_query($con,"SELECT `sku`,`product_price` FROM `products` WHERE `category_id` = '{$row['category_id']}'");
+                            $products_category = mysqli_query($con,"SELECT `sku`,`product_price`,`discount_price` FROM `products` WHERE `category_id` = '{$row['category_id']}'");
                             while($row1 = mysqli_fetch_assoc($products_category)){
-                              $sales += mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`product_quantity`) FROM `orders` WHERE `product_id` = '{$row1['sku']}'"))['SUM(`product_quantity`)'] * $row1['product_price'];
+                              if($row1['discount_price'] != 0) $discount = $row1['discount_price'];
+                              else $discount = $row1['product_price'];
+                              $sales += mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`product_quantity`) FROM `orders` WHERE `product_id` = '{$row1['sku']}'"))['SUM(`product_quantity`)'] * $discount  ;
                             }
                         ?>
                         <tr>
