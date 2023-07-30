@@ -1,3 +1,7 @@
+<?php
+  include "connect.php";
+  $all_categorys = mysqli_query($con, "SELECT * FROM `categorys` order by `category_weightage` desc");
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -55,7 +59,7 @@
 
               <!-- Striped Rows -->
               <div class="card">
-                <h5 class="card-header">Striped rows</h5>
+                <h5 class="card-header">All categorys</h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table table-striped">
                     <thead>
@@ -63,15 +67,32 @@
                         <th>Category Name</th>
                         <th>Category ID</th>
                         <th>weitage</th>
-                        <th>Description</th>
+                          <th>No of Products </th>
+                        <th>No of Orders </th>
+                        <th>Sales</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                      <?php 
+                        while($row = mysqli_fetch_array($all_categorys)){
+                          $orders = 0;
+                          $sales = 0;
+                          $products = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) FROM `products` WHERE category_id = '{$row['category_id']}'"))['COUNT(*)'];
+                          $orders = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`product_id`) FROM orders WHERE `product_id` in (SELECT sku FROM products WHERE `category_id` ='{$row['category_id']}')"))['COUNT(`product_id`)'];
+                          $products_category = mysqli_query($con,"SELECT `sku`,`product_price` FROM `products` WHERE `category_id` = '{$row['category_id']}'");
+                          while($row1 = mysqli_fetch_assoc($products_category)){
+                            $sales += mysqli_fetch_assoc(mysqli_query($con,"SELECT SUM(`product_quantity`) FROM `orders` WHERE `product_id` = '{$row1['sku']}'"))['SUM(`product_quantity`)'] * $row1['product_price'];
+                          }
+                      ?>
                       <tr>
-                        <td><strong>Shiva Bhavani</strong></td>
-                        <td>Rama1</td>
-                        <td>100</td>
-                        <td>Amma Nana Category</td>
+                        <td><strong><?php echo $row['category_name'] ?></strong></td>
+                        <td><?php echo $row['category_id'] ?></td>
+                        <td><?php echo $row['category_weightage'] ?></td>
+                        <td><?php echo $products ?></td>
+                        <td><?php echo $orders ?></td>
+                        <td><?php echo $sales; ?></td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>

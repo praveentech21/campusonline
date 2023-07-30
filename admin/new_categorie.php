@@ -1,3 +1,16 @@
+<?php
+  include "connect.php";
+  if(isset($_POST['newcategory'])){
+    $category_id = $_POST['category_id'];
+    $category_name = $_POST['category_name'];
+    $category_description = $_POST['category_description'];
+    $category_weightage = $_POST['category_weightage'];
+    $newcategory = $con -> prepare("INSERT INTO `categorys`(`category_id`, `category_name`, `category_description`, `category_weightage`) VALUES (?,?,?,?)");
+    $newcategory -> bind_param("sssi",$category_id,$category_name,$category_description,$category_weightage);
+    if($newcategory -> execute()) echo '<script>alert("New category Added Successfully"); window.location.href="categories.php"; </script>'; else echo '<script>alert("Error in Adding New category");</script>';
+    
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -54,7 +67,7 @@
             <div class="row">
 
               <!-- New Product Adding Form Starts Here Shiva -->
-              <form action="" method="post">
+              <form action="#" method="post">
                 <!-- Basic Layout -->
                 <div class="row">
                   <div class="col-xl">
@@ -65,25 +78,25 @@
                       <div class="card-body">
                       <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">category ID</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input required name="category_id" type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">category Name</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input required name="category_name" type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Description</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input required name="category_description" type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Category weitage</label>
-                          <input required type="number" class="form-control" id="basic-default-company" placeholder="Product Price" />
+                          <input required name="category_weightage" type="number" class="form-control" id="basic-default-company" placeholder="Product Price" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" name="newcategory" class="btn btn-primary">Send</button>
               </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
 

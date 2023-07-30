@@ -65,6 +65,7 @@
                     <thead>
                       <tr>
                         <th>Name</th>
+                        <th>SKU</th>
                         <th>Categories</th>
                         <th>Price</th>
                         <th>Discount Price</th>
@@ -81,6 +82,7 @@
                       ?>
                       <tr>
                         <td><strong><?php echo $product['product_name'] ?></strong></td>
+                        <td><strong><?php echo $product['sku'] ?></strong></td>
                         <td><?php echo $category ?></td>
                         <td><?php echo $product['product_price'] ?></td>
                         <td><?php echo $product['product_price'] - $product['discount_price'] ?></td>
