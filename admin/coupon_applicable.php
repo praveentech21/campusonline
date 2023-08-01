@@ -149,7 +149,7 @@
               </div>
 
                 <!-- New Product Adding Form Starts Here Shiva -->
-                <form action="" method="post">
+                <form action="" method="post" id="myForm">
                     <!-- Basic Layout -->
                     <div class="row">
                       <div class="col-xl">
@@ -170,7 +170,7 @@
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">category to Apply</label>
                               <select class="form-select" name="category" id="exampleFormControlSelect1" aria-label="Default select example" >
-                                <option > Select Category </option>
+                                <option value=""> Select Category </option>
                                 <?php while($row = mysqli_fetch_assoc($categorys)){ ?>
                                 <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
                                 <?php } ?>
@@ -179,7 +179,7 @@
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">Prooduct to Apply</label>
                               <select class="form-select" name="product" id="exampleFormControlSelect1" aria-label="Default select example" >
-                                <option > Select Product </option>
+                                <option value="" > Select Product </option>
                                 <?php while($row = mysqli_fetch_assoc($products)){ ?>
                                 <option value="<?php echo $row['sku'] ?>"><?php echo $row['product_name'] ?></option>
                                 <?php } ?>
@@ -201,6 +201,15 @@
       <!-- Footer Starts Here Shiva-->
         <?php include 'footer.php'; ?>
       <!-- Footer Ends Here Shiva-->
+      <script>
+  document.getElementById('myForm').addEventListener('submit', function (event) {
+    var dropdown = document.getElementById('exampleFormControlSelect1');
+    if (dropdown.value === '') {
+      dropdown.value = 'null'; // Set the value to 'null' if no option is selected
+    }
+  });
+</script>
+
 
   </body>
 </html>

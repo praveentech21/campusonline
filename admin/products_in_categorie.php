@@ -1,6 +1,7 @@
 <?php
   include 'connect.php';
   if(isset($_POST['getcategory'])){
+    $category = mysqli_fetch_assoc(mysqli_query($con,"SELECT `category_name` FROM `categorys` WHERE `category_id` = '{$_POST['category_id']}'"))['category_name'];
     $pro_in_cat = mysqli_query($con,"SELECT * FROM `products` WHERE `category_id` = '{$_POST['category_id']}'");
   }
 ?>
@@ -85,7 +86,7 @@
               <?php if(isset($pro_in_cat)){ ?>
               <!-- Striped Rows -->
               <div class="card">
-                <h5 class="card-header">Category Name</h5>
+                <h5 class="card-header"><?php echo $category ?></h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table table-striped">
                     <thead>

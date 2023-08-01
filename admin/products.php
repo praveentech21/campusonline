@@ -1,6 +1,6 @@
 <?php
   include "connect.php";
-  $all_products = mysqli_query($con, "SELECT * FROM `products`");
+  $all_products = mysqli_query($con, "SELECT * FROM `products` ORDER BY product_price ASC");
 ?>
 <!DOCTYPE html>
 <html

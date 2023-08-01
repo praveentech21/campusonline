@@ -5,16 +5,14 @@
     $products_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$_POST['productsku']}'"));
     $products_description = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product_details WHERE product_id = '{$_POST['productsku']}'"));
     if(isset($_POST['editproduct'])){
-      if($_POST['pname'] == null) $pname = $products_details['product_name']; else $pname = $_POST['pname'];
-      if($_POST['pprice'] == null) $pprice = $products_details['product_price']; else $pprice = $pprice = $_POST['pprice'];
-      if($_POST['dprice'] == null) $dprice = $products_details['discount_price']; else $dprice = $dprice = $_POST['dprice'];
-      if($_POST['addinfo'] == null) $addinfo = $products_description['additional_info']; else $addinfo = $addinfo = $_POST  ['addinfo'];
-      if($_POST['aboutpro'] == null) $aboutpro = $products_details['about_product']; else $aboutpro = $aboutpro = $_POST  ['aboutpro'];
-      if($_POST['stime'] == null) $stime = $products_details['product_start_time']; else $stime = $stime = $_POST['stime'];
-      if($_POST['pend'] == null) $pend = $products_details['product_end_time']; else $pend = $pend = $_POST['pend'];
-      if($_POST['no_of_units'] == null) $no_of_units = $products_details['no_units']; else $no_of_units = $no_of_units =  $_POST['no_of_units'];
-      if($_POST['description'] == null) $description = $products_description['description']; else $description =  $description = $_POST['description'];
-      if($_POST['category'] == null) $category = $products_details['category_id']; else $category = $category = $_POST  ['category'];
+      $pname = $_POST['productname'];
+      $pprice = $_POST['productprice'];
+      $category = $_POST['category'];
+      $dprice = $_POST['discountprice'];
+      $aboutpro = $_POST['aboutproduct'];
+      $no_of_units = $_POST['noofunits'];
+      $stime = $_POST['starttime'];
+      $pend = $_POST['endtime'];
       $photos = array();
       if(isset($_FILES["photos"]) && !empty($_FILES['photos']['name'][0])){
         $target_dir = "../Bhavani/img/products/";
@@ -31,15 +29,10 @@
           }
         }
       }
-      if($photos[0] == null) $photos[0] = $products_details['photo1'];
-      if($photos[1] == null) $photos[1] = $products_details['photo2'];
-      if($photos[2] == null) $photos[2] = $products_details['photo3'];
-      if($photos[3] == null) $photos[3] = $products_details['photo4'];
-      if($photos[4] == null) $photos[4] = $products_details['photo5'];
       $add_new_product = $con -> prepare("UPDATE `products` SET `product_name`=?,`product_price`=?,`category_id`=?, `discount_price`=?,`about_product`=?,`date_create`=?,`no_units`=?,`product_start_time`=?,`product_end_time`=?, `photo1`=?,`photo2`=?,`photo3`=?,`photo4`=?,`photo5`=? WHERE `sku` = '$sku'");
-      $add_new_product -> bind_param("sdsdssissssss",$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,  $photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
+      $add_new_product -> bind_param("sdsdssissssss",$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
       if($add_new_product -> execute()){
-        echo "<script>alert('Product Added Successfully')</script>";
+        echo "<script>alert('Product Added Successfully'); windows.location.href='index.php'; </script>";
       } else {
         echo "<script>alert('Product Adding Failed')</script>";
       }

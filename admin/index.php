@@ -112,7 +112,7 @@
                               <img src="BHavani/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
-                          <span class="d-block mb-1">Total Orders : <?php echo $dashbord['COUNT(*)']; ?></span>
+                          <span class="d-block mb-1">Orders : <?php echo $dashbord['COUNT(*)']; ?></span>
                           <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['SUM(`total_amount`)']; ?></h3>
                         </div>
                       </div>
