@@ -6,11 +6,13 @@
     $value_coupan = $_POST['value_coupan'];
     $coupan_start_date = $_POST['coupan_start_date'];
     $coupan_type = $_POST['coupan_type'];
-    $coupan_id = $_POST['coupan_id'];
+    $about_coupan = $_POST['about_coupan'];
     $coupan_ends_date = $_POST['coupan_ends_date'];
-    $update_coupan = mysqli_query($con, "UPDATE coupans SET coupan_name='$name_coupan', coupan_value='$value_coupan', coupan_starts='$coupan_start_date', coupan_type='$coupan_type', coupan_ends='$coupan_ends', coupan_status='$coupan_status' WHERE coupan_id='$coupan_id'");
-    if($update_coupan) echo "<script>alert('Coupon Updated Successfully')</script>";
-    else echo "<script>alert('Coupon Updation Failed')</script>";
+    $coupan_id = $_POST['coupan_id'];
+    $update_coupan = $con ->prepare("UPDATE `coupans` SET `coupan_name`=?,`coupan_descrpition`=?,`coupan_type`=?,`coupan_value`=?,`coupan_starts`=?,`coupans_ends`=? WHERE `coupan_id`=?");
+    $update_coupan -> bind_param("ssidsss",$name_coupan,$about_coupan,$coupan_type,$value_coupan,$coupan_start_date,$coupan_ends_date,$coupan_id);
+    if($update_coupan -> execute()) echo "<script>alert('Coupon Updated Successfully')</script>";
+    else echo "<script>alert('Coupon Updation Failed')</script>";  
   }
 ?>
 <!DOCTYPE html>
@@ -107,6 +109,7 @@
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Name of Coupon</label>
                           <input type="text" value="<?php echo $coupon_details['coupan_name'] ?>" class="form-control" id="basic-default-fullname" name="name_coupan" />
+                          <input hidden value="<?php echo $coupon_details['coupan_id'] ?>"name="coupan_id" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Value of Coupon</label>
@@ -128,17 +131,17 @@
                         <div class="mb-3">
                           <label for="exampleFormControlSelect1" class="form-label">Coupon Type</label>
                           <select name="coupan_type" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" >
-                            <option <?php if($coupon_details['coupan_type'] == 1) echo 'selected';?> value="1">Flat</option>
-                            <option <?php if($coupon_details['coupan_type'] == 2) echo 'selected';?> value="2">Discount</option>
+                            <option <?php if($coupon_details['coupan_type'] == '1') echo 'selected';?> value="1">Flat</option>
+                            <option <?php if($coupon_details['coupan_type'] == '2') echo 'selected';?> value="2">Percentage</option>
                           </select>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Prooduct Ends Date (<?php echo $coupon_details['coupans_ends'] ?>)</label>
-                          <input name="coupan_ends_date" value="<?php echo $coupon_details['coupans_ends'] ?>" type="date" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">About Coupon</label>
                           <input name="about_coupan" value="<?php echo $coupon_details['coupan_descrpition'] ?>" type="text" class="form-control" id="basic-default-company" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Prooduct Ends Date (<?php echo $coupon_details['coupans_ends'] ?>)</label>
+                          <input name="coupan_ends_date" value="<?php echo $coupon_details['coupans_ends'] ?>" type="date" class="form-control" id="basic-default-company" />
                         </div>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
   include "connect.php";
+  $coupans_used = mysqli_query($con, "SELECT * FROM `coupans_used`");
 ?>
 <!DOCTYPE html>
 <html
@@ -55,9 +56,8 @@
         <!-- Content Starts Here Shiva-->
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-
-                              <!-- Striped Rows -->
-                              <div class="card">
+              <!-- Striped Rows -->
+              <div class="card">
                 <h5 class="card-header">Coupons Used Till Now</h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table table-striped">
@@ -71,12 +71,20 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                      <?php
+                        while($row = mysqli_fetch_assoc($coupans_used)){
+                          $coupan_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT `coupan_name` FROM `coupans` WHERE `coupan_id` = '{$row['coupan_id']}'"))['coupan_name'];
+                          $order_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT `coustmer_id`, `coupan_price` FROM `order_details` WHERE `order_id` = '{$row['order_id']}'"));
+                          $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT `student_name`, `student_id` FROM `students` WHERE `student_id` = '{$order_details['coustmer_id']}'"));
+                      ?>
                       <tr>
-                        <td><strong>Angular Project</strong></td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td>Albert Cook</td>
-                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        <td><strong><?php echo $coupan_name ?></strong></td>
+                        <td><?php echo $student_details['student_name'] ?></td>
+                        <td><?php echo $student_details['student_id'] ?></td>
+                        <td><a href="complete_order.php?order_id=<?php echo $row['order_id'] ?>"><?php echo $row['order_id'] ?></a></td>
+                        <td><span class="badge bg-label-primary me-1"><?php echo $order_details['coupan_price'] ?></span></td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>

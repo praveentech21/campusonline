@@ -5,7 +5,6 @@
     $coustmer = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `students` WHERE `student_id` = '{$order_details['coustmer_id']}'"));
     $order_products = mysqli_query($con,"SELECT `product_id`,`product_quantity` FROM `orders` WHERE `order_id` = '{$_GET['order_id']}'");
   }
-  else header('Location: orders.php');
 ?>
 <!DOCTYPE html>
 <html
@@ -62,7 +61,32 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-md-6">
+                  <div class="card mb-4">
+                    <h5 class="card-header">Select Category</h5>
+                    <form action="#" method="get">
+                      <div class="card-body">
+                        <div>
+                          <label for="defaultFormControlInput" class="form-label">Category ID</label>
+                          <input type="text"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            placeholder="Rama1"
+                            aria-describedby="defaultFormControlHelp"
+                            type="number"
+                            name="order_id"
+                          />
+                        </div>
+                        <div class="mt-3">
+                          <button type="submit" class="btn btn-primary">Get Details</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+            <?php if(isset($order_details)){ ?>
+                <div class="col-md-12">
                   <div class="card mb-4">
                     <h5 class="card-header">Order Details</h5>
                     <!-- Account -->
@@ -158,6 +182,7 @@
                     </div>
                   </div>
                 </div>
+                <?php } ?>
 
 
               
