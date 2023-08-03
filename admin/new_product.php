@@ -29,9 +29,12 @@
         }
       }
     }
+    $new_pro_details = $con -> prepare("INSERT INTO `product_details`(`product_id`, `description`, `additional_info`) VALUES (?, ?, ?)");
+    $new_pro_details -> bind_param("sss",$sku,$description,$addinfo);
     $add_new_product = $con -> prepare("INSERT INTO `products`(`sku`, `product_name`, `product_price`, `category_id`, `discount_price`, `about_product`, `no_units`, `product_start_time`, `product_end_time`, `photo1`, `photo2`, `photo3`, `photo4`, `photo5`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     $add_new_product -> bind_param("ssdsdssissssss",$sku,$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
     if($add_new_product -> execute()){
+      $new_pro_details -> execute();
       echo "<script>alert('Product Added Successfully')</script>";
     } else {
       echo "<script>alert('Product Adding Failed')</script>";
