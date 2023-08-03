@@ -1,3 +1,18 @@
+<?php 
+  include 'connect.php';
+  if(isset($_POST['getcoupan'])) $coupon_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM coupans WHERE coupan_id='{$_POST['coupanid']}'"));
+  if(isset($_POST['updatecoupan'])){
+    $name_coupan = $_POST['name_coupan'];
+    $value_coupan = $_POST['value_coupan'];
+    $coupan_start_date = $_POST['coupan_start_date'];
+    $coupan_type = $_POST['coupan_type'];
+    $coupan_id = $_POST['coupan_id'];
+    $coupan_ends_date = $_POST['coupan_ends_date'];
+    $update_coupan = mysqli_query($con, "UPDATE coupans SET coupan_name='$name_coupan', coupan_value='$value_coupan', coupan_starts='$coupan_start_date', coupan_type='$coupan_type', coupan_ends='$coupan_ends', coupan_status='$coupan_status' WHERE coupan_id='$coupan_id'");
+    if($update_coupan) echo "<script>alert('Coupon Updated Successfully')</script>";
+    else echo "<script>alert('Coupon Updation Failed')</script>";
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -65,17 +80,19 @@
                             id="defaultFormControlInput"
                             placeholder="Rama1"
                             aria-describedby="defaultFormControlHelp"
-                            type="number"
-                            name="productsku"
+                            type="text"
+                            name="coupanid"
                           />
                         </div>
                         <div class="mt-3">
-                          <button type="submit" name="getproduct" class="btn btn-primary">Get Details</button>
+                          <button type="submit" name="getcoupan" class="btn btn-primary">Get Details</button>
                         </div>
                       </div>
                     </form>
                   </div>
                 </div>
+
+              <?php if(isset($coupon_details)){ ?>
 
               <!-- New Product Adding Form Starts Here Shiva -->
               <form action="" method="post">
@@ -84,20 +101,20 @@
                   <div class="col-xl">
                     <div class="card mb-4">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Edite Coupon</h5>
+                        <h5 class="mb-0">Edit Coupon</h5>
                       </div>
                       <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Name of Coupon</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input type="text" value="<?php echo $coupon_details['coupan_name'] ?>" class="form-control" id="basic-default-fullname" name="name_coupan" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Value of Coupon</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="Product Price" />
+                          <input type="text" value="<?php echo $coupon_details['coupan_value'] ?>" class="form-control" id="basic-default-company" name="value_coupan" />
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Coupon Starts Date</label>
-                          <input required type="date" class="form-control" id="basic-default-company" />
+                          <label class="form-label" for="basic-default-company">Coupon Starts Date (<?php echo $coupon_details['coupan_starts'] ?>)</label>
+                          <input type="date" value="<?php echo $coupon_details['coupan_starts'] ?>" class="form-control" id="basic-default-company" name="coupan_start_date" />
                         </div>
                       </div>
                     </div>
@@ -110,28 +127,27 @@
                       <div class="card-body">
                         <div class="mb-3">
                           <label for="exampleFormControlSelect1" class="form-label">Coupon Type</label>
-                          <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
-                            <option selected> Select Product Category </option>
-                            <option value="1">Flat</option>
-                            <option value="2">Discount</option>
+                          <select name="coupan_type" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" >
+                            <option <?php if($coupon_details['coupan_type'] == 1) echo 'selected';?> value="1">Flat</option>
+                            <option <?php if($coupon_details['coupan_type'] == 2) echo 'selected';?> value="2">Discount</option>
                           </select>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Prooduct Ends Date</label>
-                          <input required type="date" class="form-control" id="basic-default-company" />
+                          <label class="form-label" for="basic-default-company">Prooduct Ends Date (<?php echo $coupon_details['coupans_ends'] ?>)</label>
+                          <input name="coupan_ends_date" value="<?php echo $coupon_details['coupans_ends'] ?>" type="date" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">About Coupon</label>
-                          <input required type="text" class="form-control" id="basic-default-company" placeholder="About Coupon ---- " />
+                          <input name="about_coupan" value="<?php echo $coupon_details['coupan_descrpition'] ?>" type="text" class="form-control" id="basic-default-company" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" name="updatecoupan" class="btn btn-primary">Send</button>
               </form>
                 <!-- New Product Adding Form Starts Here Shiva -->
-
+                <?php } ?>
 
               
             </div>

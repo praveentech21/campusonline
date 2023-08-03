@@ -95,7 +95,7 @@
                               <tbody class="table-border-bottom-0">
                                 <?php 
                                   while($row = mysqli_fetch_assoc($all_coupon)){
-                                    $pro_coup = mysqli_query($con, "SELECT `product_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}' and `product_id` != '0'");
+                                    $pro_coup = mysqli_query($con, "SELECT `product_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}' AND `product_id` != '0'");
                                     while($row1 = mysqli_fetch_assoc($pro_coup)){
                                       $product_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT `product_name` FROM `products` WHERE `sku` = '{$row1['product_id']}'"))['product_name'];
                                   ?>
@@ -129,7 +129,7 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                               <?php while($row = mysqli_fetch_assoc($all_coupons)){
-                                  $cat_coup = mysqli_query($con, "SELECT `category_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}'");
+                                  $cat_coup = mysqli_query($con, "SELECT `category_id` FROM `coupan_applicable` WHERE `coupan_id` = '{$row['coupan_id']}' AND category_id != '0' ");
                                   while($row1 = mysqli_fetch_assoc($cat_coup)){
                                     $category_name = mysqli_fetch_assoc(mysqli_query($con, "SELECT `category_name` FROM `categorys` WHERE `category_id` = '{$row1['category_id']}'"))['category_name'];
                                 ?>
@@ -170,7 +170,7 @@
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">category to Apply</label>
                               <select class="form-select" name="category" id="exampleFormControlSelect1" aria-label="Default select example" >
-                                <option value=""> Select Category </option>
+                                <option value="0"> Select Category </option>
                                 <?php while($row = mysqli_fetch_assoc($categorys)){ ?>
                                 <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
                                 <?php } ?>
@@ -179,7 +179,7 @@
                             <div class="mb-3">
                               <label class="form-label" for="basic-default-company">Prooduct to Apply</label>
                               <select class="form-select" name="product" id="exampleFormControlSelect1" aria-label="Default select example" >
-                                <option value="" > Select Product </option>
+                                <option value="0" > Select Product </option>
                                 <?php while($row = mysqli_fetch_assoc($products)){ ?>
                                 <option value="<?php echo $row['sku'] ?>"><?php echo $row['product_name'] ?></option>
                                 <?php } ?>
