@@ -1,3 +1,24 @@
+<?php
+  include 'connect.php';
+  $categories = mysqli_query($con, "SELECT * FROM categorys");
+  if(isset($_POST['getcategory'])) $category = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM categorys WHERE category_id='{$_POST['categoryid']}'"));
+  if(isset($_POST['updatecategory'])){
+    $categoryid = $_POST['categoryid'];
+    $categoryname = $_POST['categoryname'];
+    $catdescription = $_POST['catdescription'];
+    $catweitage = $_POST['catweitage'];
+    $updatecategory = $con -> prepare("UPDATE categorys SET category_name=?, category_description=?, category_weightage=? WHERE category_id=?");
+    $updatecategory -> bind_param("ssis", $categoryname, $catdescription, $catweitage, $categoryid);
+    if($updatecategory -> execute()){
+      echo "<script>alert('Category Updated Successfully')</script>";
+      echo "<script>window.location.href='edit_categorie.php'</script>";
+  }
+  else{
+      echo "<script>alert('Category Updation Failed')</script>";
+      echo "<script>window.location.href='edit_categorie.php'</script>";
+  }
+  }
+?>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -66,17 +87,18 @@
                             placeholder="Rama1"
                             aria-describedby="defaultFormControlHelp"
                             type="number"
-                            name="productsku"
+                            name="categoryid"
                           />
                         </div>
                         <div class="mt-3">
-                          <button type="submit" name="getproduct" class="btn btn-primary">Get Details</button>
+                          <button type="submit" name="getcategory" class="btn btn-primary">Get Details</button>
                         </div>
                       </div>
                     </form>
                   </div>
                 </div>
 
+                <?php if(isset($category)){ ?>
                 <!-- Category Update Form Starts Here Shiva -->
               <form action="" method="post">
                 <!-- Basic Layout -->
@@ -89,28 +111,29 @@
                       <div class="card-body">
                       <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">category ID</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input type="text" disabled  class="form-control" id="basic-default-fullname" value="<?php echo $category['category_id'] ?>" />
+                          <input type="text" hidden name="categoryid" class="form-control" id="basic-default-fullname" value="<?php echo $category['category_id'] ?>" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">category Name</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input type="text" name="categoryname" class="form-control" id="basic-default-fullname" value="<?php echo $category['category_name'] ?>" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Description</label>
-                          <input required type="text" class="form-control" id="basic-default-fullname" placeholder=" --- COSB001 --- " />
+                          <input type="text" name="catdescription" class="form-control" id="basic-default-fullname" value="<?php echo $category['category_description'] ?>" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Category weitage</label>
-                          <input required type="number" class="form-control" id="basic-default-company" placeholder="Product Price" />
+                          <input type="number" name="catweitage" class="form-control" id="basic-default-company" value="<?php echo $category['category_weightage'] ?>" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" name="updatecategory" class="btn btn-primary">Send</button>
               </form>
                 <!-- Category Update Form Starts Here Shiva -->
-
+                <?php } ?>
 
               
             </div>

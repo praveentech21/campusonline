@@ -3,41 +3,53 @@
   $categories = mysqli_query($con, "SELECT * FROM categorys");
   if(isset($_POST['getproduct'])){
     $products_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$_POST['productsku']}'"));
-    $products_description = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product_details WHERE product_id = '{$_POST['productsku']}'"));
-    if(isset($_POST['editproduct'])){
-      $pname = $_POST['productname'];
-      $pprice = $_POST['productprice'];
-      $category = $_POST['category'];
-      $dprice = $_POST['discountprice'];
-      $aboutpro = $_POST['aboutproduct'];
-      $no_of_units = $_POST['noofunits'];
-      $stime = $_POST['starttime'];
-      $pend = $_POST['endtime'];
-      $photos = array();
-      if(isset($_FILES["photos"]) && !empty($_FILES['photos']['name'][0])){
-        $target_dir = "../Bhavani/img/products/";
-
-        foreach ($_FILES["photos"]["tmp_name"] as $key => $tmpName){
-          $fileName = uniqid() . '_' . $_FILES["photos"]["name"][$key];
-          $photos[] = $fileName;
-          $targetPath = $target_dir . $fileName;
-
-          if(move_uploaded_file($tmpName, $targetPath)){
-            echo "File uploaded successfully.<br>";
-          } else{
-            echo "Error uploading file <br>";
-          }
+    $products_description = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product_details WHERE product_id = '{$products_details['sku']}'"));
+  }
+  if(isset($_POST['editproduct'])){
+    $products_detail = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$_POST['psku']}'"));
+    $pname = $_POST['product_name'];
+    $pprice = $_POST['pprice'];
+    $category = $_POST['category'];
+    $dprice = $_POST['dprice'];
+    $aboutpro = $_POST['aboutpro'];
+    $no_of_units = $_POST['no_of_units'];
+    $stime = $_POST['stime'];
+    $pend = $_POST['pend'];
+    $description = $_POST['description'];
+    $addinfo = $_POST['addinfo'];
+    $photos = array();
+    if(isset($_FILES["photos"]) && !empty($_FILES['photos']['name'][0])){
+      $target_dir = "../Bhavani/img/products/";
+      foreach ($_FILES["photos"]["tmp_name"] as $key => $tmpName){
+        $fileName = uniqid() . '_' . $_FILES["photos"]["name"][$key];
+        $photos[] = $fileName;
+        $targetPath = $target_dir . $fileName;
+        if(move_uploaded_file($tmpName, $targetPath)){
+          echo "File uploaded successfully.<br>";
+        } else{
+          echo "Error uploading file <br>";
         }
       }
-      $add_new_product = $con -> prepare("UPDATE `products` SET `product_name`=?,`product_price`=?,`category_id`=?, `discount_price`=?,`about_product`=?,`date_create`=?,`no_units`=?,`product_start_time`=?,`product_end_time`=?, `photo1`=?,`photo2`=?,`photo3`=?,`photo4`=?,`photo5`=? WHERE `sku` = '$sku'");
-      $add_new_product -> bind_param("sdsdssissssss",$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
-      if($add_new_product -> execute()){
-        echo "<script>alert('Product Added Successfully'); windows.location.href='index.php'; </script>";
-      } else {
-        echo "<script>alert('Product Adding Failed')</script>";
-      }
+    }
+    else{
+      $photos[0] = $products_detail['photo1'];
+      $photos[1] = $products_detail['photo2'];
+      $photos[2] = $products_detail['photo3'];
+      $photos[3] = $products_detail['photo4'];
+      $photos[4] = $products_detail['photo5'];  
+    }
+    $add_new_product = $con -> prepare("UPDATE `products` SET `product_name`=?,`product_price`=?,`category_id`=?, `discount_price`=?,`about_product`=?,`no_units`=?,`product_start_time`=?,`product_end_time`=?, `photo1`=?,`photo2`=?,`photo3`=?,`photo4`=?,`photo5`=? WHERE `sku` = '{$_POST['psku']}'");
+    $add_new_product -> bind_param("sdsdsisssssss",$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
+    $new_pro_details = $con -> prepare("UPDATE `product_details` SET `description`=?,`additional_info`=? WHERE `product_id` = '{$_POST['psku']}'");
+    $new_pro_details -> bind_param("ss",$description,$addinfo);
+    $new_pro_details -> execute();
+    if($add_new_product -> execute()){
+      echo "<script>alert('Product Added Successfully'); windows.location.href='index.php'; </script>";
+    } else {
+      echo "<script>alert('Product Adding Failed')</script>";
     }
   }
+
 ?>
 <!DOCTYPE html>
 <html
@@ -131,19 +143,20 @@
                     <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">SKU of Product</label>
-                          <input disabled type="text" name="sku" class="form-control" id="basic-default-fullname" placeholder="<?php echo $products_details['sku']; ?>" />
+                          <input disabled type="text" name="sku" class="form-control" id="basic-default-fullname" value="<?php echo $products_details['sku']; ?>" />
+                          <input hidden type="text" name="psku" class="form-control" id="basic-default-fullname" value="<?php echo $products_details['sku']; ?>" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Product Price</label>
-                          <input name="pprice" type="text" class="form-control" id="basic-default-company" placeholder="<?php echo $products_details['product_price']; ?>" />
+                          <input name="pprice" type="text" class="form-control" id="basic-default-company" value="<?php echo $products_details['product_price']; ?>" />
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Prooduct Starts Time</label>
+                          <label class="form-label" for="basic-default-company">Prooduct Starts Time (<?php echo $products_details['product_start_time'] ?>)</label>
                           <input name="stime" type="time" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">No of Units Avabile</label>
-                          <input name="no_of_units" type="number" class="form-control" id="basic-default-fullname" placeholder="<?php echo $products_details['no_units']; ?>" />
+                          <input name="no_of_units" type="number" class="form-control" id="basic-default-fullname" value="<?php echo $products_details['no_units']; ?>" />
                         </div>
                         <div class="mb-3">
                         <label for="exampleFormControlSelect1" class="form-label">Select Category</label>
@@ -155,12 +168,7 @@
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
-                          <textarea
-                            id="basic-default-message"
-                            class="form-control"
-                            name="description"
-                            placeholder="<?php echo $products_description['description']; ?>"
-                          ></textarea>
+                          <input type="text" name="description" id="basic-default-message" class="form-control" value="<?php echo $products_description['description']; ?>">
                         </div>
                         <!-- <button type="submit" class="btn btn-primary">Send</button> -->
                       <!-- </form> -->
@@ -175,19 +183,19 @@
                     <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Product Name</label>
-                          <input type="text" name="product_name" class="form-control" id="basic-default-company" placeholder=" <?php echo $products_details['product_name']; ?> " />
+                          <input type="text" name="product_name" class="form-control" id="basic-default-company" value=" <?php echo $products_details['product_name']; ?> " />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Discount Price</label>
-                          <input type="text" name="dprice" class="form-control" id="basic-default-company" placeholder="<?php echo $products_details['discount_price']; ?>" />
+                          <input type="text" name="dprice" class="form-control" id="basic-default-company" value="<?php echo $products_details['discount_price']; ?>" />
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Prooduct Ends Time</label>
+                          <label class="form-label" for="basic-default-company">Prooduct Ends Time (<?php echo $products_details['product_end_time'] ?>)</label>
                           <input type="time" name="pend" class="form-control" id="basic-default-company" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">About Prooduct</label>
-                          <input type="text" name="aboutpro" class="form-control" id="basic-default-company" placeholder=" <?php echo $products_details['about_product']; ?> " />
+                          <input type="text" name="aboutpro" class="form-control" id="basic-default-company" value=" <?php echo $products_details['about_product']; ?> " />
                         </div>
                         <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Product Photos</label>
@@ -195,12 +203,7 @@
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Additional Information</label>
-                          <textarea
-                            id="basic-default-message"
-                            class="form-control"
-                            name="addinfo"
-                            placeholder="<?php echo $products_description['additional_info']; ?>"
-                          ></textarea>
+                          <input type="text" name="addinfo" id="basic-default-message" class="form-control" value="<?php echo $products_description['additional_info']; ?>">
                         </div>
                     </div>
                   </div>
