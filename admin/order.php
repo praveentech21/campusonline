@@ -63,15 +63,15 @@
 
             <div class="col-md-6">
                   <div class="card mb-4">
-                    <h5 class="card-header">Select Category</h5>
+                    <h5 class="card-header">Order Details</h5>
                     <form action="#" method="get">
                       <div class="card-body">
                         <div>
-                          <label for="defaultFormControlInput" class="form-label">Category ID</label>
+                          <label for="defaultFormControlInput" class="form-label">Order ID</label>
                           <input type="text"
                             class="form-control"
                             id="defaultFormControlInput"
-                            placeholder="Rama1"
+                            placeholder="6YYZ7"
                             aria-describedby="defaultFormControlHelp"
                             type="number"
                             name="order_id"

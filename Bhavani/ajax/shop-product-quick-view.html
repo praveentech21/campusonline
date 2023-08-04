@@ -1,12 +1,3 @@
-<?php
-	include "connect.php";
-	if(isset($_GET['product_id'])){
-		$product = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE product_id = '{$_GET['product_id']}'"));
-	}
-	else{
-		header("location: index.php");
-	}
-?>
 <div class="shop dialog dialog-lg fadeIn animated" style="animation-duration: 300ms;">
 	<div class="row">
 		<div class="col-lg-6">
@@ -14,36 +5,42 @@
 			<div class="thumb-gallery-wrapper">
 				<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
 					<div>
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo1']?>" data-zoom-image="../img/products/<?php echo $product['photo1']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo2']?>" data-zoom-image="../img/products/<?php echo $product['photo2']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo3']?>" data-zoom-image="../img/products/<?php echo $product['photo3']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo4']?>" data-zoom-image="../img/products/<?php echo $product['photo4']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div>
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo5']?>" data-zoom-image="../img/products/<?php echo $product['photo5']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
+					</div>
+					<div>
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png" data-zoom-image="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 				</div>
 				<div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo1']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo2']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo3']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo4']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 					<div class="cur-pointer">
-						<img alt="" class="img-fluid" src="../img/products/<?php echo $product['photo5']?>">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
+					</div>
+					<div class="cur-pointer">
+						<img alt="" class="img-fluid" src="/Bhavani/img/products/64cbffc419f6d_shivabhavani1.png">
 					</div>
 				</div>
 			</div>

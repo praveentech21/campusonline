@@ -79,8 +79,8 @@
                         <td><strong><?php echo $row['coupan_id'] ?></strong></td>
                         <td><?php if($row['coupan_type'] == 2) echo 'Percentage'; else echo 'Flat'; ?></td>
                         <td><?php echo $row['coupan_value'] ?></td>
-                        <td><?php echo $row['coupan_starts'] ?></td>
-                        <td><?php echo $row['coupans_ends'] ?></td>
+                        <td><?php echo date('d-m-Y',strtotime($row['coupan_starts'])) ?></td>
+                        <td><?php echo date('d-m-Y', strtotime($row['coupans_ends'])) ?></td>
                       </tr>
                       <?php } ?>
                     </tbody>

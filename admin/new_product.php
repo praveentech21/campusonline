@@ -125,7 +125,7 @@
                         <div class="mb-3">
                         <label for="exampleFormControlSelect1" class="form-label">Select Category</label>
                         <select class="form-select" id="exampleFormControlSelect1" name="category" aria-label="Default select example" required>
-                          <option selected> Select Product Category </option>
+                          <option value=""> Select Product Category </option>
                           <?php while($row = mysqli_fetch_assoc($categories)){ ?>
                           <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
                           <?php } ?>

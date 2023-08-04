@@ -83,7 +83,7 @@
                     </form>
                   </div>
                 </div>
-              <?php if(isset($pro_in_cat)){ ?>
+              <?php if(isset($pro_in_cat)) { if(mysqli_num_rows($pro_in_cat)>0){ ?>
               <!-- Striped Rows -->
               <div class="card">
                 <h5 class="card-header"><?php echo $category ?></h5>
@@ -113,7 +113,7 @@
                 </div>
               </div>
               <!--/ Striped Rows -->
-              <?php } ?>
+              <?php } else echo "<h3>No Products in this Category </h3>";} ?>
               
             </div>
           </div>

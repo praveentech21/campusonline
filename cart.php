@@ -18,6 +18,8 @@
 				$cat_in_cart = array();
 				$pro_in_coupan = array();
 				$pro_in_cart = array();
+				$cat_in_cartandcoupan = array();
+				$pro_in_cartandcoupan = array();
 				while($rcat = mysqli_fetch_array($products_cart)){
 					$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$rcat['product_id']}'"));
 					$cat_in_cart[] = $product['category_id'];
@@ -30,7 +32,7 @@
 				$cat_in_cartandcoupan = array_intersect($cat_in_cart, $cat_in_coupan);
 				$pro_in_cartandcoupan = array_intersect($pro_in_cart, $pro_in_coupan);
 				if(count($cat_in_cartandcoupan) != 0){
-					$cat_to_apply_coupan = mysqli_query($con,"select * from cart where category_id = '{$cat_in_cartandcoupan[0]}' and coustmer_id = '{$_SESSION['student_id']}'");
+					$cat_to_apply_coupan = mysqli_query($con,"select * from cart where category_id = '{$cat_in_cartandcoupan[1]}' and coustmer_id = '{$_SESSION['student_id']}'");
 					$coupan_applicable_price = 0;
 					while($row = mysqli_fetch_array($cat_to_apply_coupan)){
 						$product = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$row['product_id']}'"));
@@ -45,7 +47,7 @@
 					if($coupan['coupan_type'] == 2){
 						$coupanprice = $coupan_applicable_price * $coupan['coupan_value'] / 100;
 						$_SESSION['coupanprice'] = $coupanprice;
-						echo "<script>alert('Coupan Applied Successfully');</script>";
+						echo "<script>alert('Coupan Applied Successfully with ".$coupanprice.".".$coupan_applicable_price.",".$coupan['coupan_value']."');</script>";
 						//$coupan_used = mysqli_query($con, "INSERT INTO coupans_used (coupan_id, coustmer_id) VALUES ('{$coupan['coupan_id']}', '{$_SESSION['student_id']}')");
 					}else{
 						$coupanprice = $coupanvalue;

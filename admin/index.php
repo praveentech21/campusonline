@@ -122,19 +122,6 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="BHavani/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
-                            </div>
-                          </div>
-                          <span class="fw-semibold d-block mb-1">Total Sales</span>
-                          <h3 class="card-title mb-2"><?php echo (integer)$dashbord['SUM(`order_amount`)']; ?></h3>
-                        </div>
-                      </div>  
-                    </div>
-                    <div class="col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
                               <img src="Bhavani/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
@@ -142,6 +129,19 @@
                           <h3 class="card-title text-nowrap mb-2"><?php echo $dashbord['SUM(`discount_price`)']; ?></h3>
                         </div>
                       </div>
+                    </div>
+                    <div class="col-6 mb-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                              <img src="BHavani/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
+                            </div>
+                          </div>
+                          <span class="fw-semibold d-block mb-1">Total Sales</span>
+                          <h3 class="card-title mb-2"><?php echo (integer)$dashbord['SUM(`order_amount`)']; ?></h3>
+                        </div>
+                      </div>  
                     </div>
                     <div class="col-6 mb-4">
                       <div class="card">

@@ -11,6 +11,7 @@
 		$category= mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM categorys WHERE category_id = '{$product['category_id']}'"));
 		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$product['sku']}'");
 		$additional_information = mysqli_fetch_assoc(mysqli_query($con,"select * from product_details where product_id = '{$_GET['product_id']}'"));
+		$product_quantity = mysqli_fetch_assoc(mysqli_query($con,"select `product_quantity` from cart where product_id = '{$_GET['product_id']}' and coustmer_id = '{$_SESSION['student_id']}'"))['product_quantity'];
 		if(isset($_POST['addtocart'])){
 			header("location:addtocart.php?product_id={$_GET['product_id']}&quantity={$_POST['quantity']}");
 		}
@@ -190,6 +191,7 @@
 
 									<ul class="list list-unstyled text-2">
 										<li class="mb-0">AVAILABILITY: <strong class="text-color-dark"><?php 
+										$category_info = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `categorys` WHERE `category_id` = '{$product['category_id']}'"));
 										if($product['no_units'] == 0) echo "OUT OF STOCK";
 										else{ 
 											echo $product['no_units'].' Units';	
@@ -197,6 +199,7 @@
 										}
 										?></strong></li>
 										<li class="mb-0">SKU: <strong class="text-color-dark"><?php echo $_GET['product_id'] ?></strong></li>
+										<li class="mb-0">Category : <a href="index.php?category_id=<?php echo $category_info['category_id'] ?>"> <strong class="text-color-dark"><?php echo $category_info['category_name'] ?></strong></a></li>
 									</ul>
 
 									<form enctype="multipart/form-data" method="post" class="cart" action="#">
@@ -232,9 +235,9 @@
 										</table> -->
 										<hr>
 										<div class="quantity quantity-lg">
-											<input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-">
-											<input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-											<input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+">
+											<a href="reducecart.php?product_id=?<?php echo $_GET['product_id'] ?>"><input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-"></a>
+											<input type="text" class="input-text qty text" title="Qty" value="<?php echo $product_quantity; ?>" name="quantity" min="1" step="1">
+											<a href="incresecart.php?product_id=?<?php echo $_GET['product_id'] ?>"><input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+"></a>
 										</div>
 										<?php if($product['no_units'] == 0){ ?>
 											<a href="index.php"><button type="button" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Out of Stock</button></a>

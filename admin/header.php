@@ -26,7 +26,12 @@
                 <div data-i18n="Analytics">Orders</div>
               </a>
             </li>
-
+            <li class="menu-item ">
+              <a href="order.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Analytics">Order Details</div>
+              </a>
+            </li>
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Products</span>
             </li>
