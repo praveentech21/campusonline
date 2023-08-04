@@ -157,7 +157,7 @@
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Discount Price</label>
-                          <input required type="text" name="dprice" class="form-control" id="basic-default-company" placeholder="Discount Price" />
+                          <input type="text" name="dprice" class="form-control" id="basic-default-company" placeholder="Discount Price" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Prooduct Ends Time</label>
