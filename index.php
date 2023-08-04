@@ -121,7 +121,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 													</a>
 												</div>
 												<?php } ?>
-												<a href="Bhavani/ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+												<a href="shop-product-quick-view.php?sku=<?php echo $row['sku']; ?>" class="quick-view text-uppercase font-weight-semibold text-2">
 													QUICK VIEW
 												</a>
 												<a href="product.php?product_id=<?php echo $row['sku'] ?>">	
@@ -144,6 +144,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 													<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary"><?php echo $row['product_name'] ?></a></h3>
 												</div>
 												<a href="addtowishlist.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+												<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="icons icon-bag"></i></a>
 											</div>
 											<!-- <div title="Rated 5 out of 5">
 												<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
