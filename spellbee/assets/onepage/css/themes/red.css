@@ -1,0 +1,98 @@
+a, a:focus, a:hover, a:active {
+  color: #C91E3E;
+}
+a:hover {
+  color: #C91E3E;
+}
+::-moz-selection {
+  color: #fff;
+  background: #C91E3E;
+}
+::selection {
+  color: #fff;
+  background: #C91E3E;
+}
+.header-navigation a:hover,
+.header-navigation li.current a {
+  color: #C91E3E;
+}
+.tb-socio .fa:hover {
+  color: #C91E3E;
+  border: solid 1px #C91E3E;
+}
+.carousel-indicators li.active {
+  background: #C91E3E;
+}
+.go2top:hover {
+  border: solid 2px #C91E3E;
+  color: #C91E3E;
+}
+.content h1 strong, .content h2 strong, .content h3 strong, .content h4 strong {
+  color: #C91E3E;
+}
+.slider-item-1 .large_bold_white span,
+.slider-item-2 .large_bold_white span {
+  color: #C91E3E;
+}
+.tp-caption a {
+    color: #FF7302;
+}
+.services-block .fa {
+  background: #C91E3E;
+}
+.services-block .fa:after {
+  border-top: 9px solid #C91E3E;
+}
+.team-block em {
+  color: #C91E3E;
+}
+.portfolio-block .item > a {
+  background: rgba(229, 74, 26, 0.85);
+}
+.choose-us-block .panel-default .accordion-toggle:before {
+  background-color: #C91E3E;
+}
+.choose-us-block .panel-default .collapsed:before {
+  background-color: #495764;/* black */
+}
+.choose-us-block .panel-default .panel-title:hover .collapsed:before {
+  background-color: #C91E3E;
+}
+.btn-primary {
+  background: #E94D1C;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background: #cc3304;
+}
+.facts-block .item {
+  background: rgba(255, 99, 77, 0.92);
+}
+.pi-price strong {
+  background: #C91E3E;
+}
+.pi-price strong:after {
+  border-top: 9px solid #C91E3E;
+}
+.pricing-content .list-unstyled li i {
+  color: #C91E3E;
+}
+.pricing-footer .btn-default:hover,
+.pricing-footer .btn-default:active {
+  background: #C91E3E;
+}
+.portfolio-block .item b:hover {
+  color: #C91E3E;
+}
+@media (max-width: 1024px) {
+	.header-mobi-ext .header-navigation a:hover,
+	.header-mobi-ext .header-navigation li.current a{
+	  background-color: #C91E3E;
+	  color: #fff !important;
+	}
+}
+.header .mobi-toggler:hover {
+  background-color: #C91E3E;
+  border-color: #C91E3E;
+}
