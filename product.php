@@ -343,7 +343,7 @@
 												<li>
 													<div class="comment">
 														<div class="img-thumbnail border-0 p-0 d-none d-md-block">
-															<img class="avatar rounded-circle" alt="" src="Bhavani/img/avatars/<?php echo $coustmer['photo'] ?>">
+															<img class="avatar rounded-circle" alt="" src="Bhavani/img/students/<?php echo $coustmer['photo'] ?>">
 														</div>
 														<div class="comment-block">
 															<div class="comment-arrow"></div>
@@ -382,7 +382,7 @@
 														<div class="row">
 															<div class="form-group col">
 																<label class="form-label required font-weight-bold text-dark">Review</label>
-																<textarea maxlength="5000" data-msg-required="Please enter your review." rows="8" class="form-control" name="review" id="review" required></textarea>
+																<textarea maxlength="5000" data-msg-required="Please enter your review." rows="8" class="form-control" name="review" id="review" ></textarea>
 															</div>
 														</div>
 														<div class="row">

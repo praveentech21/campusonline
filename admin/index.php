@@ -109,7 +109,7 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="BHavani/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded" />
+                              <img src="Bhavani/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
                           <span class="d-block mb-1">Orders : <?php echo $dashbord['COUNT(*)']; ?></span>
@@ -135,7 +135,7 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="BHavani/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
+                              <img src="Bhavani/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Total Sales</span>
