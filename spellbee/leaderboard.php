@@ -139,7 +139,7 @@ td,th
     <!-- About block BEGIN -->
     <div class="about-block content content-center" id="about">
         <div class="container">
-            <h2><strong><b><?php echo $dept; ?> LEADERBOARD</b></strong><br><?php echo $fdept; ?></h2>
+            <h2><strong><b><?php echo $dept; ?> LEADERBOARD</b></strong><br><?php echo $dept; ?></h2>
         </div>
     </div>
     <!-- About block END -->
@@ -238,7 +238,7 @@ while($rnd1=mysqli_fetch_row($result1))
      }							  
 
 echo "</table></center><br><br>";			 
-mysql_close($conn);
+
 ?>
 			</div>	
 

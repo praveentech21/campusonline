@@ -22,7 +22,7 @@
 		<p align='justify'>
 		<?php
 		
-            $db1 = mysqli_connect('localhost', 'codemaster2016', 'codemaster2016@8080', 'moodle');
+            $db1 = mysqli_connect('http://mcr.org.in', 'codemaster2016', 'codemaster2016@8080', 'moodle');
             
             //$query1= "select w.rollno, name, batch, score, paystatus from registrations r, winners_round1 w where r.rollno=w.rollno and score > 19 order by score DESC;";
 
