@@ -16,71 +16,74 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!--<![endif]-->
 
 <!-- Head BEGIN -->
+
 <head>
-<meta charset="utf-8">
-<title>CodeMaster - Online Coding Challenge</title>
+    <meta charset="utf-8">
+    <title>CodeMaster - Online Coding Challenge</title>
 
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<meta content="Metronic Shop UI description" name="description">
-<meta content="Metronic Shop UI keywords" name="keywords">
-<meta content="keenthemes" name="author">
+    <meta content="Metronic Shop UI description" name="description">
+    <meta content="Metronic Shop UI keywords" name="keywords">
+    <meta content="keenthemes" name="author">
 
-<meta property="og:site_name" content="-CUSTOMER VALUE-">
-<meta property="og:title" content="-CUSTOMER VALUE-">
-<meta property="og:description" content="-CUSTOMER VALUE-">
-<meta property="og:type" content="website">
-<meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
-<meta property="og:url" content="-CUSTOMER VALUE-">
+    <meta property="og:site_name" content="-CUSTOMER VALUE-">
+    <meta property="og:title" content="-CUSTOMER VALUE-">
+    <meta property="og:description" content="-CUSTOMER VALUE-">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
+    <meta property="og:url" content="-CUSTOMER VALUE-">
 
-<link rel="shortcut icon" href="favicon.ico">
-<!-- Fonts START -->
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Pathway+Gothic+One|PT+Sans+Narrow:400+700|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
-<!-- Fonts END -->
-<!-- Global styles BEGIN -->
-<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<!-- Global styles END -->
-<!-- Page level plugin styles BEGIN -->
-<link href="assets/pages/css/animate.css" rel="stylesheet">
-<link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="scratch/test.css">
-
-
-<!-- Page level plugin styles END -->
-<!-- Theme styles BEGIN -->
-<link href="assets/pages/css/components.css" rel="stylesheet">
-<link href="assets/pages/css/slider.css" rel="stylesheet">
-<link href="assets/onepage/css/style.css" rel="stylesheet">
-<link href="assets/onepage/css/style-responsive.css" rel="stylesheet">
-<link href="assets/onepage/css/themes/red.css" rel="stylesheet" id="style-color">
-<link href="assets/onepage/css/custom.css" rel="stylesheet">
-
-<!-- Theme styles END -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- Fonts START -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Pathway+Gothic+One|PT+Sans+Narrow:400+700|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+    <!-- Fonts END -->
+    <!-- Global styles BEGIN -->
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Global styles END -->
+    <!-- Page level plugin styles BEGIN -->
+    <link href="assets/pages/css/animate.css" rel="stylesheet">
+    <link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="scratch/test.css">
 
 
-<style type='text/css'>
-.blink {
-  animation: blink-animation 3s steps(5, start) infinite;
-  -webkit-animation: blink-animation 3s steps(5, start) infinite;
-}
+    <!-- Page level plugin styles END -->
+    <!-- Theme styles BEGIN -->
+    <link href="assets/pages/css/components.css" rel="stylesheet">
+    <link href="assets/pages/css/slider.css" rel="stylesheet">
+    <link href="assets/onepage/css/style.css" rel="stylesheet">
+    <link href="assets/onepage/css/style-responsive.css" rel="stylesheet">
+    <link href="assets/onepage/css/themes/red.css" rel="stylesheet" id="style-color">
+    <link href="assets/onepage/css/custom.css" rel="stylesheet">
 
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-@-webkit-keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-   </style>
+    <!-- Theme styles END -->
+
+
+    <style type='text/css'>
+        .blink {
+            animation: blink-animation 3s steps(5, start) infinite;
+            -webkit-animation: blink-animation 3s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @-webkit-keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
 
 </head>
 <!--DOC: menu-always-on-top class to the body element to set menu on top -->
+
 <body class="menu-always-on-top">
     <!-- Header BEGIN -->
     <div class="header header-mobi-ext">
@@ -108,17 +111,17 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <div class="about-block content content-center" id="about">
         <div class="container">
 
-<br><br>
-<br><br>
+            <br><br>
+            <br><br>
 
-<h2>Forgot <strong><b>Login ID / Password</b></strong> for Code Master 2018?</h2>
-<br><br><br>
-<div style="font-size:20px;margin-left:50px;margin-right:50px;text-align:center;color:#000000;">
-<p>Your Roll Number Is Your LOGIN ID!</p>
-<p>For password related issues, please contact Technology Centre, 2nd Floor, Z-Block (Canteen Building), SRKR Campus or call @ +91 9885050551.</p>
-</div>
-<br><br><br><br><br><br>
-<br><br><br><br><br><br>
+            <h2>Forgot <strong><b>Login ID / Password</b></strong> for Code Master 2018?</h2>
+            <br><br><br>
+            <div style="font-size:20px;margin-left:50px;margin-right:50px;text-align:center;color:#000000;">
+                <p>Your Roll Number Is Your LOGIN ID!</p>
+                <p>For password related issues, please contact Technology Centre, 2nd Floor, Z-Block (Canteen Building), SRKR Campus or call @ +91 9885050551.</p>
+            </div>
+            <br><br><br><br><br><br>
+            <br><br><br><br><br><br>
 
 
 
@@ -156,30 +159,31 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <!-- END FOOTER -->
     <a href="#promo-block" class="go2top scroll"><i class="fa fa-arrow-up"></i></a>
 
-<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
 <script src="assets/plugins/respond.min.js"></script>
 <![endif]-->
-<!-- Load JavaScripts at the bottom, because it will reduce page load time -->
-<!-- Core plugins BEGIN (For ALL pages) -->
-<script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
-<script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<!-- Core plugins END (For ALL pages) -->
-<!-- Core plugins BEGIN (required only for current page) -->
-<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
-<script src="assets/plugins/jquery.easing.js"></script>
-<script src="assets/plugins/jquery.parallax.js"></script>
-<script src="assets/plugins/jquery.scrollTo.min.js"></script>
-<script src="assets/onepage/scripts/jquery.nav.js"></script>
-<!-- Core plugins END (required only for current page) -->
-<!-- Global js BEGIN -->
-<script src="assets/onepage/scripts/layout.js" type="text/javascript"></script>
-<script src="assets/pages/scripts/bs-carousel.js" type="text/javascript"></script>
-<script>
-    jQuery(document).ready(function() {
-        Layout.init();
-    });
-</script>
-<!-- Global js END -->
+    <!-- Load JavaScripts at the bottom, because it will reduce page load time -->
+    <!-- Core plugins BEGIN (For ALL pages) -->
+    <script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- Core plugins END (For ALL pages) -->
+    <!-- Core plugins BEGIN (required only for current page) -->
+    <script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
+    <script src="assets/plugins/jquery.easing.js"></script>
+    <script src="assets/plugins/jquery.parallax.js"></script>
+    <script src="assets/plugins/jquery.scrollTo.min.js"></script>
+    <script src="assets/onepage/scripts/jquery.nav.js"></script>
+    <!-- Core plugins END (required only for current page) -->
+    <!-- Global js BEGIN -->
+    <script src="assets/onepage/scripts/layout.js" type="text/javascript"></script>
+    <script src="assets/pages/scripts/bs-carousel.js" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function() {
+            Layout.init();
+        });
+    </script>
+    <!-- Global js END -->
 </body>
+
 </html>
