@@ -63,7 +63,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 
 		<div class="body">
 			<!-- Offere Starts Here Shiva -->
-			<div class="notice-top-bar bg-primary" data-sticky-start-at="180">
+			<!-- <div class="notice-top-bar bg-primary" data-sticky-start-at="180">
 				<button class="hamburguer-btn hamburguer-btn-light notice-top-bar-close m-0 active" data-set-active="false">
 					<span class="close">
 						<span></span>
@@ -77,7 +77,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- Offere Ends Here Shiva -->
 			<?php include "shoping_header.php" ?>
 			<!-- Headre Comes Here Shiva -->

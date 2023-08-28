@@ -59,7 +59,7 @@
 	<body data-plugin-page-transition>
 
 		<div class="body">
-			<div class="notice-top-bar bg-primary" data-sticky-start-at="180">
+			<!-- <div class="notice-top-bar bg-primary" data-sticky-start-at="180">
 				<button class="hamburguer-btn hamburguer-btn-light notice-top-bar-close m-0 active" data-set-active="false">
 					<span class="close">
 						<span></span>
@@ -73,7 +73,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 				<!-- Hearder Comes Here Shiva -->
 				<?php include 'shoping_header.php'; ?>
 			<div role="main" class="main shop pb-4">
