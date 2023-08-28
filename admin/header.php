@@ -121,7 +121,12 @@
                 <div data-i18n="Analytics"></div>
               </a>
             </li>
-                        
+            <li class="menu-item ">
+              <a href="offerheader.php" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Analytics">Offer Header</div>
+              </a>
+            </li>           
           </ul>
         </aside>
         <div class="layout-page">
