@@ -203,7 +203,7 @@ $total_price = 0;
 				</div>
 			</div>
 		</div>
-		<div class="header-nav-bar header-nav-bar-top-border bg-light">
+		<!-- <div class="header-nav-bar header-nav-bar-top-border bg-light">
 			<div class="header-container container">
 				<div class="header-row">
 					<div class="header-column">
@@ -255,7 +255,7 @@ $total_price = 0;
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </header>
 

@@ -121,6 +121,24 @@
                 <div data-i18n="Analytics"></div>
               </a>
             </li>
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Tags</span>
+            </li>
+            <li class="menu-item ">
+              <a href="tags.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Analytics">Tags</div>
+              </a>
+            </li> 
+            <li class="menu-item ">
+              <a href="newtags.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Analytics">New Tags</div>
+              </a>
+            </li> 
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Offers</span>
+            </li>
             <li class="menu-item ">
               <a href="offerheader.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>

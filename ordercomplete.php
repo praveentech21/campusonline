@@ -106,31 +106,31 @@
 							<div class="d-flex flex-column flex-md-row justify-content-between py-3 px-4 my-4">
 								<div class="text-center">
 									<span>
-										Order Number <br>
+										Order Number <br> <br>
 										<strong class="text-color-dark"><?php echo $_SESSION['order_id'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
-										Date <br>
+										Date <br><br>
 										<strong class="text-color-dark"><?php echo $order_details['order_date'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
-										Name <br>
+										Name <br><br>
 										<strong class="text-color-dark"><?php echo $student_details['student_name'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
-										Total <br>
+										Total <br><br>
 										<strong class="text-color-dark"><?php echo $order_details['order_amount'] ?></strong>
 									</span>
 								</div>
 								<div class="text-center mt-4 mt-md-0">
 									<span>
-										Payment Method <br>
+										Payment Method <br><br>
 										<strong class="text-color-dark">Cash on Delivery</strong>
 									</span>
 								</div>

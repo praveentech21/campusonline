@@ -163,7 +163,8 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 
 
 								</div>
-								<div class="row mt-4">
+								<!-- // Pagination Come Here Shiva -->
+								<!-- <div class="row mt-4">
 									<div class="col">
 										<ul class="pagination float-end">
 											<li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li>
@@ -173,7 +174,8 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 											<li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
 										</ul>
 									</div>
-								</div>
+								</div> -->
+								<!-- // Pagination Ends Here Shiva -->
 							</div>
 						</div>
 						<div class="col-lg-3">
