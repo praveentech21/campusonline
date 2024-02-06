@@ -49,7 +49,7 @@
 								</div> -->
 								<div class="row">
 									<div class="form-group col">
-										<a href="mailto:bvrmonline@srkrec.edu.in" class="btn btn-primary btn-rounded btn-px-4 btn-py-2 font-weight-bold" type="submit">SUBSCRIBE</a>
+										<a href="register.php" class="btn btn-primary btn-rounded btn-px-4 btn-py-2 font-weight-bold" type="submit">SUBSCRIBE</a>
 									</div>
 								</div>
 							</form>

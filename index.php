@@ -111,7 +111,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 												</div>
 												<?php if($row['no_units'] != 0){ ?>
 												<div class="addtocart-btn-wrapper">
-													<a href="#" data-product_id = "<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
+													<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
 														<i class="icons icon-bag"></i>
 													</a>
 												</div>
