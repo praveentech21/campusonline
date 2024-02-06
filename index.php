@@ -111,7 +111,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 												</div>
 												<?php if($row['no_units'] != 0){ ?>
 												<div class="addtocart-btn-wrapper">
-													<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
+													<a href="#" data-product_id = "<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
 														<i class="icons icon-bag"></i>
 													</a>
 												</div>
@@ -244,6 +244,35 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 			<?php include 'shoping_fotter.php'; ?>
 			<!-- Fotter Come Here Shiva -->
 		</div>
+
+		<script>
+    // Add a click event listener to the bag icon
+    document.querySelector('.addtocart-btn').addEventListener('click', function(event) {
+        // Prevent the default behavior (i.e., following the link)
+        event.preventDefault();
+
+        // Get the product ID from the data-product-id attribute
+        var productId = this.getAttribute('data-product_id');
+
+        // Send an AJAX request to addtocart.php
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'addtocart.php?product_id=' + productId, true);
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                // Request was successful, you can update the UI here if needed
+                console.log('Product added to cart successfully.');
+            } else {
+                // Handle errors
+                console.error('Error adding product to cart.');
+            }
+        };
+        xhr.onerror = function() {
+            // Handle network errors
+            console.error('Network error occurred.');
+        };
+        xhr.send();
+    });
+</script>
 
 		<!-- Vendor -->
 		<script src="Bhavani/vendor/plugins/js/plugins.min.js"></script>

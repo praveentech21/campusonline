@@ -12,6 +12,7 @@
 		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$product['sku']}'");
 		$additional_information = mysqli_fetch_assoc(mysqli_query($con,"select * from product_details where product_id = '{$_GET['product_id']}'"));
 		$product_quantity = mysqli_fetch_assoc(mysqli_query($con,"select `product_quantity` from cart where product_id = '{$_GET['product_id']}' and coustmer_id = '{$_SESSION['student_id']}'"))['product_quantity'];
+		if($product_quantity == null ) $product_quantity = 0;
 		if(isset($_POST['addtocart'])){
 			header("location:addtocart.php?product_id={$_GET['product_id']}&quantity={$_POST['quantity']}");
 		}
