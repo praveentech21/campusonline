@@ -2,6 +2,7 @@
 include "connect.php";
 if(empty($_SESSION['student_id'])) header("location:login.php");
 	if(isset($_GET['category_id'])) $products = mysqli_query($con,"SELECT * FROM products where category_id = '{$_GET['category_id']}'");
+	elseif(isset($_GET['tag_name'])) $products = mysqli_query($con,"SELECT * FROM products where sku in ( select product_id from tags where tag_name = '{$_GET['tag_name']}')");
 	else $products = mysqli_query($con,"SELECT * FROM products order by date_create desc");
 	$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 	$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
@@ -195,7 +196,7 @@ if(empty($_SESSION['student_id'])) header("location:login.php");
 								<h5 class="font-weight-semi-bold pt-5">Tags</h5>
 								<div class="mb-3 pb-1">
 									<?php while($row = mysqli_fetch_array($tags)){ ?>
-										<a href="#"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1"><?php echo $row['tag_name'] ?></span></a>
+										<a href="index.php?tag_name=<?php echo $row['tag_name'] ?>"><span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1"><?php echo $row['tag_name'] ?></span></a>
 									<?php } ?>
 								</div>
 								<div class="row mb-5">
