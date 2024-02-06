@@ -108,7 +108,7 @@
 
 					<form action="#" class="needs-validation" method="post">
 						<div class="row">
-							<div class="col-lg-7 mb-4 mb-lg-0">
+							<!-- <div class="col-lg-7 mb-4 mb-lg-0">
 
 								<h2 class="text-color-dark font-weight-bold text-5-5 mb-3">Delivery Details</h2>
 								<div class="row">
@@ -134,7 +134,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<div class="col-lg-5 position-relative">
 								<div class="card border-width-3 border-radius-0 border-color-hover-dark" data-plugin-sticky data-plugin-options="{'minWidth': 991, 'containerSelector': '.row', 'padding': {'top': 85}}">
 									<div class="card-body">
