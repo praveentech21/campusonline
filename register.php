@@ -16,6 +16,7 @@ if(isset($_POST['register'])){
     $sql = "INSERT INTO `students`(`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`) VALUES ('$stdname','$regno','$mobile','$batch','$department','$section','$fathername','$mothername','$hometown','$transportation')";
     if($con->query($sql) === TRUE){
         echo "<script>alert('Student Registered Successfully')</script>";
+        header("location:login.php");
     }else{
         echo "<script>alert('Student Registration Failed')</script>";
     }
