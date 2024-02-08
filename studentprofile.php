@@ -1,6 +1,6 @@
 <?php
 include 'connect.php';
-if (empty($_SESSION['student_id'])) header('location:login.php');
+if (empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('location:login.php');
 if (isset($_GET['category_id'])) $products = mysqli_query($con, "SELECT * FROM products where category_id = '{$_GET['category_id']}'");
 elseif (isset($_GET['tag_name'])) $products = mysqli_query($con, "SELECT * FROM products where sku in ( select product_id from tags where tag_name = '{$_GET['tag_name']}')");
 else $products = mysqli_query($con, 'SELECT * FROM products order by date_create desc');
@@ -95,44 +95,44 @@ $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Student Name</label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='stdname' value="<?php echo $student_details['student_name'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='stdname' value="<?php echo $student_details['student_name'] ?>">
                                 </div>
                             </div>
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Register Number</label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='regno' value="<?php echo $student_details['student_id'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='regno' value="<?php echo $student_details['student_id'] ?>">
                                 </div>
                             </div>
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Mobile</label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='mobile' value="<?php echo $student_details['student_mobile'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='mobile' value="<?php echo $student_details['student_mobile'] ?>">
                                 </div>
                             </div>
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Father Name</label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='fname' value="<?php echo $student_details['father_name'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='fname' value="<?php echo $student_details['father_name'] ?>">
                                 </div>
                             </div>
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Mother Name </label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='mname' value="<?php echo $student_details['mother_name'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='mname' value="<?php echo $student_details['mother_name'] ?>">
                                 </div>
                             </div>
                             <div class='form-group row'>
                                 <label class='col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 '>Home Town</label>
                                 <div class='col-lg-9'>
-                                    <input class='form-control text-3 h-auto py-2' type='text' name='htown' value="<?php echo $student_details['home_town'] ?>" >
+                                    <input class='form-control text-3 h-auto py-2' type='text' name='htown' value="<?php echo $student_details['home_town'] ?>">
                                 </div>
                             </div>
                             <div class='row'>
                                 <div class='form-group col'>
                                     <label class='form-label text-color-dark text-3'>Batch <span class='text-color-danger'>*</span></label>
                                     <div class='custom-select-1'>
-                                        <select class='form-select form-control h-auto py-2' name='batch' >
+                                        <select class='form-select form-control h-auto py-2' name='batch'>
                                             <option value='' <?php echo ($student_details['Batch'] == '') ? 'selected' : '';
                                                                 ?>>Select the Batch</option>
                                             <option value='2027' <?php echo ($student_details['Batch'] == '2027') ? 'selected' : '';
@@ -152,7 +152,7 @@ $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students
                                 <div class='form-group col'>
                                     <label class='form-label text-color-dark text-3'>Department <span class='text-color-danger'>*</span></label>
                                     <div class='custom-select-1'>
-                                        <select class='form-select form-control h-auto py-2' name='department' >
+                                        <select class='form-select form-control h-auto py-2' name='department'>
                                             <option value='' <?php echo ($student_details['Department'] == '') ? 'selected' : '';
                                                                 ?>>Select the Department</option>
                                             <option value='AIDS' <?php echo ($student_details['Department'] == 'AIDS') ? 'selected' : '';
@@ -188,7 +188,7 @@ $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students
                                 <div class='form-group col'>
                                     <label class='form-label text-color-dark text-3'>Section <span class='text-color-danger'>*</span></label>
                                     <div class='custom-select-1'>
-                                        <select class='form-select form-control h-auto py-2' name='section' >
+                                        <select class='form-select form-control h-auto py-2' name='section'>
                                             <option value='' <?php echo ($student_details['Section'] == '') ? 'selected' : '';
                                                                 ?>>Select the Section</option>
                                             <option value='A' <?php echo ($student_details['Section'] == 'A') ? 'selected' : '';
@@ -211,7 +211,7 @@ $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students
                                 <div class='form-group col'>
                                     <label class='form-label text-color-dark text-3'>Transportation <span class='text-color-danger'>*</span></label>
                                     <div class='custom-select-1'>
-                                        <select class='form-select form-control h-auto py-2' name='transportation' >
+                                        <select class='form-select form-control h-auto py-2' name='transportation'>
                                             <option value='' <?php echo ($student_details['Transportation'] == '') ? 'selected' : '';
                                                                 ?>>Select the Transportation</option>
                                             <option value='College Bus' <?php echo ($student_details['Transportation'] == 'College Bus') ? 'selected' : '';

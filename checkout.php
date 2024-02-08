@@ -1,6 +1,6 @@
 <?php 
 	include "connect.php";
-	if(empty($_SESSION['student_id'])) {
+	if(empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') {
 		echo "<script> window.location.href = 'login.php'; </script>";
 	}
 	$cartproducts = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");

@@ -1,8 +1,5 @@
 <?php 
 	include "connect.php";
-	if(empty($_SESSION['student_id'])) {
-		echo "<script> window.location.href = 'login.php'; </script>";
-	}
 	if(isset($_GET['product_id'])){
 		$categories = mysqli_query($con,"SELECT * FROM categorys order by category_weightage desc");
 		$tags = mysqli_query($con,"SELECT * FROM tags group by tag_name");
