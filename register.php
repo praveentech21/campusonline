@@ -1,6 +1,5 @@
 <?php
 include "connect.php";
-if(empty($_SESSION['student_id'])) header("location:login.php");
 // write php code to register student in student table 
 if(isset($_POST['register'])){
     $stdname = $_POST['stdname'];

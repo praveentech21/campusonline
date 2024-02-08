@@ -1,5 +1,6 @@
 <?php 
 	include 'connect.php';
+	
 	if(isset($_GET['sku'])){
 		$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['sku']}'"));
 		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$_GET['sku']}'");

@@ -1,5 +1,8 @@
 <?php 
 	include "connect.php"; 
+	if(empty($_SESSION['student_id'])) {
+		echo "<script> window.location.href = 'login.php'; </script>";
+	}
 	$cartproducts = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
 	$subtotal = 0;
 	$discountprice = 0;

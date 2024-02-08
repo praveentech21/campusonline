@@ -1,5 +1,6 @@
 <?php
 	include 'connect.php';
+	
 	if(!isset($_SESSION['order_id'])) header("location: index.php");
 	$order_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `order_details` WHERE order_id = '{$_SESSION['order_id']}'"));
 	$student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `students` WHERE student_id = '{$order_details['coustmer_id']}'"));

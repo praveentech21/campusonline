@@ -1,5 +1,8 @@
 <?php
 include "connect.php";
+if(empty($_SESSION['student_id'])) {
+    echo "<script> window.location.href = 'login.php'; </script>";
+}
 if(isset($_GET['product_id'])){
     $quantity = 1;
     if(isset($_GET['quantity'])) $quantity = $_GET['quantity'];
