@@ -1,8 +1,6 @@
 <?php
 include "connect.php";
-if(empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') {
-    echo "<script> window.location.href = 'login.php'; </script>";
-}
+if(empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('location:login.php');
 if(isset($_GET['product_id'])){
     $quantity = 1;
     if(isset($_GET['quantity'])) $quantity = $_GET['quantity'];

@@ -3,9 +3,8 @@
   $categories = mysqli_query($con, "SELECT * FROM categorys");
   if(isset($_POST['getproduct'])){
     $productsku = $_POST['productsku'];
-    $sql = $con -> prepare("UPDATE offer SET header=?");
-    $sql -> bind_param("s", $productsku);
-    if($sql -> execute()){
+    if((mysqli_query($con, "UPDATE offer SET header='$productsku'")))
+   {
       echo "<script>alert('Offer header updated successfully');</script>";
     }else{
       echo "<script>alert('Something went wrong');</script>";

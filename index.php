@@ -1,6 +1,6 @@
 <?php
 include "connect.php";
-$_SESSION['student_id'] = '000000';
+if(empty($_SESSION['student_id'])) $_SESSION['student_id'] = '000000';
 
 	if(isset($_GET['category_id'])) $products = mysqli_query($con,"SELECT * FROM products where category_id = '{$_GET['category_id']}'");
 	elseif(isset($_GET['tag_name'])) $products = mysqli_query($con,"SELECT * FROM products where sku in ( select product_id from tags where tag_name = '{$_GET['tag_name']}')");

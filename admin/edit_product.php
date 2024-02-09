@@ -25,7 +25,7 @@
         $photos[] = $fileName;
         $targetPath = $target_dir . $fileName;
         if(move_uploaded_file($tmpName, $targetPath)){
-          echo "File uploaded successfully.<br>";
+          echo  "<script>console.log('File Uploaded Successfully')</script>";
         } else{
           echo "Error uploading file <br>";
         }
@@ -38,6 +38,8 @@
       $photos[3] = $products_detail['photo4'];
       $photos[4] = $products_detail['photo5'];  
     }
+    // photos are not updating
+
     $add_new_product = $con -> prepare("UPDATE `products` SET `product_name`=?,`product_price`=?,`category_id`=?, `discount_price`=?,`about_product`=?,`no_units`=?,`product_start_time`=?,`product_end_time`=?, `photo1`=?,`photo2`=?,`photo3`=?,`photo4`=?,`photo5`=? WHERE `sku` = '{$_POST['psku']}'");
     $add_new_product -> bind_param("sdsdsisssssss",$pname,$pprice,$category,$dprice,$aboutpro,$no_of_units,$stime,$pend,$photos[0],$photos[1],$photos[2],$photos[3],$photos[4]);
     $new_pro_details = $con -> prepare("UPDATE `product_details` SET `description`=?,`additional_info`=? WHERE `product_id` = '{$_POST['psku']}'");
@@ -132,7 +134,7 @@
 
                 <?php if(isset($_POST['getproduct'])){ ?>
                 <!-- Update the product details here Shiva -->
-              <form action="" method="post">
+              <form action="" method="post" enctype="multipart/form-data">
                 <!-- Basic Layout -->
                 <div class="row">
                   <div class="col-xl">

@@ -5,6 +5,7 @@ if(isset($_POST['register'])){
     $stdname = $_POST['stdname'];
     $regno = $_POST['regno'];
     $mobile = $_POST['mobile'];
+    $password = $_POST['password'];
     $batch = $_POST['batch'];
     $department = $_POST['department'];
     $section = $_POST['section'];
@@ -12,10 +13,11 @@ if(isset($_POST['register'])){
     $mothername = $_POST['mothername'];
     $hometown = $_POST['hometown'];
     $transportation = $_POST['transportation'];
-    $sql = "INSERT INTO `students`(`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`) VALUES ('$stdname','$regno','$mobile','$batch','$department','$section','$fathername','$mothername','$hometown','$transportation')";
+    $sql = "INSERT INTO `students`(`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`,`password`) VALUES ('$stdname','$regno','$mobile','$batch','$department','$section','$fathername','$mothername','$hometown','$transportation','$password')";
     if($con->query($sql) === TRUE){
+        $_SESSION['student_id'] = $regno;
         echo "<script>alert('Student Registered Successfully')</script>";
-        header("location:login.php");
+        header("location:index.php");
     }else{
         echo "<script>alert('Student Registration Failed')</script>";
     }
@@ -103,6 +105,12 @@ if(isset($_POST['register'])){
                 <div class="form-group col">
                     <label class="form-label text-color-dark text-3">Mobile Number <span class="text-color-danger">*</span></label>
                     <input type="text" name="mobile" class="form-control form-control-lg text-4" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label class="form-label text-color-dark text-3">Password <span class="text-color-danger">*</span></label>
+                    <input type="password" name="password" class="form-control form-control-lg text-4" required>
                 </div>
             </div>
             <div class="row">

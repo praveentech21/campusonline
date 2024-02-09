@@ -227,6 +227,13 @@ if ( isset( $_POST[ 'login' ] ) ) {
                                         data-loading-text='Loading...'>Login</button>
                                 </div>
                             </div>
+                            <div class="row">
+                            <div class='form-group col-md-auto'>
+                                    New to Campus Online :  
+                                    <a class='text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2'
+                                        href='register.php'>Register Now</a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
