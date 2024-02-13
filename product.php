@@ -14,7 +14,9 @@
 		$product_quantity = mysqli_fetch_assoc(mysqli_query($con,"select `product_quantity` from cart where product_id = '{$_GET['product_id']}' and coustmer_id = '{$_SESSION['student_id']}'"))['product_quantity'];
 		if($product_quantity == null ) $product_quantity = 0;
 		if(isset($_POST['addtocart'])){
-			header("location:addtocart.php?product_id={$_GET['product_id']}&quantity={$_POST['quantity']}");
+			if($_POST['quantity'] == 0) $pro_quan = 1;
+			else $pro_quan = $_POST['quantity'];
+			header("location:addtocart.php?product_id={$_GET['product_id']}&quantity=$pro_quan");
 		}
 		if(isset($_POST['ratingofproduct'])){
 			$rating = $_POST['rating'];
@@ -236,9 +238,9 @@
 										</table> -->
 										<hr>
 										<div class="quantity quantity-lg">
-											<a href="reducecart.php?product_id=?<?php echo $_GET['product_id'] ?>"><input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-"></a>
+											<a href="reducecart.php?product_id=<?php echo $_GET['product_id'] ?>"><input type="button" class="minus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="-"></a>
 											<input type="text" class="input-text qty text" title="Qty" value="<?php echo $product_quantity; ?>" name="quantity" min="1" step="1">
-											<a href="incresecart.php?product_id=?<?php echo $_GET['product_id'] ?>"><input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+"></a>
+											<a href="incresecart.php?product_id=<?php echo $_GET['product_id'] ?>"><input type="button" class="plus text-color-hover-light bg-color-hover-primary border-color-hover-primary" value="+"></a>
 										</div>
 										<?php if($product['no_units'] == 0){ ?>
 											<a href="index.php"><button type="button" class="btn btn-dark btn-modern text-uppercase bg-color-hover-primary border-color-hover-primary">Out of Stock</button></a>
