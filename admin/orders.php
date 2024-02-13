@@ -83,7 +83,7 @@
                           <td><a href="order.php?order_id=<?php echo $row['order_id'] ?>"><strong><?php echo $row['order_id'] ?></strong></a></td>
                           <td><a href="tel:<?php echo $student_details['student_mobile'] ?>"><?php echo $student_details['student_mobile'] ?></a></td>
                           <td><?php echo $row['address'] ?></td>
-                          <td><a href="complete_order.php?order_id=<?php echo $row['order_id'] ?>"><span class="badge bg-label-primary me-1">Complete</span></a></td>
+                          <td><a href="complete_order.php?order_id=<?php echo $row['order_id'] ?>"><span class="badge bg-label-primary me-1">Initiated</span></a></td>
                         </tr>
                         <?php } ?>
                       </tbody>
