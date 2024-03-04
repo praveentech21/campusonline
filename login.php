@@ -4,7 +4,7 @@ $offer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM offer "))['header'
 if ( isset( $_POST[ 'login' ] ) ) {
     $regno = $_POST[ 'regno' ];
     $password = $_POST[ 'password' ];
-    $result = mysqli_query( $con, "SELECT * FROM students WHERE student_id = '$regno' AND password = '$password'" );
+    $result = mysqli_query( $con, "SELECT * FROM students WHERE student_id = '$regno' AND `password` = '$password'" );
 
     if ( mysqli_num_rows( $result ) > 0 ) {
         $_SESSION[ 'student_id' ] = $_POST[ 'regno' ];

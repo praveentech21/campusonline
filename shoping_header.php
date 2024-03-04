@@ -117,7 +117,7 @@ $total_price = 0;
 							<ul class="header-extra-info">
 								<li class="ms-0 ms-xl-4">
 									<div class="header-extra-info-icon">
-										<a href="#" class="text-decoration-none text-color-dark text-color-hover-primary text-2">
+										<a href="profile.php" class="text-decoration-none text-color-dark text-color-hover-primary text-2">
 											<i class="icons icon-user"></i>
 										</a>
 									</div>
