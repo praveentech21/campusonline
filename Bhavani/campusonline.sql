@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2024 at 03:22 AM
+-- Generation Time: Mar 04, 2024 at 07:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`coustmer_id`, `product_id`, `category_id`, `product_quantity`) VALUES
-('000000', 'SNK0002', 'CAT2', 1);
+('000000', 'SNK0001', '', 1),
+('21B91A6206', 'HMDM0001', 'CAT1', 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,8 @@ CREATE TABLE `coupans` (
 --
 
 INSERT INTO `coupans` (`coupan_id`, `coupan_name`, `coupan_descrpition`, `coupan_type`, `coupan_value`, `coupan_starts`, `coupans_ends`) VALUES
-('Coupan1', 'Sri_Ram', 'Jai Sri Ram', 2, 10, '2024-02-09', '2024-02-15');
+('Coupan1', 'Sri_Ram', 'Jai Sri Ram', 2, 10, '2024-02-09', '2024-02-15'),
+('rama0011', 'Rama_Rama', 'ugkjhvvhb', 1, 20, '2024-03-02', '2024-03-05');
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,8 @@ CREATE TABLE `coupan_applicable` (
 
 INSERT INTO `coupan_applicable` (`coupan_id`, `category_id`, `product_id`) VALUES
 ('Coupan1', '0', 'SNK0001'),
-('Coupan1', 'CAT1', '0');
+('Coupan1', 'CAT1', '0'),
+('rama0011', '0', 'STFD0001');
 
 -- --------------------------------------------------------
 
@@ -181,7 +184,10 @@ INSERT INTO `orders` (`order_id`, `coustmer_id`, `product_id`, `product_quantity
 ('VY24Y', '21B91A6206', 'HMDM0001', 1),
 ('VY24Y', '21B91A6206', 'HMDM0002', 2),
 ('VY24Y', '21B91A6206', 'HMDM0003', 1),
-('VY24Y', '21B91A6206', 'SNK0002', 1);
+('VY24Y', '21B91A6206', 'SNK0002', 1),
+('ZSUC3', '21B91A6206', 'HMDM0001', 2),
+('ZSUC3', '21B91A6206', 'SNK0002', 2),
+('ZSUC3', '21B91A6206', 'STFD0001', 1);
 
 -- --------------------------------------------------------
 
@@ -211,7 +217,8 @@ INSERT INTO `order_details` (`order_id`, `coustmer_id`, `total_amount`, `discoun
 ('H63Z1', '21B91A6206', 510, 110, 0, 0, 400, 1, '', '2024-02-13'),
 ('LOEI8', '21B91A6206', 290, 50, 14, 0, 226, 1, '', '2024-02-13'),
 ('RVZRS', '21B91A6206', 660, 90, 42, 0, 528, 1, '', '2024-02-09'),
-('VY24Y', '21B91A6206', 650, 80, 52, 0, 518, 1, '', '2024-02-09');
+('VY24Y', '21B91A6206', 650, 80, 52, 0, 518, 1, '', '2024-02-09'),
+('ZSUC3', '21B91A6206', 420, 70, 20, 0, 330, 1, '', '2024-03-02');
 
 -- --------------------------------------------------------
 
@@ -329,22 +336,25 @@ CREATE TABLE `students` (
   `student_mobile` varchar(15) NOT NULL,
   `Batch` varchar(10) NOT NULL,
   `Department` varchar(5) NOT NULL,
-  `Section` varchar(5) NOT NULL,
+  `Section` varchar(5) NOT NULL DEFAULT 'A',
   `father_name` varchar(40) DEFAULT NULL,
   `mother_name` varchar(40) DEFAULT NULL,
   `home_town` varchar(40) DEFAULT NULL,
-  `Transportation` varchar(10) DEFAULT NULL,
-  `photo` varchar(30) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `Transportation` varchar(50) DEFAULT NULL,
+  `photo` varchar(80) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `reacharge` int(5) NOT NULL DEFAULT 0,
+  `cridets` int(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`, `photo`, `password`) VALUES
-('Default User', '000000', '000000', '0000', '000', '00', NULL, NULL, NULL, NULL, '', '000000'),
-('Chatrathi Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727402', '2025', 'CSD', 'A', 'Trimurthulu', 'Ganga Tulasi', 'Tholeru', 'Room', 'saiPraveen.jpg', '123123');
+INSERT INTO `students` (`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`, `photo`, `password`, `email`, `reacharge`, `cridets`) VALUES
+('Default User', '000000', '000000', '0000', '000', '00', NULL, NULL, NULL, NULL, 'saiPraveen.jpg', '000000', '', 0, 0),
+('Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727272', '2027', 'CSE', 'D', 'Trimurthulu ch', 'Ganga Tulasi ch', 'Tholeru, veeravasaram', 'Room', '21B91A6206_sai-kartikireddy.jpg', '123123', 'ravikumar_csd@srkrec.com', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -368,6 +378,13 @@ CREATE TABLE `wishlist` (
   `product_id` varchar(15) NOT NULL,
   `product_quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`coustmer_id`, `product_id`, `product_quantity`) VALUES
+('000000', 'SNK0002', 0);
 
 --
 -- Indexes for dumped tables
