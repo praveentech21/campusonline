@@ -333,44 +333,145 @@ if (isset($_POST['editdetails'])) {
 								</div>
 								<div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
 									<div class="card-body">
-										<div class="col-lg-4 mb-4 mb-lg-0">
 
-											<h4>With Icons</h4>
-											<div class="accordion" id="accordion6">
-												<div class="card card-default">
-													<div class="card-header">
-														<h4 class="card-title m-0">
-															<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
-																<i class="fas fa-users"></i> Accordion Title 1
-															</a>
-														</h4>
-													</div>
-													<div id="collapse6One" class="collapse show">
-														<div class="card-body">
-															<p class="mb-0">Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien.</p>
-														</div>
+										<h4>With Icons</h4>
+										<div class="accordion" id="accordion6">
+											<div class="card card-default">
+												<div class="card-header">
+													<h4 class="card-title m-0">
+														<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
+															<i class="fas fa-users"></i> Accordion Title 1
+														</a>
+													</h4>
+												</div>
+												<div id="collapse6One" class="collapse show">
+													<div class="card-body">
+
+														<h4>Contextual classes</h4>
+
+														<table class="table">
+															<thead>
+																<tr>
+																	<th>
+																		#
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-primary text-light">
+																	<th scope="row">
+																		1
+																	</th>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																</tr>
+																<tr>
+																	<th scope="row">
+																		2
+																	</th>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																</tr>
+
+															</tbody>
+														</table>
+
 													</div>
 												</div>
-												
 											</div>
-										
-											<h4>Without Background</h4>
-											<div class="accordion without-bg" id="accordion7">
-												<div class="card card-default">
-													<div class="card-header">
-														<h4 class="card-title m-0">
-															<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion7" href="#collapse7One">
-																Accordion Title 1
-															</a>
-														</h4>
-													</div>
-													<div id="collapse7One" class="collapse show">
-														<div class="card-body">
-															<p class="mb-0">Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien.</p>
-														</div>
+
+										</div>
+
+										<h4>Without Background</h4>
+										<div class="accordion" id="accordion6">
+											<div class="card card-default">
+												<div class="card-header">
+													<h4 class="card-title m-0">
+														<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
+															<i class="fas fa-users"></i> Accordion Title 1
+														</a>
+													</h4>
+												</div>
+												<div id="collapse6One" class="collapse show">
+													<div class="card-body">
+
+														<h4>Contextual classes</h4>
+
+														<table class="table">
+															<thead>
+																<tr>
+																	<th>
+																		#
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																	<th>
+																		Column heading
+																	</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-primary text-light">
+																	<th scope="row">
+																		1
+																	</th>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																</tr>
+																<tr>
+																	<th scope="row">
+																		2
+																	</th>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																	<td>
+																		Column content
+																	</td>
+																</tr>
+
+															</tbody>
+														</table>
+
 													</div>
 												</div>
-												
 											</div>
 
 										</div>
@@ -389,55 +490,55 @@ if (isset($_POST['editdetails'])) {
 								<div id="ordersdata" class="collapse" aria-labelledby="orders" data-bs-parent="#accordion100">
 									<div class="card-body">
 										<div id="comments" class="post-block mt-5 post-comments">
-                                            <h4 class="mb-3">Comments (3)</h4>
-                                            <ul class="comments">
-                                                
-                                                <li>
-                                                    <div class="comment">
-                                                        <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-                                                            <img class="avatar" alt="" src="img/avatars/avatar.jpg">
-                                                        </div>
-                                                        <div class="comment-block">
-                                                            <div class="comment-arrow"></div>
-                                                            <span class="comment-by">
-                                                                <strong>John Doe</strong>
-                                                                <span class="float-end">
-                                                                    <span>
-                                                                        <a href="#">
-                                                                            <i class="fas fa-reply"></i> Reply
-                                                                        </a>
-                                                                    </span>
-                                                                </span>
-                                                            </span>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                            <span class="date float-end">January 12, 2023 at 1:38 pm</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment">
-                                                        <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-                                                            <img class="avatar" alt="" src="img/avatars/avatar.jpg">
-                                                        </div>
-                                                        <div class="comment-block">
-                                                            <div class="comment-arrow"></div>
-                                                            <span class="comment-by">
-                                                                <strong>John Doe</strong>
-                                                                <span class="float-end">
-                                                                    <span>
-                                                                        <a href="#">
-                                                                            <i class="fas fa-reply"></i> Reply
-                                                                        </a>
-                                                                    </span>
-                                                                </span>
-                                                            </span>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                            <span class="date float-end">January 12, 2023 at 1:38 pm</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+											<h4 class="mb-3">Comments (3)</h4>
+											<ul class="comments">
+
+												<li>
+													<div class="comment">
+														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
+														</div>
+														<div class="comment-block">
+															<div class="comment-arrow"></div>
+															<span class="comment-by">
+																<strong>John Doe</strong>
+																<span class="float-end">
+																	<span>
+																		<a href="#">
+																			<i class="fas fa-reply"></i> Reply
+																		</a>
+																	</span>
+																</span>
+															</span>
+															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+															<span class="date float-end">January 12, 2023 at 1:38 pm</span>
+														</div>
+													</div>
+												</li>
+												<li>
+													<div class="comment">
+														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
+														</div>
+														<div class="comment-block">
+															<div class="comment-arrow"></div>
+															<span class="comment-by">
+																<strong>John Doe</strong>
+																<span class="float-end">
+																	<span>
+																		<a href="#">
+																			<i class="fas fa-reply"></i> Reply
+																		</a>
+																	</span>
+																</span>
+															</span>
+															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+															<span class="date float-end">January 12, 2023 at 1:38 pm</span>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
