@@ -216,9 +216,17 @@
 														<strong class="d-block text-color-dark mb-2">Payment Methods</strong>
 
 														<div class="d-flex flex-column">
-															<label class="d-flex align-items-center text-color-grey mb-0" for="payment_method1">
-																<input id="payment_method1" type="radio" class="me-2" name="payment_method" value="cash-on-delivery" checked />
-																Cash On Delivery
+															<label class="d-flex align-items-center text-color-grey mb-0" for="cridets">
+																<input id="cridets" type="radio" class="me-2" name="payment_method" value=1 checked />
+																Payment from Cridets
+															</label>
+															<label class="d-flex align-items-center text-color-grey mb-0" for="recharge">
+																<input id="recharge" type="radio" class="me-2" name="payment_method" value=2  />
+																Payment from Recharge
+															</label>
+															<label class="d-flex align-items-center text-color-grey mb-0" for="cashondel">
+																<input id="cashondel" type="radio" class="me-2" name="payment_method" value=3  />
+																Cash on delivery
 															</label>
 														</div>
 													</td>
@@ -262,6 +270,26 @@
 		<script src="js/theme.init.js"></script>
 
 		<?php
+
+function checkcridentials($con, $ordramount) {
+	$studcre = mysqli_fetch_assoc(mysqli_query($con, "SELECT `reacharge`, `cridets` FROM `students` WHERE student_id = '{$_SESSION['student_id']}'"));
+	$rechargepoints = $studcre['reacharge'];
+	$cridets = $studcre['cridets'];
+	if($rechargepoints < $ordramount){
+		echo "<script> document.getElementById('recharge').disabled = true;</script>";
+	}
+	if($cridets < $ordramount){
+		echo "<script> document.getElementById('cridets').disabled = true;</script>";
+	}
+
+	if($rechargepoints > $ordramount and $cridets > $ordramount) return 1;
+	elseif($rechargepoints > $ordramount) return 3;
+	elseif($cridets > $ordramount) return 2;
+	else return 4;
+}
+
+$amountcheck = checkcridentials($con, $total);
+
 			if(isset($_POST['placeorder'])){
 				function generateRandomOrderId($con, $length = 5) {
 					$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -297,7 +325,10 @@
 		
 				$ordered_products = mysqli_query($con, "SELECT * FROM cart WHERE coustmer_id = '{$_SESSION['student_id']}'");
 				$newOrderId = generateRandomOrderId($con);
-				$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`, `total_amount`,`discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSION['student_id']}','$subtotal','$discountprice','$coupanprice','0','$total','1','{$_POST['country']}')");
+
+				$payment_method = $_POST['payment_method'];
+				if($amountcheck == 4 or $amountcheck == 3 and $payment_method == ) {
+				$order_details = mysqli_query($con,"INSERT INTO `order_details`(`order_id`, `coustmer_id`, `payment`, `total_amount`,`discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `status`, `address`) VALUES ('$newOrderId','{$_SESSION['student_id']}',$payment_method,'$subtotal','$discountprice','$coupanprice','0','$total','1','{$_POST['country']}')");
 				while($row = mysqli_fetch_assoc($ordered_products)){
 					$place_order = mysqli_query($con,"INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`)VALUES ('$newOrderId','{$_SESSION['student_id']}','{$row['product_id']}','{$row['product_quantity']}')");
 				}

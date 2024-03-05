@@ -334,7 +334,7 @@ if (isset($_POST['editdetails'])) {
 								<div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
 									<div class="card-body">
 
-									<h4>Bordered</h4>
+									<h4>Avabile Criedents</h4>
 
 									<table class="table table-bordered">
 										<thead>
