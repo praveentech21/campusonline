@@ -1,6 +1,6 @@
 <?php
 include "connect.php";
-if (empty($_SESSION['student_id'])) header('Location: login.php');
+if (empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('Location: login.php');
 $student_id = $_SESSION['student_id'];
 $student = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students WHERE `student_id` = '$student_id'"));
 
@@ -148,141 +148,301 @@ if (isset($_POST['editdetails'])) {
 
 							<aside class="sidebar mt-2" id="sidebar">
 								<ul class="nav nav-list flex-column mb-5">
-									<li class="nav-item"><a class="nav-link text-3 text-dark active" href="#">My Profile</a></li>
-									<li class="nav-item"><a class="nav-link text-3" href="#">User Preferences</a></li>
-									<li class="nav-item"><a class="nav-link text-3" href="#">Billing</a></li>
-									<li class="nav-item"><a class="nav-link text-3" href="#">Invoices</a></li>
+									<li class="nav-item"><a class="nav-link text-3 text-dark active" data-bs-toggle="collapse" data-bs-target="#myprofiledata" aria-expanded="false" aria-controls="myprofiledata">My Profile</a></li>
+									<li class="nav-item"><a class="nav-link text-3" data-bs-toggle="collapse" data-bs-target="#accountdata" aria-expanded="false" aria-controls="accountdata">Account Information </a></li>
+									<li class="nav-item"><a class="nav-link text-3" data-bs-toggle="collapse" data-bs-target="#ordersdata" aria-expanded="false" aria-controls="ordersdata">Orders</a></li>
 								</ul>
 							</aside>
 
+
 					</div>
+
+
 					<div class="col-lg-9">
 
+						<!-- Start of scroll -->
 
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">First name</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" name="firstName" value="<?php echo $student['student_name'] ?>" required>
+						<!-- <div class="accordion accordion-modern-status accordion-modern-status-primary" id="accordion100">
+							<div class="card card-default">
+								<div class="card-header" id="collapse100HeadingOne">
+									<h4 class="card-title m-0">
+										<a class="accordion-toggle text-color-dark font-weight-bold collapsed" data-bs-toggle="collapse" data-bs-target="#collapse100One" aria-expanded="false" aria-controls="collapse100One">
+											Scroll Name
+										</a>
+									</h4>
+								</div>
+								<div id="collapse100One" class="collapse" aria-labelledby="collapse100HeadingOne" data-bs-parent="#accordion100">
+									<div class="card-body">
+									
+									Data in the Scroll
+									
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Email</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="email" name="email" value="<?php echo $student['email'] ?>" required>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Mobile</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" name="student_mobile" value="<?php echo $student['student_mobile'] ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Register Number</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" disabled name="student_id" value="<?php echo $student['student_id'] ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Batch <span class="text-color-danger">*</span></label>
-							<div class="col-lg-9">
-								<select class="form-select form-control h-auto py-2" name="batch" required>
-									<option value="" <?php if ($student['Batch'] == NULL) echo "selected"; ?>>Select the Batch</option>
-									<option <?php if ($student['Batch'] == "2027") echo "selected"; ?> value="2027">First Year</option>
-									<option <?php if ($student['Batch'] == "2026") echo "selected"; ?> value="2026">Second Year</option>
-									<option <?php if ($student['Batch'] == "2025") echo "selected"; ?> value="2025">Third Year</option>
-									<option <?php if ($student['Batch'] == "2024") echo "selected"; ?> value="2024">Fourth Year</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Department <span class="text-color-danger">*</span></label>
-							<div class="col-lg-9">
-								<select class="form-select form-control h-auto py-2" name="department" required>
-									<option value="" <?php if ($student['Department'] == NULL) echo "selected"; ?>>Select the Department</option>
-									<option <?php if ($student['Department'] == "AIDS") echo "selected"; ?> value="AIDS">AIDS</option>
-									<option <?php if ($student['Department'] == "AIML") echo "selected"; ?> value="AIML">AIML</option>
-									<option <?php if ($student['Department'] == "CSD") echo "selected"; ?> value="CSD">CSD</option>
-									<option <?php if ($student['Department'] == "CSE") echo "selected"; ?> value="CSE">CSE</option>
-									<option <?php if ($student['Department'] == "CSBS") echo "selected"; ?> value="CSBS">CSBS</option>
-									<option <?php if ($student['Department'] == "CSIT") echo "selected"; ?> value="CSIT">CSIT</option>
-									<option <?php if ($student['Department'] == "CIC") echo "selected"; ?> value="CIC">CIC</option>
-									<option <?php if ($student['Department'] == "CIVIL") echo "selected"; ?> value="CIVIL">CIVIL</option>
-									<option <?php if ($student['Department'] == "ECE") echo "selected"; ?> value="ECE">ECE</option>
-									<option <?php if ($student['Department'] == "EEE") echo "selected"; ?> value="EEE">EEE</option>
-									<option <?php if ($student['Department'] == "IT") echo "selected"; ?> value="IT">IT</option>
-									<option <?php if ($student['Department'] == "MECH") echo "selected"; ?> value="MECH">MECH</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Section <span class="text-color-danger">*</span></label>
-							<div class="col-lg-9">
-								<select class="form-select form-control h-auto py-2" name="section" required>
-									<option <?php if ($student['Section'] == NULL) echo "selected"; ?> value="">Select the Section</option>
-									<option <?php if ($student['Section'] == "A") echo "selected"; ?> value="A">A</option>
-									<option <?php if ($student['Section'] == "B") echo "selected"; ?> value="B">B</option>
-									<option <?php if ($student['Section'] == "C") echo "selected"; ?> value="C">C</option>
-									<option <?php if ($student['Section'] == "D") echo "selected"; ?> value="D">D</option>
-									<option <?php if ($student['Section'] == "E") echo "selected"; ?> value="E">E</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Father Name</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" name="father_name" value="<?php echo $student['father_name'] ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Mother Name</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" name="mother_name" value="<?php echo $student['mother_name'] ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Home Town</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="text" name="home_town" value="<?php echo $student['home_town'] ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Transportation</label>
-							<div class="col-lg-9">
-								<select class="form-select form-control h-auto py-2" name="Transportation" required>
-									<option <?php if ($student['Transportation'] == NULL) echo "selected"; ?> value="">Select the Section</option>
-									<option <?php if ($student['Transportation'] == "College Bus") echo "selected"; ?> value="College Bus">College Bus</option>
-									<option <?php if ($student['Transportation'] == "RTC") echo "selected"; ?> value="RTC">RTC</option>
-									<option <?php if ($student['Transportation'] == "Own Vehicle") echo "selected"; ?> value="Own Vehicle">Own Vehicle</option>
-									<option <?php if ($student['Transportation'] == "Hostel") echo "selected"; ?> value="Hostel">Hostel</option>
-									<option <?php if ($student['Transportation'] == "Room") echo "selected"; ?> value="Room">Room</option>
-									<option <?php if ($student['Transportation'] == "Local") echo "selected"; ?> value="Local">Local</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Password</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="password" name="password" value="">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Confirm password</label>
-							<div class="col-lg-9">
-								<input class="form-control text-3 h-auto py-2" type="password" name="confirmPassword" value="">
-							</div>
-						</div>
-						<div class="form-group row">
-							<div class="form-group col-lg-9">
+						</div> -->
+						<!-- End of scroll -->
 
-							</div>
-							<div class="form-group col-lg-3">
-								<input type="submit" value="Save" name="editdetails" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">
-							</div>
-						</div>
-						</form>
+						<div class="accordion accordion-modern-status accordion-modern-status-primary" id="accordion100">
+							<div class="card card-default">
+								<div class="card-header" id="myprofile">
+									<h4 class="card-title m-0">
+										<a class="accordion-toggle text-color-dark font-weight-bold collapsed" data-bs-toggle="collapse" data-bs-target="#myprofiledata" aria-expanded="false" aria-controls="myprofiledata">
+											Student Profile
+										</a>
+									</h4>
+								</div>
+								<div id="myprofiledata" class="collapse" aria-labelledby="myprofile" data-bs-parent="#accordion100">
+									<div class="card-body">
 
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">First name</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" name="firstName" value="<?php echo $student['student_name'] ?>" required>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Email</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="email" name="email" value="<?php echo $student['email'] ?>" required>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Mobile</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" name="student_mobile" value="<?php echo $student['student_mobile'] ?>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Register Number</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" disabled name="student_id" value="<?php echo $student['student_id'] ?>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Batch <span class="text-color-danger">*</span></label>
+											<div class="col-lg-9">
+												<select class="form-select form-control h-auto py-2" name="batch" required>
+													<option value="" <?php if ($student['Batch'] == NULL) echo "selected"; ?>>Select the Batch</option>
+													<option <?php if ($student['Batch'] == "2027") echo "selected"; ?> value="2027">First Year</option>
+													<option <?php if ($student['Batch'] == "2026") echo "selected"; ?> value="2026">Second Year</option>
+													<option <?php if ($student['Batch'] == "2025") echo "selected"; ?> value="2025">Third Year</option>
+													<option <?php if ($student['Batch'] == "2024") echo "selected"; ?> value="2024">Fourth Year</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Department <span class="text-color-danger">*</span></label>
+											<div class="col-lg-9">
+												<select class="form-select form-control h-auto py-2" name="department" required>
+													<option value="" <?php if ($student['Department'] == NULL) echo "selected"; ?>>Select the Department</option>
+													<option <?php if ($student['Department'] == "AIDS") echo "selected"; ?> value="AIDS">AIDS</option>
+													<option <?php if ($student['Department'] == "AIML") echo "selected"; ?> value="AIML">AIML</option>
+													<option <?php if ($student['Department'] == "CSD") echo "selected"; ?> value="CSD">CSD</option>
+													<option <?php if ($student['Department'] == "CSE") echo "selected"; ?> value="CSE">CSE</option>
+													<option <?php if ($student['Department'] == "CSBS") echo "selected"; ?> value="CSBS">CSBS</option>
+													<option <?php if ($student['Department'] == "CSIT") echo "selected"; ?> value="CSIT">CSIT</option>
+													<option <?php if ($student['Department'] == "CIC") echo "selected"; ?> value="CIC">CIC</option>
+													<option <?php if ($student['Department'] == "CIVIL") echo "selected"; ?> value="CIVIL">CIVIL</option>
+													<option <?php if ($student['Department'] == "ECE") echo "selected"; ?> value="ECE">ECE</option>
+													<option <?php if ($student['Department'] == "EEE") echo "selected"; ?> value="EEE">EEE</option>
+													<option <?php if ($student['Department'] == "IT") echo "selected"; ?> value="IT">IT</option>
+													<option <?php if ($student['Department'] == "MECH") echo "selected"; ?> value="MECH">MECH</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Section <span class="text-color-danger">*</span></label>
+											<div class="col-lg-9">
+												<select class="form-select form-control h-auto py-2" name="section" required>
+													<option <?php if ($student['Section'] == NULL) echo "selected"; ?> value="">Select the Section</option>
+													<option <?php if ($student['Section'] == "A") echo "selected"; ?> value="A">A</option>
+													<option <?php if ($student['Section'] == "B") echo "selected"; ?> value="B">B</option>
+													<option <?php if ($student['Section'] == "C") echo "selected"; ?> value="C">C</option>
+													<option <?php if ($student['Section'] == "D") echo "selected"; ?> value="D">D</option>
+													<option <?php if ($student['Section'] == "E") echo "selected"; ?> value="E">E</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Father Name</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" name="father_name" value="<?php echo $student['father_name'] ?>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Mother Name</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" name="mother_name" value="<?php echo $student['mother_name'] ?>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Home Town</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="text" name="home_town" value="<?php echo $student['home_town'] ?>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">Transportation</label>
+											<div class="col-lg-9">
+												<select class="form-select form-control h-auto py-2" name="Transportation" required>
+													<option <?php if ($student['Transportation'] == NULL) echo "selected"; ?> value="">Select the Section</option>
+													<option <?php if ($student['Transportation'] == "College Bus") echo "selected"; ?> value="College Bus">College Bus</option>
+													<option <?php if ($student['Transportation'] == "RTC") echo "selected"; ?> value="RTC">RTC</option>
+													<option <?php if ($student['Transportation'] == "Own Vehicle") echo "selected"; ?> value="Own Vehicle">Own Vehicle</option>
+													<option <?php if ($student['Transportation'] == "Hostel") echo "selected"; ?> value="Hostel">Hostel</option>
+													<option <?php if ($student['Transportation'] == "Room") echo "selected"; ?> value="Room">Room</option>
+													<option <?php if ($student['Transportation'] == "Local") echo "selected"; ?> value="Local">Local</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Password</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="password" name="password" value="">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">Confirm password</label>
+											<div class="col-lg-9">
+												<input class="form-control text-3 h-auto py-2" type="password" name="confirmPassword" value="">
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="form-group col-lg-9">
+
+											</div>
+											<div class="form-group col-lg-3">
+												<input type="submit" value="Save" name="editdetails" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">
+											</div>
+										</div>
+										</form>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card card-default">
+								<div class="card-header" id="account">
+									<h4 class="card-title m-0">
+										<a class="accordion-toggle text-color-dark font-weight-bold collapsed" data-bs-toggle="collapse" data-bs-target="#accountdata" aria-expanded="false" aria-controls="accountdata">
+											Account Information
+										</a>
+									</h4>
+								</div>
+								<div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
+									<div class="card-body">
+										<div class="col-lg-4 mb-4 mb-lg-0">
+
+											<h4>With Icons</h4>
+											<div class="accordion" id="accordion6">
+												<div class="card card-default">
+													<div class="card-header">
+														<h4 class="card-title m-0">
+															<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
+																<i class="fas fa-users"></i> Accordion Title 1
+															</a>
+														</h4>
+													</div>
+													<div id="collapse6One" class="collapse show">
+														<div class="card-body">
+															<p class="mb-0">Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien.</p>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+										
+											<h4>Without Background</h4>
+											<div class="accordion without-bg" id="accordion7">
+												<div class="card card-default">
+													<div class="card-header">
+														<h4 class="card-title m-0">
+															<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion7" href="#collapse7One">
+																Accordion Title 1
+															</a>
+														</h4>
+													</div>
+													<div id="collapse7One" class="collapse show">
+														<div class="card-body">
+															<p class="mb-0">Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien. Praesent id enim sit amet odio vulputate eleifend in in tortor. Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien.</p>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="card card-default">
+								<div class="card-header" id="orders">
+									<h4 class="card-title m-0">
+										<a class="accordion-toggle text-color-dark font-weight-bold collapsed" data-bs-toggle="collapse" data-bs-target="#ordersdata" aria-expanded="false" aria-controls="ordersdata">
+											Orders History
+										</a>
+									</h4>
+								</div>
+								<div id="ordersdata" class="collapse" aria-labelledby="orders" data-bs-parent="#accordion100">
+									<div class="card-body">
+										<div id="comments" class="post-block mt-5 post-comments">
+                                            <h4 class="mb-3">Comments (3)</h4>
+                                            <ul class="comments">
+                                                
+                                                <li>
+                                                    <div class="comment">
+                                                        <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+                                                            <img class="avatar" alt="" src="img/avatars/avatar.jpg">
+                                                        </div>
+                                                        <div class="comment-block">
+                                                            <div class="comment-arrow"></div>
+                                                            <span class="comment-by">
+                                                                <strong>John Doe</strong>
+                                                                <span class="float-end">
+                                                                    <span>
+                                                                        <a href="#">
+                                                                            <i class="fas fa-reply"></i> Reply
+                                                                        </a>
+                                                                    </span>
+                                                                </span>
+                                                            </span>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                            <span class="date float-end">January 12, 2023 at 1:38 pm</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="comment">
+                                                        <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+                                                            <img class="avatar" alt="" src="img/avatars/avatar.jpg">
+                                                        </div>
+                                                        <div class="comment-block">
+                                                            <div class="comment-arrow"></div>
+                                                            <span class="comment-by">
+                                                                <strong>John Doe</strong>
+                                                                <span class="float-end">
+                                                                    <span>
+                                                                        <a href="#">
+                                                                            <i class="fas fa-reply"></i> Reply
+                                                                        </a>
+                                                                    </span>
+                                                                </span>
+                                                            </span>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                            <span class="date float-end">January 12, 2023 at 1:38 pm</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+									</div>
+								</div>
+							</div>
+
+						</div>
 					</div>
 				</div>
 
