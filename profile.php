@@ -334,6 +334,71 @@ if (isset($_POST['editdetails'])) {
 								<div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
 									<div class="card-body">
 
+									<h4>Bordered</h4>
+
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>
+													#
+												</th>
+												<th>
+													First Name
+												</th>
+												<th>
+													Last Name
+												</th>
+												<th>
+													Username
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													1
+												</td>
+												<td>
+													Mark
+												</td>
+												<td>
+													Otto
+												</td>
+												<td>
+													@mdo
+												</td>
+											</tr>
+											<tr>
+												<td>
+													2
+												</td>
+												<td>
+													Jacob
+												</td>
+												<td>
+													Thornton
+												</td>
+												<td>
+													@fat
+												</td>
+											</tr>
+											<tr>
+												<td>
+													3
+												</td>
+												<td>
+													Larry
+												</td>
+												<td>
+													the Bird
+												</td>
+												<td>
+													@twitter
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
 										<h4>With Icons</h4>
 										<div class="accordion" id="accordion6">
 											<div class="card card-default">
