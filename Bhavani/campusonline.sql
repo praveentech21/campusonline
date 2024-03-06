@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2024 at 12:21 PM
+-- Generation Time: Mar 06, 2024 at 01:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,9 +39,7 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`coustmer_id`, `product_id`, `category_id`, `product_quantity`) VALUES
-('000000', 'SNK0001', '', 1),
-('21B91A6206', 'HMDM0001', 'CAT1', 2),
-('21B91A6206', 'SNK0002', 'CAT2', 3);
+('000000', 'SNK0001', '', 1);
 
 -- --------------------------------------------------------
 
@@ -87,6 +85,7 @@ CREATE TABLE `coupans` (
 
 INSERT INTO `coupans` (`coupan_id`, `coupan_name`, `coupan_descrpition`, `coupan_type`, `coupan_value`, `coupan_starts`, `coupans_ends`) VALUES
 ('Coupan1', 'Sri_Ram', 'Jai Sri Ram', 2, 10, '2024-02-09', '2024-02-15'),
+('coupan111', 'Ram_rama', 'Sri_Ram', 1, 10, '2024-03-06', '2024-04-06'),
 ('rama0011', 'Rama_Rama', 'ugkjhvvhb', 1, 20, '2024-03-02', '2024-03-05');
 
 -- --------------------------------------------------------
@@ -100,6 +99,19 @@ CREATE TABLE `coupans_used` (
   `order_id` varchar(15) NOT NULL,
   `coupan_id` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `coupans_used`
+--
+
+INSERT INTO `coupans_used` (`coustmer_id`, `order_id`, `coupan_id`) VALUES
+('21B91A6206', 'YWYBN', 'Ram_rama'),
+('21B91A6206', 'YWYBN', 'Ram_rama'),
+('21B91A6206', 'YWYBN', 'Ram_rama'),
+('21B91A6206', 'YWYBN', 'Ram_rama'),
+('21B91A6206', 'E6G2J', 'Ram_rama'),
+('21B91A6206', 'PDX5S', 'Ram_rama'),
+('21B91A6206', 'PDX5S', 'Ram_rama');
 
 -- --------------------------------------------------------
 
@@ -118,8 +130,10 @@ CREATE TABLE `coupan_applicable` (
 --
 
 INSERT INTO `coupan_applicable` (`coupan_id`, `category_id`, `product_id`) VALUES
+('Coupan1', '0', 'HMDM0001'),
 ('Coupan1', '0', 'SNK0001'),
 ('Coupan1', 'CAT1', '0'),
+('coupan111', '0', 'SNK0002'),
 ('rama0011', '0', 'STFD0001');
 
 -- --------------------------------------------------------
@@ -135,6 +149,14 @@ CREATE TABLE `credites` (
   `date` date NOT NULL,
   `credites_used` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `credites`
+--
+
+INSERT INTO `credites` (`order_id`, `student_id`, `avalible_credites`, `date`, `credites_used`) VALUES
+('PDX5S', '21B91A6206', 99999, '2024-03-06', 140),
+('SXAKE', '21B91A6206', 99859, '2024-03-06', 50);
 
 -- --------------------------------------------------------
 
@@ -171,21 +193,37 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `coustmer_id`, `product_id`, `product_quantity`) VALUES
+('6G7OE', '21B91A6206', 'HMDM0001', 1),
+('6G7OE', '21B91A6206', 'SNK0002', 1),
+('E6G2J', '21B91A6206', 'SNK0002', 1),
 ('H63Z1', '21B91A6206', 'HMDM0001', 1),
 ('H63Z1', '21B91A6206', 'SNK0001', 2),
 ('H63Z1', '21B91A6206', 'SNK0002', 2),
 ('H63Z1', '21B91A6206', 'STFD0001', 2),
+('K6A96', '21B91A6206', 'HMDM0001', 1),
+('K6A96', '21B91A6206', 'SNK0002', 1),
+('L3PP0', '21B91A6206', 'HMDM0001', 2),
+('L3PP0', '21B91A6206', 'SNK0002', 3),
 ('LOEI8', '21B91A6206', 'HMDM0001', 1),
 ('LOEI8', '21B91A6206', 'HMDM0003', 1),
+('PDX5S', '21B91A6206', 'HMDM0001', 1),
+('PDX5S', '21B91A6206', 'SNK0002', 1),
 ('RVZRS', '21B91A6206', 'HMDM0002', 1),
 ('RVZRS', '21B91A6206', 'HMDM0003', 1),
 ('RVZRS', '21B91A6206', 'HMDM0004', 1),
 ('RVZRS', '21B91A6206', 'SNK0001', 2),
 ('RVZRS', '21B91A6206', 'SNK0002', 1),
+('SXAKE', '21B91A6206', 'null', 1),
+('SXAKE', '21B91A6206', 'SNK0002', 1),
+('UPTVQ', '21B91A6206', 'HMDM0001', 1),
+('UPTVQ', '21B91A6206', 'SNK0002', 1),
 ('VY24Y', '21B91A6206', 'HMDM0001', 1),
 ('VY24Y', '21B91A6206', 'HMDM0002', 2),
 ('VY24Y', '21B91A6206', 'HMDM0003', 1),
 ('VY24Y', '21B91A6206', 'SNK0002', 1),
+('VYBA4', '21B91A6206', 'HMDM0001', 1),
+('VYBA4', '21B91A6206', 'SNK0002', 1),
+('YWYBN', '21B91A6206', 'SNK0002', 1),
 ('ZSUC3', '21B91A6206', 'HMDM0001', 2),
 ('ZSUC3', '21B91A6206', 'SNK0002', 2),
 ('ZSUC3', '21B91A6206', 'STFD0001', 1);
@@ -215,11 +253,20 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`order_id`, `coustmer_id`, `total_amount`, `discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `payment`, `status`, `address`, `order_date`) VALUES
+('6G7OE', '21B91A6206', 170, 20, 10, 0, 140, 3, 2, '', '2024-03-06'),
 ('8WM0N', '21B91A6206', 0, 0, 0, 0, 0, 0, 2, '', '2024-02-09'),
-('H63Z1', '21B91A6206', 510, 110, 0, 0, 400, 0, 1, '', '2024-02-13'),
+('E6G2J', '21B91A6206', 60, 10, 10, 0, 40, 2, 2, '', '2024-03-06'),
+('H63Z1', '21B91A6206', 510, 110, 0, 0, 400, 0, 2, '', '2024-02-13'),
+('K6A96', '21B91A6206', 170, 20, 0, 0, 150, 2, 2, '', '2024-03-06'),
+('L3PP0', '21B91A6206', 400, 50, 30, 0, 320, 1, 2, '', '2024-03-06'),
 ('LOEI8', '21B91A6206', 290, 50, 14, 0, 226, 0, 1, '', '2024-02-13'),
+('PDX5S', '21B91A6206', 170, 20, 10, 0, 140, 1, 1, '', '2024-03-06'),
 ('RVZRS', '21B91A6206', 660, 90, 42, 0, 528, 0, 1, '', '2024-02-09'),
+('SXAKE', '21B91A6206', 60, 10, 0, 0, 50, 1, 1, '', '2024-03-06'),
+('UPTVQ', '21B91A6206', 170, 20, 0, 0, 150, 2, 1, '', '2024-03-06'),
 ('VY24Y', '21B91A6206', 650, 80, 52, 0, 518, 0, 1, '', '2024-02-09'),
+('VYBA4', '21B91A6206', 170, 20, 10, 0, 140, 2, 1, '', '2024-03-06'),
+('YWYBN', '21B91A6206', 60, 10, 10, 0, 40, 3, 1, '', '2024-03-06'),
 ('ZSUC3', '21B91A6206', 420, 70, 20, 0, 330, 0, 1, '', '2024-03-02');
 
 -- --------------------------------------------------------
@@ -255,7 +302,7 @@ INSERT INTO `products` (`sku`, `product_name`, `product_price`, `category_id`, `
 ('HMDM0002', 'Ulavacharu Biriyani', 150, 'CAT1', 140, 'Homely Made Healthy Chicken Noodles', '2024-02-08', 50, '00:00:10', '15:00:00', '65c50f08d1200_15.png', NULL, NULL, NULL, NULL),
 ('HMDM0003', 'Avakai Biriyani', 180, 'CAT1', 140, 'Home Made Food', '2024-02-08', 105, '00:00:09', '15:00:00', '65c50f6a1d741_19.png', NULL, NULL, NULL, NULL),
 ('HMDM0004', 'Chicken Fry Piece Biriyani', 150, 'CAT1', 140, 'Home Made Food', '2024-02-08', 6564, '00:00:20', '15:00:00', '65c50fbf75bc0_22.png', NULL, NULL, NULL, NULL),
-('SNK0001', 'Sana Punukulu', 60, 'CAT2', 50, 'Home Made Snack', '2024-02-08', 20, '00:00:00', '00:00:00', '65c510db4bcf8_25.png', NULL, NULL, NULL, NULL),
+('SNK0001', '   Sana Punukulu   ', 60, 'CAT2', 50, '   Home Made Snack   ', '2024-02-08', 20, '00:00:00', '00:00:00', '65c510db4bcf8_25.png', NULL, NULL, NULL, NULL),
 ('SNK0002', 'Bajilu', 60, 'CAT2', 50, 'Home Made Snack', '2024-02-08', 50, '00:00:00', '00:00:00', '65c511626cb93_14.png', '65c511626ccf6_15.png', '65c511626cde8_16.png', '65c511626cf0e_17.png', '65c511626d087_18.png'),
 ('STFD0001', 'Monday Menu', 80, 'CAT3', 50, 'Student Food', '2024-02-08', 50, '00:00:10', '15:00:00', '65c51017f108e_21.png', NULL, NULL, NULL, NULL),
 ('STFD0002', 'Tuesday Special', 90, 'CAT3', 70, 'Student Food', '2024-02-08', 50, '00:00:10', '15:00:00', '65c5106559958_17.png', NULL, NULL, NULL, NULL);
@@ -300,6 +347,27 @@ CREATE TABLE `recharges` (
   `cashback` float NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recharge_used`
+--
+
+CREATE TABLE `recharge_used` (
+  `order_id` varchar(10) NOT NULL,
+  `student_id` varchar(15) NOT NULL,
+  `avabile_recharge_points` int(5) NOT NULL,
+  `date` date NOT NULL,
+  `recharge_points_used` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `recharge_used`
+--
+
+INSERT INTO `recharge_used` (`order_id`, `student_id`, `avabile_recharge_points`, `date`, `recharge_points_used`) VALUES
+('K6A96', '21B91A6206', 999999, '2024-03-06', 150);
 
 -- --------------------------------------------------------
 
@@ -356,7 +424,7 @@ CREATE TABLE `students` (
 
 INSERT INTO `students` (`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`, `photo`, `password`, `email`, `reacharge`, `cridets`) VALUES
 ('Default User', '000000', '000000', '0000', '000', '00', NULL, NULL, NULL, NULL, 'saiPraveen.jpg', '000000', '', 0, 0),
-('Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727272', '2027', 'CSE', 'D', 'Trimurthulu ch', 'Ganga Tulasi ch', 'Tholeru, veeravasaram', 'RTC', '21B91A6206_whatsapp-image-2024-02-12-at-6.20.36-pm.jpeg', '123123', 'ravikumar_csd@srkrec.com', 0, 0);
+('Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727272', '2027', 'CSE', 'D', 'Trimurthulu ch', 'Ganga Tulasi ch', 'Tholeru, veeravasaram', 'RTC', '21B91A6206_whatsapp-image-2024-02-12-at-6.20.36-pm.jpeg', '123123', 'ravikumar_csd@srkrec.com', 999849, 99809);
 
 -- --------------------------------------------------------
 
@@ -451,6 +519,12 @@ ALTER TABLE `product_details`
 --
 ALTER TABLE `recharges`
   ADD PRIMARY KEY (`recharge_id`);
+
+--
+-- Indexes for table `recharge_used`
+--
+ALTER TABLE `recharge_used`
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `referal`
