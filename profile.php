@@ -334,70 +334,72 @@ if (isset($_POST['editdetails'])) {
 								<div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
 									<div class="card-body">
 
-									<h4>Avabile Criedents</h4>
+										<h4>Avabile Criedents</h4>
 
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>
-													#
-												</th>
-												<th>
-													Account
-												</th>
-												<th>
-													Avabile
-												</th>
-												<th>
-													used
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>
-													1
-												</td>
-												<td>
-													Cridets
-												</td>
-												<td>
-													<?php echo $student['cridets'] ?>
-												</td>
-												<td>
-													<?php $used1 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`credites_used`) as used FROM `credites` WHERE `student_id` = '$student_id'"))['used']; echo $used1; ?>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													2
-												</td>
-												<td>
-													Recharge
-												</td>
-												<td>
-													<?php echo $student['reacharge'] ?>
-												</td>
-												<td>
-													<?php $used2 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`recharge_points_used`) as used FROM `recharge_used` WHERE `student_id` = '$student_id'"))['used']; echo $used2; ?>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													3
-												</td>
-												<td>
-													Total
-												</td>
-												<td>
-												<?php echo $student['reacharge'] + $student['cridets'] ?>
-												</td>
-												<td>
-													<?php echo $used1 + $used2; ?>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>
+														#
+													</th>
+													<th>
+														Account
+													</th>
+													<th>
+														Avabile
+													</th>
+													<th>
+														used
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														1
+													</td>
+													<td>
+														Cridets
+													</td>
+													<td>
+														<?php echo $student['cridets'] ?>
+													</td>
+													<td>
+														<?php $used1 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`credites_used`) as used FROM `credites` WHERE `student_id` = '$student_id'"))['used'];
+														echo $used1; ?>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														2
+													</td>
+													<td>
+														Recharge
+													</td>
+													<td>
+														<?php echo $student['reacharge'] ?>
+													</td>
+													<td>
+														<?php $used2 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`recharge_points_used`) as used FROM `recharge_used` WHERE `student_id` = '$student_id'"))['used'];
+														echo $used2; ?>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														3
+													</td>
+													<td>
+														Total
+													</td>
+													<td>
+														<?php echo $student['reacharge'] + $student['cridets'] ?>
+													</td>
+													<td>
+														<?php echo $used1 + $used2; ?>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 
 										<div class="accordion" id="accordion6">
 											<div class="card card-default">
@@ -435,22 +437,22 @@ if (isset($_POST['editdetails'])) {
 																while ($cridets_row = mysqli_fetch_assoc($cridets_used)) {
 
 																?>
-																<tr class="bg-primary text-light">
-																	<th scope="row">
-																		<?php echo $cridets_row['order_id'] ?>
-																	</th>
-																	<td>
-																		<?php echo $cridets_row['date'] ?>
-																	</td>
-																	<td>
-																		<?php echo $cridets_row['credites_used'] ?>
-																	</td>
-																	<td>
-																		<?php echo $cridets_row['avalible_credites'] - $cridets_row['credites_used'] ?>
-																	</td>
-																</tr>
+																	<tr class="bg-primary text-light">
+																		<th scope="row">
+																			<?php echo $cridets_row['order_id'] ?>
+																		</th>
+																		<td>
+																			<?php echo $cridets_row['date'] ?>
+																		</td>
+																		<td>
+																			<?php echo $cridets_row['credites_used'] ?>
+																		</td>
+																		<td>
+																			<?php echo $cridets_row['avalible_credites'] - $cridets_row['credites_used'] ?>
+																		</td>
+																	</tr>
 																<?php } ?>
-																
+
 
 															</tbody>
 														</table>
@@ -491,27 +493,27 @@ if (isset($_POST['editdetails'])) {
 																</tr>
 															</thead>
 															<tbody>
-															<?php
+																<?php
 																$recharge_used = mysqli_query($con, "SELECT * FROM `recharge_used` WHERE `student_id` = '$student_id' ORDER BY date(`date`) DESC");
 																while ($recharge_row = mysqli_fetch_assoc($recharge_used)) {
 
 																?>
-																<tr class="bg-primary text-light">
-																	<th scope="row">
-																		<?php echo $recharge_row['order_id'] ?>
-																	</th>
-																	<td>
-																		<?php echo $recharge_row['date'] ?>
-																	</td>
-																	<td>
-																		<?php echo $recharge_row['recharge_points_used'] ?>
-																	</td>
-																	<td>
-																		<?php echo $recharge_row['avabile_recharge_points'] - $recharge_row['recharge_points_used'] ?>
-																	</td>
-																</tr>
+																	<tr class="bg-primary text-light">
+																		<th scope="row">
+																			<?php echo $recharge_row['order_id'] ?>
+																		</th>
+																		<td>
+																			<?php echo $recharge_row['date'] ?>
+																		</td>
+																		<td>
+																			<?php echo $recharge_row['recharge_points_used'] ?>
+																		</td>
+																		<td>
+																			<?php echo $recharge_row['avabile_recharge_points'] - $recharge_row['recharge_points_used'] ?>
+																		</td>
+																	</tr>
 																<?php } ?>
-																
+
 
 															</tbody>
 														</table>
@@ -538,55 +540,79 @@ if (isset($_POST['editdetails'])) {
 										<div id="comments" class="post-block mt-5 post-comments">
 											<?php
 											$orders_details = mysqli_query($con, "SELECT * FROM `order_details` WHERE `coustmer_id` = '$student_id' ORDER BY date(`order_date`) DESC");
-											
+
 											?>
 											<h4 class="mb-3">Order (<?php echo mysqli_num_rows($orders_details); ?>)</h4>
-											<ul class="comments">
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-end">
-																	<span>
-																		<a href="#">
-																			<i class="fas fa-reply"></i> Reply
-																		</a>
-																	</span>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-															<span class="date float-end">January 12, 2023 at 1:38 pm</span>
+											<!-- data toggle Starts hear -->
+
+											<div class="accordion" id="accordion6">
+												<div class="card card-default">
+													<div class="card-header">
+														<h4 class="card-title m-0">
+															<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
+																<i class="fas fa-users"></i> Recharges Used
+															</a>
+														</h4>
+													</div>
+													<div id="collapse6One" class="collapse show">
+														<div class="card-body">
+
+															<ul class="comments">
+																<li>
+																	<div class="comment">
+																		<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+																			<img class="avatar" alt="" src="img/avatars/avatar.jpg">
+																		</div>
+																		<div class="comment-block">
+																			<div class="comment-arrow"></div>
+																			<span class="comment-by">
+																				<strong>John Doe</strong>
+																				<span class="float-end">
+																					<span>
+																						<a href="#">
+																							<i class="fas fa-reply"></i> Reply
+																						</a>
+																					</span>
+																				</span>
+																			</span>
+																			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+																			<span class="date float-end">January 12, 2023 at 1:38 pm</span>
+																		</div>
+																	</div>
+																</li>
+																<li>
+																	<div class="comment">
+																		<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+																			<img class="avatar" alt="" src="img/avatars/avatar.jpg">
+																		</div>
+																		<div class="comment-block">
+																			<div class="comment-arrow"></div>
+																			<span class="comment-by">
+																				<strong>John Doe</strong>
+																				<span class="float-end">
+																					<span>
+																						<a href="#">
+																							<i class="fas fa-reply"></i> Reply
+																						</a>
+																					</span>
+																				</span>
+																			</span>
+																			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+																			<span class="date float-end">January 12, 2023 at 1:38 pm</span>
+																		</div>
+																	</div>
+																</li>
+															</ul>
+
 														</div>
 													</div>
-												</li>
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-end">
-																	<span>
-																		<a href="#">
-																			<i class="fas fa-reply"></i> Reply
-																		</a>
-																	</span>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-															<span class="date float-end">January 12, 2023 at 1:38 pm</span>
-														</div>
-													</div>
-												</li>
-											</ul>
+
+													
+												</div>
+
+											</div>
+
+											<!-- data toggle Ends hear -->
 										</div>
 									</div>
 								</div>
