@@ -170,12 +170,28 @@
 													</td>
 												</tr>
 												<?php } ?>
-											<tr class="cart-subtotal">
+												<tr class="cart-subtotal">
 												<td class="border-top-0">
 													<strong class="text-color-dark">Order Amount</strong>
 												</td>
 												<td class="border-top-0 text-end">
-													<strong><span class="amount font-weight-medium"><?php echo $order_details['order_amount'] ?></span></strong>
+													<strong><span class="amount font-weight-medium"><?php echo $order_details['total_amount'] ?></span></strong>
+												</td>
+											</tr>
+											<tr class="cart-subtotal">
+												<td class="border-top-0">
+													<strong class="text-color-dark">Discount Amount</strong>
+												</td>
+												<td class="border-top-0 text-end">
+													<strong><span class="amount font-weight-medium"><?php echo $order_details['discount_price'] ?></span></strong>
+												</td>
+											</tr>
+											<tr class="cart-subtotal">
+												<td class="border-top-0">
+													<strong class="text-color-dark">Coupan Amount</strong>
+												</td>
+												<td class="border-top-0 text-end">
+													<strong><span class="amount font-weight-medium"><?php echo $_SESSION['coupanprice'] ?></span></strong>
 												</td>
 											</tr>
 											<tr class="shipping">
