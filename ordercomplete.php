@@ -136,7 +136,11 @@ $order_products = mysqli_query($con, "SELECT * FROM `orders` WHERE order_id = '{
 							<div class="text-center mt-4 mt-md-0">
 								<span>
 									Payment Method <br><br>
-									<strong class="text-color-dark">Cash on Delivery</strong>
+									<strong class="text-color-dark"><?php
+																	if ($order_details['payment'] == 1) echo "Amount from Cridets";
+																	elseif ($order_details['payment'] == 2) echo "Amount from Recharge";
+																	else echo "Cash on Delivery";
+																	?></strong>
 								</span>
 							</div>
 						</div>
