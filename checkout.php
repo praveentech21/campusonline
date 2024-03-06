@@ -6,7 +6,7 @@ $subtotal = 0;
 $discountprice = 0;
 $coupanprice = 0;
 $total = 0;
-!empty($_SESSION['coupanprice']) ? $coupanprice = $_SESSION['coupanprice'] : $coupanprice = 0;
+!empty($_SESSION['coupanprice']) ? $coupanprice = $_SESSION['coupanprice'] : $coupanprice = $_SESSION['coupanprice'] = 0;
 
 ?>
 <!DOCTYPE html>
