@@ -347,7 +347,6 @@ $total = 0;
 		if($payment_method == 1)$set_amount = mysqli_query($con, "UPDATE `students` SET `cridets`=`cridets`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
 		elseif($payment_method == 2) $set_amount = mysqli_query($con, "UPDATE `students` SET `reacharge`=`reacharge`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
 
-			unset($_SESSION['coupanprice']);
 			$_SESSION['order_id'] = $newOrderId;
 			$deleate_cart = mysqli_query($con, "DELETE FROM `cart` WHERE coustmer_id = '{$_SESSION['student_id']}'");
 			echo "<script>alert('Order Placed Successfully');  window.location.href = 'ordercomplete.php';</script>";
