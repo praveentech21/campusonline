@@ -112,9 +112,9 @@ if(empty($_SESSION['student_id'])) $_SESSION['student_id'] = '000000';
 												</div>
 												<?php if($row['no_units'] != 0){ ?>
 												<div class="addtocart-btn-wrapper">
-													<a href="addtocart.php?product_id=<?php echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
+													<!-- <a href="addtocart.php?product_id=<?php //echo $row['sku']; ?>" class="text-decoration-none addtocart-btn" title="Add to Cart">
 														<i class="icons icon-bag"></i>
-													</a>
+													</a> -->
 												</div>
 												<?php } else{ ?>
 												<div class="addtocart-btn-wrapper">
