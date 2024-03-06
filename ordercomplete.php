@@ -227,6 +227,12 @@
 						</div>
 					</div>
 
+					<?php
+					unset($_SESSION['coupanprice']);
+					unset($_SESSION['coupancode']);
+					unset($_SESSION['order_id']);
+					?>
+
 				</div>
 
 			</div>
