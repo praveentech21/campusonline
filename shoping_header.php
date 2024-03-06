@@ -91,16 +91,20 @@ $total_price = 0;
 											<i class="icons icon-magnifier text-color-dark text-color-hover-primary"></i>
 										</a> -->
 										<div class="search-form-wrapper input-group">
-										<p class="font-weight-semibold text-5 mb-0 d-none d-md-block"><?php echo $offer ?></p>
-											
+											<p class="font-weight-semibold text-5 mb-0 d-none d-md-block"><?php echo $offer ?></p>
+
 											<!-- <input class="form-control text-1" id="search-input" type="search" value="" placeholder="Search...">
 											<div class="search-form-select-wrapper">
 												<div class="custom-select-1">
 													<select name="category_id" class="form-control form-select">
 														<option value="all" selected>All Categories</option>
-														<?php //while ($row = mysqli_fetch_assoc($category)) { ?>
-															<option value="<?php //echo $row['category_id'] ?>"><?php //echo $row['category_name'] ?></option>
-														<?php //} ?>
+														<?php //while ($row = mysqli_fetch_assoc($category)) { 
+														?>
+															<option value="<?php //echo $row['category_id'] 
+																			?>"><?php //echo $row['category_name'] 
+																												?></option>
+														<?php //} 
+														?>
 													</select>
 												</div>
 												<button class="btn" type="submit" aria-label="Search">
@@ -258,4 +262,3 @@ $total_price = 0;
 		</div> -->
 	</div>
 </header>
-

@@ -546,7 +546,7 @@ if (isset($_POST['editdetails'])) {
                                             <!-- data toggle Starts hear -->
 
                                             <div class="accordion" id="accordion6">
-                                                
+
                                                 <div class="card card-default">
                                                     <!-- <div class="card-header">
                                                         <h4 class="card-title m-0">
@@ -557,121 +557,121 @@ if (isset($_POST['editdetails'])) {
                                                     </div> -->
                                                     <div id="collapse6One" class="collapse show">
                                                         <!-- each order details starts here -->
-                                                        <?php 
-                                                        while($each_order = mysqli_fetch_assoc($orders_details)){
-                                                            $each_order_products = mysqli_query($con,"SELECT * FROM `orders` WHERE `order_id` = '{$each_order['order_id']}' and `coustmer_id` = '$student_id'");
+                                                        <?php
+                                                        while ($each_order = mysqli_fetch_assoc($orders_details)) {
+                                                            $each_order_products = mysqli_query($con, "SELECT * FROM `orders` WHERE `order_id` = '{$each_order['order_id']}' and `coustmer_id` = '$student_id'");
                                                         ?>
-                                                        <div class="card-body">
-                                                            <table class="table table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>
-                                                                            Order ID
-                                                                        </th>
-                                                                        <th>
-                                                                            Date
-                                                                        </th>
-                                                                        <th>
-                                                                            Total
-                                                                        </th>
-                                                                        <th>
-                                                                            Payment Method
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php echo $each_order['order_id'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $each_order['order_date'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $each_order['order_amount'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                            if($each_order['payment'] == 1) echo "Amount from Cridets";
-                                                                            elseif($each_order['payment'] == 2) echo "Amount from Recharge";
-                                                                            else echo "Cash on Delivery";
-                                                                            ?>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>
-                                                                            Order Amount
-                                                                        </th>
-                                                                        <th>
-                                                                            Discount Amount
-                                                                        </th>
-                                                                        <th>
-                                                                            Coupan Amount
-                                                                        </th>
-                                                                        <th>
-                                                                            Shipping
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                        <?php echo $each_order['total_amount'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                        <?php echo $each_order['discount_price'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                        <?php echo $each_order['coupan_price'] ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            Free Delivery
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                                    <!-- products details in the order starts here -->
-                                                            <ul class="comments">
+                                                            <div class="card-body">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>
+                                                                                Order ID
+                                                                            </th>
+                                                                            <th>
+                                                                                Date
+                                                                            </th>
+                                                                            <th>
+                                                                                Total
+                                                                            </th>
+                                                                            <th>
+                                                                                Payment Method
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <?php echo $each_order['order_id'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php echo $each_order['order_date'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php echo $each_order['order_amount'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php
+                                                                                if ($each_order['payment'] == 1) echo "Amount from Cridets";
+                                                                                elseif ($each_order['payment'] == 2) echo "Amount from Recharge";
+                                                                                else echo "Cash on Delivery";
+                                                                                ?>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>
+                                                                                Order Amount
+                                                                            </th>
+                                                                            <th>
+                                                                                Discount Amount
+                                                                            </th>
+                                                                            <th>
+                                                                                Coupan Amount
+                                                                            </th>
+                                                                            <th>
+                                                                                Shipping
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <?php echo $each_order['total_amount'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php echo $each_order['discount_price'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php echo $each_order['coupan_price'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                Free Delivery
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <!-- products details in the order starts here -->
+                                                                <ul class="comments">
                                                                     <!-- each product details starts here -->
                                                                     <?php
-                                                                    while($each_product_row = mysqli_fetch_assoc($each_order_products)){
-                                                                        $each_product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `products` WHERE `sku` = '{$each_product_row['product_id']}'"));
+                                                                    while ($each_product_row = mysqli_fetch_assoc($each_order_products)) {
+                                                                        $each_product_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `products` WHERE `sku` = '{$each_product_row['product_id']}'"));
 
                                                                     ?>
-                                                                <li>
-                                                                    <div class="comment">
-                                                                        <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-                                                                            <img class="avatar" alt="" src="Bhavani/img/products/<?php echo $each_product_details['photo1'] ?>">
-                                                                        </div>
-                                                                        <div class="comment-block">
-                                                                            <div class="comment-arrow"></div>
-                                                                            <span class="comment-by">
-                                                                                <strong><?php echo $each_product_details['product_name'] ?></strong>
-                                                                                <span class="float-end">
-                                                                                    
-                                                                                    <?php if($each_product_details['discount_price'] != 0){ ?>
-													<span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $each_product_details['discount_price'] ?></span>
-													<span class="amount">&#8377; <?php echo $each_product_details['product_price'] ?></span>
-												<?php } else{ ?>
-												<span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $each_product_details['product_price'] ?></span>
-												<?php } ?>
-                                                                                   
-                                                                                </span>
-                                                                            </span>
-                                                                            <p><?php echo $each_product_details['about_product'] ?></p>
-                                                                            <!-- <span class="date float-end">January 12, 2023 at 1:38 pm</span> -->
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <?php } ?>
-                                                                <!-- each product details ends here -->
-                                                            </ul>
-                                                            <!-- products details in the order ends here -->
+                                                                        <li>
+                                                                            <div class="comment">
+                                                                                <div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+                                                                                    <img class="avatar" alt="" src="Bhavani/img/products/<?php echo $each_product_details['photo1'] ?>">
+                                                                                </div>
+                                                                                <div class="comment-block">
+                                                                                    <div class="comment-arrow"></div>
+                                                                                    <span class="comment-by">
+                                                                                        <strong><?php echo $each_product_details['product_name'] ?></strong>
+                                                                                        <span class="float-end">
+
+                                                                                            <?php if ($each_product_details['discount_price'] != 0) { ?>
+                                                                                                <span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $each_product_details['discount_price'] ?></span>
+                                                                                                <span class="amount">&#8377; <?php echo $each_product_details['product_price'] ?></span>
+                                                                                            <?php } else { ?>
+                                                                                                <span class="sale text-color-dark font-weight-semi-bold">&#8377; <?php echo $each_product_details['product_price'] ?></span>
+                                                                                            <?php } ?>
+
+                                                                                        </span>
+                                                                                    </span>
+                                                                                    <p><?php echo $each_product_details['about_product'] ?></p>
+                                                                                    <!-- <span class="date float-end">January 12, 2023 at 1:38 pm</span> -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    <?php } ?>
+                                                                    <!-- each product details ends here -->
+                                                                </ul>
+                                                                <!-- products details in the order ends here -->
 
 
-                                                        </div>
+                                                            </div>
                                                         <?php } ?>
                                                         <!-- each order details Ends here -->
                                                     </div>
@@ -679,8 +679,8 @@ if (isset($_POST['editdetails'])) {
 
                                                 </div>
                                                 <br>
-                                                
-                                                
+
+
 
                                             </div>
 

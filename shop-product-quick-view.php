@@ -1,11 +1,10 @@
-<?php 
-	include 'connect.php';
-	
-	if(isset($_GET['sku'])){
-		$product_details = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM products WHERE sku = '{$_GET['sku']}'"));
-		$reviews = mysqli_query($con,"SELECT * FROM reviews WHERE product_id = '{$_GET['sku']}'");
+<?php
+include 'connect.php';
 
-	}else echo"<script>window.location.href='index.php'</script>";
+if (isset($_GET['sku'])) {
+	$product_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM products WHERE sku = '{$_GET['sku']}'"));
+	$reviews = mysqli_query($con, "SELECT * FROM reviews WHERE product_id = '{$_GET['sku']}'");
+} else echo "<script>window.location.href='index.php'</script>";
 ?>
 <div class="shop dialog dialog-lg fadeIn animated" style="animation-duration: 300ms;">
 	<div class="row">
@@ -71,10 +70,10 @@
 				</div>
 
 				<p class="price mb-3">
-					<?php if($product_details['discount_price'] != 0){ ?>	
-					<span class="sale text-color-dark">&#8377; <?php echo $product_details['discount_price'] ?></span>
-					<span class="amount">&#8377; <?php echo $product_details['product_price'] ?></span>
-					<?php }else{ ?>
+					<?php if ($product_details['discount_price'] != 0) { ?>
+						<span class="sale text-color-dark">&#8377; <?php echo $product_details['discount_price'] ?></span>
+						<span class="amount">&#8377; <?php echo $product_details['product_price'] ?></span>
+					<?php } else { ?>
 						<span class="amount">&#8377; <?php echo $product_details['product_price'] ?></span>
 					<?php } ?>
 				</p>
@@ -82,15 +81,15 @@
 				<p class="text-3-5 mb-3"><?php echo $product_details['about_product'] ?></p>
 
 				<ul class="list list-unstyled text-2">
-				<li class="mb-0">AVAILABILITY: <strong class="text-color-dark"><?php 
-				$category_info = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM `categorys` WHERE `category_id` = '{$product_details['category_id']}'"));
-				if($product_details['no_units'] == 0) echo "OUT OF STOCK";
-				else{ 
-				echo $product_details['no_units'].' Units';	
-				if(!empty($product_details['product_start_time'])) echo '<br>Avabile between '.$product_details['product_start_time'] .' to '. $product_details['product_end_time'];
-				} ?></strong></li>
-				<li class="mb-0">SKU: <strong class="text-color-dark"><?php echo $_GET['sku'] ?></strong></li>
-				<li class="mb-0">Category : <a href="index.php?category_id=<?php echo $category_info['category_id'] ?>"> <strong class="text-color-dark"><?php echo $category_info['category_name'] ?></strong></a></li>
+					<li class="mb-0">AVAILABILITY: <strong class="text-color-dark"><?php
+																					$category_info = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `categorys` WHERE `category_id` = '{$product_details['category_id']}'"));
+																					if ($product_details['no_units'] == 0) echo "OUT OF STOCK";
+																					else {
+																						echo $product_details['no_units'] . ' Units';
+																						if (!empty($product_details['product_start_time'])) echo '<br>Avabile between ' . $product_details['product_start_time'] . ' to ' . $product_details['product_end_time'];
+																					} ?></strong></li>
+					<li class="mb-0">SKU: <strong class="text-color-dark"><?php echo $_GET['sku'] ?></strong></li>
+					<li class="mb-0">Category : <a href="index.php?category_id=<?php echo $category_info['category_id'] ?>"> <strong class="text-color-dark"><?php echo $category_info['category_name'] ?></strong></a></li>
 				</ul>
 
 

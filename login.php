@@ -1,14 +1,14 @@
 <?php
 include 'connect.php';
 $offer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM offer "))['header'];
-if ( isset( $_POST[ 'login' ] ) ) {
-    $regno = $_POST[ 'regno' ];
-    $password = $_POST[ 'password' ];
-    $result = mysqli_query( $con, "SELECT * FROM students WHERE student_id = '$regno' AND `password` = '$password'" );
+if (isset($_POST['login'])) {
+    $regno = $_POST['regno'];
+    $password = $_POST['password'];
+    $result = mysqli_query($con, "SELECT * FROM students WHERE student_id = '$regno' AND `password` = '$password'");
 
-    if ( mysqli_num_rows( $result ) > 0 ) {
-        $_SESSION[ 'student_id' ] = $_POST[ 'regno' ];
-        header( 'location:index.php' );
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION['student_id'] = $_POST['regno'];
+        header('location:index.php');
     } else {
         echo "<script>alert('Invalid Register Number or Password');</script>";
     }
@@ -38,9 +38,7 @@ if ( isset( $_POST[ 'login' ] ) ) {
     <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no'>
 
     <!-- Web Fonts  -->
-    <link id='googleFonts'
-        href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light%7CPlayfair+Display:400&display=swap'
-        rel='stylesheet' type='text/css'>
+    <link id='googleFonts' href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light%7CPlayfair+Display:400&display=swap' rel='stylesheet' type='text/css'>
 
     <!-- Vendor CSS -->
     <link rel='stylesheet' href='Bhavani/vendor/bootstrap/css/bootstrap.min.css'>
@@ -74,8 +72,7 @@ if ( isset( $_POST[ 'login' ] ) ) {
 
     <div class='body'>
 
-    <header id='header'
-            data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 135, 'stickySetTop': '-135px', 'stickyChangeLogo': true}">
+        <header id='header' data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 135, 'stickySetTop': '-135px', 'stickyChangeLogo': true}">
             <div class='header-body header-body-bottom-border-fixed box-shadow-none border-top-0'>
                 <div class='header-top header-top-small-minheight header-top-simple-border-bottom'>
                     <div class='container'>
@@ -105,17 +102,14 @@ if ( isset( $_POST[ 'login' ] ) ) {
                             <div class='header-row justify-content-between'>
                                 <div class='header-logo z-index-2 col-lg-2 px-0'>
                                     <a href='index.php'>
-                                        <img alt='Porto' width='100' height='48' data-sticky-width='82'
-                                            data-sticky-height='40' data-sticky-top='84'
-                                            src='Bhavani/img/campus_online_200_96.png'>
+                                        <img alt='Porto' width='100' height='48' data-sticky-width='82' data-sticky-height='40' data-sticky-top='84' src='Bhavani/img/campus_online_200_96.png'>
                                     </a>
                                 </div>
-                                <div
-                                    class='header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0'>
+                                <div class='header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0'>
                                     <div class='header-nav-feature ps-lg-5 pe-lg-4'>
                                         <form role='search' method='get' id='search-form'>
                                             <div class='search-with-select'>
-                                                
+
                                                 <div class='search-form-wrapper input-group'>
                                                     <p class='font-weight-semibold text-5 mb-0 d-none d-md-block'>
                                                         <?php echo $offer ?></p>
@@ -130,19 +124,16 @@ if ( isset( $_POST[ 'login' ] ) ) {
                                     <ul class='header-extra-info'>
                                         <li class='ms-0 ms-xl-4'>
                                             <div class='header-extra-info-icon'>
-                                                <a href='#'
-                                                    class='text-decoration-none text-color-dark text-color-hover-primary text-2'>
+                                                <a href='#' class='text-decoration-none text-color-dark text-color-hover-primary text-2'>
                                                     <i class='icons icon-user'></i>
                                                 </a>
                                             </div>
                                         </li>
                                     </ul>
                                     <div class='header-nav-features ps-0 ms-1'>
-                                        <div
-                                            class='header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2'>
+                                        <div class='header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2'>
                                             <a href='#' class='header-nav-features-toggle' aria-label=''>
-                                                <img src='Bhavani/img/wishlist_30_30.png' height='30' alt=''
-                                                    class='header-nav-top-icon-img'>
+                                                <img src='Bhavani/img/wishlist_30_30.png' height='30' alt='' class='header-nav-top-icon-img'>
                                                 <span class='cart-info'>
                                                     <span class='cart-qty'>0</span>
                                                 </span>
@@ -151,11 +142,9 @@ if ( isset( $_POST[ 'login' ] ) ) {
 
                                             </div>
                                         </div>
-                                        <div
-                                            class='header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2'>
+                                        <div class='header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2'>
                                             <a href='#' class='header-nav-features-toggle' aria-label=''>
-                                                <img src='Bhavani/img/icons/icon-cart-big.svg' height='30' alt=''
-                                                    class='header-nav-top-icon-img'>
+                                                <img src='Bhavani/img/icons/icon-cart-big.svg' height='30' alt='' class='header-nav-top-icon-img'>
                                                 <span class='cart-info'>
                                                     <span class='cart-qty'>0</span>
                                                 </span>
@@ -164,12 +153,10 @@ if ( isset( $_POST[ 'login' ] ) ) {
 
                                                 <div class='totals'>
                                                     <span class='label'>Total:</span>
-                                                    <span class='price-total'><span
-                                                            class='price'><?php echo $total_price ?></span></span>
+                                                    <span class='price-total'><span class='price'><?php echo $total_price ?></span></span>
                                                 </div>
                                                 <div class='actions'>
-                                                    <a href='cart.php'><button
-                                                            class='btn btn-dark btn-modern w-100 text-uppercase bg-color-hover-primary border-color-hover-primary border-radius-0 text-3 py-3'>view
+                                                    <a href='cart.php'><button class='btn btn-dark btn-modern w-100 text-uppercase bg-color-hover-primary border-color-hover-primary border-radius-0 text-3 py-3'>view
                                                             cart <i class='fas fa-arrow-right ms-2'></i></button></a>
                                                     <!-- <a class = 'btn btn-primary' href = 'checkout.php'>Checkout</a> -->
                                                 </div>
@@ -199,39 +186,31 @@ if ( isset( $_POST[ 'login' ] ) ) {
                         <form action='#' id='frmSignIn' method='post' class='needs-validation'>
                             <div class='row'>
                                 <div class='form-group col'>
-                                    <label class='form-label text-color-dark text-3'>Register Number <span
-                                            class='text-color-danger'>*</span></label>
-                                    <input type='text' name='regno' class='form-control form-control-lg text-4'
-                                        required>
+                                    <label class='form-label text-color-dark text-3'>Register Number <span class='text-color-danger'>*</span></label>
+                                    <input type='text' name='regno' class='form-control form-control-lg text-4' required>
                                 </div>
                             </div>
                             <div class='row'>
                                 <div class='form-group col'>
-                                    <label class='form-label text-color-dark text-3'>Password <span
-                                            class='text-color-danger'>*</span></label>
-                                    <input type='password' name='password' class='form-control form-control-lg text-4'
-                                        required>
+                                    <label class='form-label text-color-dark text-3'>Password <span class='text-color-danger'>*</span></label>
+                                    <input type='password' name='password' class='form-control form-control-lg text-4' required>
                                 </div>
                             </div>
                             <div class='row justify-content-between'>
 
                                 <div class='form-group col-md-auto'>
-                                    <a class='text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2'
-                                        href='#'>Forgot Password?</a>
+                                    <a class='text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2' href='#'>Forgot Password?</a>
                                 </div>
                             </div>
                             <div class='row'>
                                 <div class='form-group col'>
-                                    <button type='submit' name='login'
-                                        class='btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3'
-                                        data-loading-text='Loading...'>Login</button>
+                                    <button type='submit' name='login' class='btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3' data-loading-text='Loading...'>Login</button>
                                 </div>
                             </div>
                             <div class="row">
-                            <div class='form-group col-md-auto'>
-                                    New to Campus Online :  
-                                    <a class='text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2'
-                                        href='register.php'>Register Now</a>
+                                <div class='form-group col-md-auto'>
+                                    New to Campus Online :
+                                    <a class='text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2' href='register.php'>Register Now</a>
                                 </div>
                             </div>
                         </form>

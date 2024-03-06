@@ -343,16 +343,15 @@ $total = 0;
 			$place_order = mysqli_query($con, "INSERT INTO `orders`(`order_id`, `coustmer_id`, `product_id`, `product_quantity`)VALUES ('$newOrderId','{$_SESSION['student_id']}','{$row['product_id']}','{$row['product_quantity']}')");
 		}
 		if (isset($order_details) && isset($place_order)) {
-			
+
 			$today = date("Y-m-d");
 			$account = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `students` WHERE student_id = '{$_SESSION['student_id']}'"));
-		if($payment_method == 1){
-			$set_amount = mysqli_query($con, "UPDATE `students` SET `cridets`=`cridets`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
-			$add_to_cridets = mysqli_query($con, "INSERT INTO `credites`(`order_id`, `student_id`, `avalible_credites`, `date`, `credites_used`) VALUES ('$newOrderId','{$_SESSION['student_id']}','{$account['cridets']}','$today',$total)");
-		}
-		elseif($payment_method == 2){
-			 $set_amount = mysqli_query($con, "UPDATE `students` SET `reacharge`=`reacharge`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
-			$add_to_reacharge = mysqli_query($con, "INSERT INTO `recharge_used`(`order_id`, `student_id`, `avabile_recharge_points`, `date`, `recharge_points_used`) VALUES ('$newOrderId','{$_SESSION['student_id']}','{$account['reacharge']}','$today',$total)");
+			if ($payment_method == 1) {
+				$set_amount = mysqli_query($con, "UPDATE `students` SET `cridets`=`cridets`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
+				$add_to_cridets = mysqli_query($con, "INSERT INTO `credites`(`order_id`, `student_id`, `avalible_credites`, `date`, `credites_used`) VALUES ('$newOrderId','{$_SESSION['student_id']}','{$account['cridets']}','$today',$total)");
+			} elseif ($payment_method == 2) {
+				$set_amount = mysqli_query($con, "UPDATE `students` SET `reacharge`=`reacharge`- $total WHERE `student_id` = '{$_SESSION['student_id']}'");
+				$add_to_reacharge = mysqli_query($con, "INSERT INTO `recharge_used`(`order_id`, `student_id`, `avabile_recharge_points`, `date`, `recharge_points_used`) VALUES ('$newOrderId','{$_SESSION['student_id']}','{$account['reacharge']}','$today',$total)");
 			}
 
 			$_SESSION['order_id'] = $newOrderId;
