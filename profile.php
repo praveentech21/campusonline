@@ -343,13 +343,13 @@ if (isset($_POST['editdetails'])) {
 													#
 												</th>
 												<th>
-													First Name
+													Account
 												</th>
 												<th>
-													Last Name
+													Avabile
 												</th>
 												<th>
-													Username
+													used
 												</th>
 											</tr>
 										</thead>
@@ -359,13 +359,13 @@ if (isset($_POST['editdetails'])) {
 													1
 												</td>
 												<td>
-													Mark
+													Cridets
 												</td>
 												<td>
-													Otto
+													<?php echo $student['cridets'] ?>
 												</td>
 												<td>
-													@mdo
+													<?php $used1 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`credites_used`) as used FROM `credites` WHERE `student_id` = '$student_id'"))['used']; echo $used1; ?>
 												</td>
 											</tr>
 											<tr>
@@ -373,13 +373,13 @@ if (isset($_POST['editdetails'])) {
 													2
 												</td>
 												<td>
-													Jacob
+													Recharge
 												</td>
 												<td>
-													Thornton
+													<?php echo $student['reacharge'] ?>
 												</td>
 												<td>
-													@fat
+													<?php $used2 = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(`recharge_points_used`) as used FROM `recharge_used` WHERE `student_id` = '$student_id'"))['used']; echo $used2; ?>
 												</td>
 											</tr>
 											<tr>
@@ -387,79 +387,70 @@ if (isset($_POST['editdetails'])) {
 													3
 												</td>
 												<td>
-													Larry
+													Total
 												</td>
 												<td>
-													the Bird
+												<?php echo $student['reacharge'] + $student['cridets'] ?>
 												</td>
 												<td>
-													@twitter
+													<?php echo $used1 + $used2; ?>
 												</td>
 											</tr>
 										</tbody>
 									</table>
 
-										<h4>With Icons</h4>
 										<div class="accordion" id="accordion6">
 											<div class="card card-default">
 												<div class="card-header">
 													<h4 class="card-title m-0">
 														<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
-															<i class="fas fa-users"></i> Accordion Title 1
+															<i class="fas fa-users"></i> Cridets Used
 														</a>
 													</h4>
 												</div>
 												<div id="collapse6One" class="collapse show">
 													<div class="card-body">
 
-														<h4>Contextual classes</h4>
 
 														<table class="table">
 															<thead>
 																<tr>
 																	<th>
-																		#
+																		Order ID
 																	</th>
 																	<th>
-																		Column heading
+																		order Date
 																	</th>
 																	<th>
-																		Column heading
+																		order Amount
 																	</th>
 																	<th>
-																		Column heading
+																		Remaining Amount
 																	</th>
 																</tr>
 															</thead>
 															<tbody>
+																<?php
+																$cridets_used = mysqli_query($con, "SELECT * FROM `credites` WHERE `student_id` = '$student_id' ORDER BY date(`date`) DESC");
+																while ($cridets_row = mysqli_fetch_assoc($cridets_used)) {
+
+																?>
 																<tr class="bg-primary text-light">
 																	<th scope="row">
-																		1
+																		<?php echo $cridets_row['order_id'] ?>
 																	</th>
 																	<td>
-																		Column content
+																		<?php echo $cridets_row['date'] ?>
 																	</td>
 																	<td>
-																		Column content
+																		<?php echo $cridets_row['credites_used'] ?>
 																	</td>
 																	<td>
-																		Column content
+																		<?php echo $cridets_row['avalible_credites'] - $cridets_row['credites_used'] ?>
 																	</td>
 																</tr>
-																<tr>
-																	<th scope="row">
-																		2
-																	</th>
-																	<td>
-																		Column content
-																	</td>
-																	<td>
-																		Column content
-																	</td>
-																	<td>
-																		Column content
-																	</td>
-																</tr>
+																<?php } ?>
+																
 
 															</tbody>
 														</table>
@@ -469,68 +460,58 @@ if (isset($_POST['editdetails'])) {
 											</div>
 
 										</div>
-
-										<h4>Without Background</h4>
+										<br>
 										<div class="accordion" id="accordion6">
 											<div class="card card-default">
 												<div class="card-header">
 													<h4 class="card-title m-0">
 														<a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion6" href="#collapse6One">
-															<i class="fas fa-users"></i> Accordion Title 1
+															<i class="fas fa-users"></i> Recharges Used
 														</a>
 													</h4>
 												</div>
 												<div id="collapse6One" class="collapse show">
 													<div class="card-body">
 
-														<h4>Contextual classes</h4>
-
 														<table class="table">
 															<thead>
 																<tr>
 																	<th>
-																		#
+																		Order ID
 																	</th>
 																	<th>
-																		Column heading
+																		order Date
 																	</th>
 																	<th>
-																		Column heading
+																		order Amount
 																	</th>
 																	<th>
-																		Column heading
+																		Remaining Amount
 																	</th>
 																</tr>
 															</thead>
 															<tbody>
+															<?php
+																$recharge_used = mysqli_query($con, "SELECT * FROM `recharge_used` WHERE `student_id` = '$student_id' ORDER BY date(`date`) DESC");
+																while ($recharge_row = mysqli_fetch_assoc($recharge_used)) {
+
+																?>
 																<tr class="bg-primary text-light">
 																	<th scope="row">
-																		1
+																		<?php echo $recharge_row['order_id'] ?>
 																	</th>
 																	<td>
-																		Column content
+																		<?php echo $recharge_row['date'] ?>
 																	</td>
 																	<td>
-																		Column content
+																		<?php echo $recharge_row['recharge_points_used'] ?>
 																	</td>
 																	<td>
-																		Column content
+																		<?php echo $recharge_row['avabile_recharge_points'] - $recharge_row['recharge_points_used'] ?>
 																	</td>
 																</tr>
-																<tr>
-																	<th scope="row">
-																		2
-																	</th>
-																	<td>
-																		Column content
-																	</td>
-																	<td>
-																		Column content
-																	</td>
-																	<td>
-																		Column content
-																	</td>
-																</tr>
+																<?php } ?>
+																
 
 															</tbody>
 														</table>
@@ -555,9 +536,12 @@ if (isset($_POST['editdetails'])) {
 								<div id="ordersdata" class="collapse" aria-labelledby="orders" data-bs-parent="#accordion100">
 									<div class="card-body">
 										<div id="comments" class="post-block mt-5 post-comments">
-											<h4 class="mb-3">Comments (3)</h4>
+											<?php
+											$orders_details = mysqli_query($con, "SELECT * FROM `order_details` WHERE `coustmer_id` = '$student_id' ORDER BY date(`order_date`) DESC");
+											
+											?>
+											<h4 class="mb-3">Order (<?php echo mysqli_num_rows($orders_details); ?>)</h4>
 											<ul class="comments">
-
 												<li>
 													<div class="comment">
 														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
