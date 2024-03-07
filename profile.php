@@ -670,6 +670,9 @@ if (isset($_POST['editdetails'])) {
                                                                 </ul>
                                                                 <!-- products details in the order ends here -->
 
+                                                                <button class="btn btn-modern btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" onclick="setStudentId('<?php echo $student_id ?>','<?php echo $each_order['order_id'] ?>')">
+                                                                    Feed Back
+                                                                </button>
 
                                                             </div>
                                                         <?php } ?>
@@ -698,6 +701,63 @@ if (isset($_POST['editdetails'])) {
 
         </div>
 
+        <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="formModalLabel">Large Modal Title</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="demo-form" class="mb-4" novalidate="novalidate" enctype="multipart/form-data" >
+
+                            <!-- Add student ID input field here -->
+                            <input type="hidden" id="studentId" name="studentId">
+                            <input type="hidden" id="order_id" name="order_id">
+                            <div class="form-group row align-items-center">
+                                <label class="col-sm-3 text-start text-sm-end mb-0">Rating</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="order_rating" class="form-control" placeholder="Your Rating" required />
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-sm-3 text-start text-sm-end mb-0">Feed Back</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="order_feedback" class="form-control" placeholder="Feed Back" required />
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-sm-3 text-start text-sm-end mb-0">Review</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="order_review" class="form-control" placeholder="Your review...... " />
+                                </div>
+                            </div>
+                            <!-- <div class="form-group row pb-4">
+                                <label class="col-lg-3 control-label text-lg-end pt-2">Image Upload</label>
+                                <div class="col-lg-6">
+                                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                                        <div class="input-append">
+                                            <div class="uneditable-input">
+                                                <span class="fileupload-preview"></span>
+                                            </div>
+                                            <span class="btn btn-default btn-file"> 
+                                                <input type="file" name="order_image" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php include 'shoping_fotter.php'; ?>
         <!-- Fotter Come Here Shiva -->
     </div>
@@ -720,6 +780,38 @@ if (isset($_POST['editdetails'])) {
 
     <!-- Theme Initialization Files -->
     <script src="Bhavani/js/theme.init.js"></script>
+
+    <script>
+        function setStudentId(studentId, orderId) {
+            document.getElementById('studentId').value = studentId;
+            document.getElementById('order_id').value = orderId;
+        }
+
+        function saveChanges() {
+            // Get form data and submit/save it here
+            // Example:
+            var formData = new FormData(document.getElementById('demo-form'));
+            $.ajax({
+                url: 'order_feedback.php',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    alert('Feedback saved successfully');
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+
+            // Close modal
+            $('#formModal').modal('hide');
+        }
+    </script>
+
 
 </body>
 
