@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 01:37 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Mar 08, 2024 at 08:25 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,7 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`coustmer_id`, `product_id`, `category_id`, `product_quantity`) VALUES
-('000000', 'SNK0001', '', 1);
+('21B91A6206', 'HF007', '', 1);
 
 -- --------------------------------------------------------
 
@@ -59,9 +59,9 @@ CREATE TABLE `categorys` (
 --
 
 INSERT INTO `categorys` (`category_id`, `category_name`, `category_description`, `category_weightage`) VALUES
-('CAT1', 'Home Made Food', 'Healthy Home Made Food Specialy for SRKREC Student', 10),
-('CAT2', 'Snacks', 'All Snacks will be shown hear', 3),
-('CAT3', 'Stufood', 'Stufood Especailly for Students', 2);
+('CAT001', 'Hoom Food', 'Home food Category has all the home food avabile i', 50),
+('CAT002', 'Snack', 'Snack Category has all the Snacks avabile in SRKR ', 49),
+('CAT003', 'Resturent Food', 'Resturent Food Category has all the Resturent Food', 51);
 
 -- --------------------------------------------------------
 
@@ -84,9 +84,7 @@ CREATE TABLE `coupans` (
 --
 
 INSERT INTO `coupans` (`coupan_id`, `coupan_name`, `coupan_descrpition`, `coupan_type`, `coupan_value`, `coupan_starts`, `coupans_ends`) VALUES
-('Coupan1', 'Sri_Ram', 'Jai Sri Ram', 2, 10, '2024-02-09', '2024-02-15'),
-('coupan111', 'Ram_rama', 'Sri_Ram', 1, 10, '2024-03-06', '2024-04-06'),
-('rama0011', 'Rama_Rama', 'ugkjhvvhb', 1, 20, '2024-03-02', '2024-03-05');
+('Ram1', 'Free10', 'Jai Sri Ram', 2, 10, '2024-03-05', '2024-03-11');
 
 -- --------------------------------------------------------
 
@@ -105,13 +103,7 @@ CREATE TABLE `coupans_used` (
 --
 
 INSERT INTO `coupans_used` (`coustmer_id`, `order_id`, `coupan_id`) VALUES
-('21B91A6206', 'YWYBN', 'Ram_rama'),
-('21B91A6206', 'YWYBN', 'Ram_rama'),
-('21B91A6206', 'YWYBN', 'Ram_rama'),
-('21B91A6206', 'YWYBN', 'Ram_rama'),
-('21B91A6206', 'E6G2J', 'Ram_rama'),
-('21B91A6206', 'PDX5S', 'Ram_rama'),
-('21B91A6206', 'PDX5S', 'Ram_rama');
+('21B91A6206', 'SN0LK', 'Free10');
 
 -- --------------------------------------------------------
 
@@ -130,11 +122,7 @@ CREATE TABLE `coupan_applicable` (
 --
 
 INSERT INTO `coupan_applicable` (`coupan_id`, `category_id`, `product_id`) VALUES
-('Coupan1', '0', 'HMDM0001'),
-('Coupan1', '0', 'SNK0001'),
-('Coupan1', 'CAT1', '0'),
-('coupan111', '0', 'SNK0002'),
-('rama0011', '0', 'STFD0001');
+('Ram1', 'CAT001', '0');
 
 -- --------------------------------------------------------
 
@@ -155,8 +143,9 @@ CREATE TABLE `credites` (
 --
 
 INSERT INTO `credites` (`order_id`, `student_id`, `avalible_credites`, `date`, `credites_used`) VALUES
-('PDX5S', '21B91A6206', 99999, '2024-03-06', 140),
-('SXAKE', '21B91A6206', 99859, '2024-03-06', 50);
+('F249F', '21B91A6206', 5005, '2024-03-06', 70),
+('SN0LK', '21B91A6206', 4935, '2024-03-06', 63),
+('ZZ1X2', '21B91A6206', 4872, '2024-03-06', 70);
 
 -- --------------------------------------------------------
 
@@ -165,6 +154,7 @@ INSERT INTO `credites` (`order_id`, `student_id`, `avalible_credites`, `date`, `
 --
 
 CREATE TABLE `offer` (
+  `id` int(5) NOT NULL,
   `header` varchar(200) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -172,8 +162,8 @@ CREATE TABLE `offer` (
 -- Dumping data for table `offer`
 --
 
-INSERT INTO `offer` (`header`) VALUES
-('Welcome to SRKR Campus Online as part fo introduction offer we are providing all itam at a discount prize\r\n');
+INSERT INTO `offer` (`id`, `header`) VALUES
+(1, 'Jai Sri Ram Krishna');
 
 -- --------------------------------------------------------
 
@@ -193,40 +183,17 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `coustmer_id`, `product_id`, `product_quantity`) VALUES
-('6G7OE', '21B91A6206', 'HMDM0001', 1),
-('6G7OE', '21B91A6206', 'SNK0002', 1),
-('E6G2J', '21B91A6206', 'SNK0002', 1),
-('H63Z1', '21B91A6206', 'HMDM0001', 1),
-('H63Z1', '21B91A6206', 'SNK0001', 2),
-('H63Z1', '21B91A6206', 'SNK0002', 2),
-('H63Z1', '21B91A6206', 'STFD0001', 2),
-('K6A96', '21B91A6206', 'HMDM0001', 1),
-('K6A96', '21B91A6206', 'SNK0002', 1),
-('L3PP0', '21B91A6206', 'HMDM0001', 2),
-('L3PP0', '21B91A6206', 'SNK0002', 3),
-('LOEI8', '21B91A6206', 'HMDM0001', 1),
-('LOEI8', '21B91A6206', 'HMDM0003', 1),
-('PDX5S', '21B91A6206', 'HMDM0001', 1),
-('PDX5S', '21B91A6206', 'SNK0002', 1),
-('RVZRS', '21B91A6206', 'HMDM0002', 1),
-('RVZRS', '21B91A6206', 'HMDM0003', 1),
-('RVZRS', '21B91A6206', 'HMDM0004', 1),
-('RVZRS', '21B91A6206', 'SNK0001', 2),
-('RVZRS', '21B91A6206', 'SNK0002', 1),
-('SXAKE', '21B91A6206', 'null', 1),
-('SXAKE', '21B91A6206', 'SNK0002', 1),
-('UPTVQ', '21B91A6206', 'HMDM0001', 1),
-('UPTVQ', '21B91A6206', 'SNK0002', 1),
-('VY24Y', '21B91A6206', 'HMDM0001', 1),
-('VY24Y', '21B91A6206', 'HMDM0002', 2),
-('VY24Y', '21B91A6206', 'HMDM0003', 1),
-('VY24Y', '21B91A6206', 'SNK0002', 1),
-('VYBA4', '21B91A6206', 'HMDM0001', 1),
-('VYBA4', '21B91A6206', 'SNK0002', 1),
-('YWYBN', '21B91A6206', 'SNK0002', 1),
-('ZSUC3', '21B91A6206', 'HMDM0001', 2),
-('ZSUC3', '21B91A6206', 'SNK0002', 2),
-('ZSUC3', '21B91A6206', 'STFD0001', 1);
+('2AGZM', '21B91A6206', 'HF002', 2),
+('2AGZM', '21B91A6206', 'HF003', 2),
+('BN29M', '21B91A6206', 'HF003', 1),
+('F249F', '21B91A6206', 'HF002', 1),
+('F249F', '21B91A6206', 'HF003', 1),
+('SN0LK', '21B91A6206', 'HF002', 1),
+('SN0LK', '21B91A6206', 'HF003', 1),
+('Y030I', '21B91A6206', 'HF002', 1),
+('Y030I', '21B91A6206', 'HF003', 1),
+('ZZ1X2', '21B91A6206', 'HF002', 1),
+('ZZ1X2', '21B91A6206', 'HF003', 1);
 
 -- --------------------------------------------------------
 
@@ -253,21 +220,35 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`order_id`, `coustmer_id`, `total_amount`, `discount_price`, `coupan_price`, `Shipping_price`, `order_amount`, `payment`, `status`, `address`, `order_date`) VALUES
-('6G7OE', '21B91A6206', 170, 20, 10, 0, 140, 3, 2, '', '2024-03-06'),
-('8WM0N', '21B91A6206', 0, 0, 0, 0, 0, 0, 2, '', '2024-02-09'),
-('E6G2J', '21B91A6206', 60, 10, 10, 0, 40, 2, 2, '', '2024-03-06'),
-('H63Z1', '21B91A6206', 510, 110, 0, 0, 400, 0, 2, '', '2024-02-13'),
-('K6A96', '21B91A6206', 170, 20, 0, 0, 150, 2, 2, '', '2024-03-06'),
-('L3PP0', '21B91A6206', 400, 50, 30, 0, 320, 1, 2, '', '2024-03-06'),
-('LOEI8', '21B91A6206', 290, 50, 14, 0, 226, 0, 1, '', '2024-02-13'),
-('PDX5S', '21B91A6206', 170, 20, 10, 0, 140, 1, 1, '', '2024-03-06'),
-('RVZRS', '21B91A6206', 660, 90, 42, 0, 528, 0, 1, '', '2024-02-09'),
-('SXAKE', '21B91A6206', 60, 10, 0, 0, 50, 1, 1, '', '2024-03-06'),
-('UPTVQ', '21B91A6206', 170, 20, 0, 0, 150, 2, 1, '', '2024-03-06'),
-('VY24Y', '21B91A6206', 650, 80, 52, 0, 518, 0, 1, '', '2024-02-09'),
-('VYBA4', '21B91A6206', 170, 20, 10, 0, 140, 2, 1, '', '2024-03-06'),
-('YWYBN', '21B91A6206', 60, 10, 10, 0, 40, 3, 1, '', '2024-03-06'),
-('ZSUC3', '21B91A6206', 420, 70, 20, 0, 330, 0, 1, '', '2024-03-02');
+('2AGZM', '21B91A6206', 180, 40, 0, 0, 140, 2, 1, '', '2024-03-06'),
+('BN29M', '21B91A6206', 50, 10, 0, 0, 40, 2, 1, '', '2024-03-06'),
+('F249F', '21B91A6206', 90, 20, 0, 0, 70, 1, 1, '', '2024-03-06'),
+('SN0LK', '21B91A6206', 90, 20, 7, 0, 63, 1, 1, '', '2024-03-06'),
+('Y030I', '21B91A6206', 90, 20, 0, 0, 70, 3, 1, '', '2024-03-06'),
+('ZZ1X2', '21B91A6206', 90, 20, 0, 0, 70, 1, 1, '', '2024-03-06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_rewies`
+--
+
+CREATE TABLE `order_rewies` (
+  `student_id` varchar(15) NOT NULL,
+  `order_id` varchar(15) NOT NULL,
+  `rating` int(5) NOT NULL,
+  `feedback` varchar(200) NOT NULL,
+  `review` varchar(200) NOT NULL,
+  `image` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_rewies`
+--
+
+INSERT INTO `order_rewies` (`student_id`, `order_id`, `rating`, `feedback`, `review`, `image`) VALUES
+('21B91A6206', '2AGZM', 4, 'good', 'ok', NULL),
+('21B91A6206', 'BN29M', 10, 'Good', 'Good', NULL);
 
 -- --------------------------------------------------------
 
@@ -298,14 +279,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`sku`, `product_name`, `product_price`, `category_id`, `discount_price`, `about_product`, `date_create`, `no_units`, `product_start_time`, `product_end_time`, `photo1`, `photo2`, `photo3`, `photo4`, `photo5`) VALUES
-('HMDM0001', '      Veg Fried Rice      ', 110, 'CAT1', 100, '      Homely Made Healthy Veg Fried Rice      ', '2024-02-08', 100, '00:00:00', '00:00:00', '65c5155ef3e2c_25.png', '65c5155ef3fe0_1.png', '65c5155ef415d_8.png', '65c5155f0003c_9.png', '65c5155f00139_10.png'),
-('HMDM0002', 'Ulavacharu Biriyani', 150, 'CAT1', 140, 'Homely Made Healthy Chicken Noodles', '2024-02-08', 50, '00:00:10', '15:00:00', '65c50f08d1200_15.png', NULL, NULL, NULL, NULL),
-('HMDM0003', 'Avakai Biriyani', 180, 'CAT1', 140, 'Home Made Food', '2024-02-08', 105, '00:00:09', '15:00:00', '65c50f6a1d741_19.png', NULL, NULL, NULL, NULL),
-('HMDM0004', 'Chicken Fry Piece Biriyani', 150, 'CAT1', 140, 'Home Made Food', '2024-02-08', 6564, '00:00:20', '15:00:00', '65c50fbf75bc0_22.png', NULL, NULL, NULL, NULL),
-('SNK0001', '   Sana Punukulu   ', 60, 'CAT2', 50, '   Home Made Snack   ', '2024-02-08', 20, '00:00:00', '00:00:00', '65c510db4bcf8_25.png', NULL, NULL, NULL, NULL),
-('SNK0002', 'Bajilu', 60, 'CAT2', 50, 'Home Made Snack', '2024-02-08', 50, '00:00:00', '00:00:00', '65c511626cb93_14.png', '65c511626ccf6_15.png', '65c511626cde8_16.png', '65c511626cf0e_17.png', '65c511626d087_18.png'),
-('STFD0001', 'Monday Menu', 80, 'CAT3', 50, 'Student Food', '2024-02-08', 50, '00:00:10', '15:00:00', '65c51017f108e_21.png', NULL, NULL, NULL, NULL),
-('STFD0002', 'Tuesday Special', 90, 'CAT3', 70, 'Student Food', '2024-02-08', 50, '00:00:10', '15:00:00', '65c5106559958_17.png', NULL, NULL, NULL, NULL);
+('HF001', 'Iteam1', 150, 'CAT002', 130, 'Iteam1', '2024-03-07', 500, '00:00:00', '00:00:00', '65e8b71627646_6.png', '65e8b71627b3a_7.png', '65e8b71627d37_8.png', '65e8b71627ee0_9.png', NULL),
+('HF002', 'Cauliflower Fry', 40, 'CAT001', 30, 'Cauliflower Fry ThursdaySpecial', '2024-03-06', 5, '00:00:10', '14:00:00', '65e898987e7fd_3.png', '65e898987ec8a_4.png', '65e898987f07c_5.png', '65e898987f47d_6.png', '65e898987f848_7.png'),
+('HF003', 'Aratikay Curry', 50, 'CAT001', 40, 'Thursday Special Aratikay Curry', '2024-03-06', 3, '00:00:00', '00:00:00', '65e898eb29d35_4.png', '65e898eb2a047_5.png', '65e898eb2a306_6.png', '65e898eb2faea_7.png', '65e898eb2fe20_8.png'),
+('HF004', 'Iteam11', 50, 'CAT002', 35, 'Iteam11', '2024-03-07', 5000, '00:00:00', '00:00:00', '65e8b7408716b_10.png', '65e8b74087496_11.png', '65e8b7408774b_12.png', '65e8b74087a2e_13.png', '65e8b74087cd5_14.png'),
+('HF005', 'Iteam2', 50, 'CAT002', 49, 'Iteam2', '2024-03-07', 2, '00:00:00', '00:00:00', '65e8b76a7b364_12.png', '65e8b76a7b67e_13.png', '65e8b76a7b902_14.png', '65e8b76a7bcb9_15.png', '65e8b76a7bf4a_16.png'),
+('HF006', 'Iteam6', 130, 'CAT003', 110, 'Iteam6', '2024-03-07', 5, '00:00:00', '00:00:00', '65e8b7a32fddc_16.png', '65e8b7a330253_17.png', '65e8b7a33052b_18.png', '65e8b7a330797_19.png', '65e8b7a330a3f_20.png'),
+('HF007', 'Iteam7', 150, 'CAT003', 140, 'Iteam7', '2024-03-07', 50, '00:00:00', '00:00:00', '65e8b800ac0ee_15.png', '65e8b800ac377_16.png', '65e8b800ac5df_17.png', '65e8b800ac9a7_18.png', '65e8b800acb90_19.png'),
+('HF008', 'Iteam8', 300, 'CAT003', 280, 'Iteam8', '2024-03-07', 50, '00:00:10', '14:00:00', '65e8b83c3d8a7_26.png', '65e8b83c3dbd1_27.png', '65e8b83c3dea5_28.png', '65e8b83c3e181_29.png', '65e8b83c3e3b2_30.png');
 
 -- --------------------------------------------------------
 
@@ -324,14 +305,14 @@ CREATE TABLE `product_details` (
 --
 
 INSERT INTO `product_details` (`product_id`, `description`, `additional_info`) VALUES
-('HMDM0001', 'Home Made                          ', 'Home Made'),
-('HMDM0002', 'Home Made Food', 'Home Made Food'),
-('HMDM0003', 'Home Made Food', 'Home Made Food'),
-('HMDM0004', 'Home Made Food', 'Home Made Food'),
-('SNK0001', 'Home Made Snack', 'Home Made Snack'),
-('SNK0002', 'Home Made Snack', 'Home Made Snack'),
-('STFD0001', 'Student Food', 'Student Food'),
-('STFD0002', 'Student Food                          ', 'Student Food');
+('HF001', 'Iteam1', 'Iteam1'),
+('HF002', 'Cauliflower Fry ThursdaySpecial EXCLUSIVE  FOR  SRKRECIANS', 'Cauliflower Fry ThursdaySpecial EXCLUSIVE  FOR  SRKRECIANS'),
+('HF003', 'Thursday Special Aratikay Curry EXCLUSIVE  FOR  SRKRECIANS', 'Thursday Special Aratikay Curry EXCLUSIVE  FOR  SRKRECIANS'),
+('HF004', 'Iteam11', 'Iteam11'),
+('HF005', 'Iteam2', 'Iteam2'),
+('HF006', 'Iteam6', 'Iteam6'),
+('HF007', 'Iteam7', 'Iteam7'),
+('HF008', 'Iteam8', 'Iteam8');
 
 -- --------------------------------------------------------
 
@@ -345,8 +326,17 @@ CREATE TABLE `recharges` (
   `available_recharge` float NOT NULL,
   `amount` float NOT NULL,
   `cashback` float NOT NULL,
+  `total_recharge` float NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `recharges`
+--
+
+INSERT INTO `recharges` (`recharge_id`, `student_id`, `available_recharge`, `amount`, `cashback`, `total_recharge`, `date`) VALUES
+('pay_NjyQsT', '21B91A6206', 10, 1, 0.05, 11.05, '2024-03-08'),
+('pay_NjyTcg', '21B91A6206', 11, 1, 0.05, 12.05, '2024-03-08');
 
 -- --------------------------------------------------------
 
@@ -367,7 +357,8 @@ CREATE TABLE `recharge_used` (
 --
 
 INSERT INTO `recharge_used` (`order_id`, `student_id`, `avabile_recharge_points`, `date`, `recharge_points_used`) VALUES
-('K6A96', '21B91A6206', 999999, '2024-03-06', 150);
+('2AGZM', '21B91A6206', 4960, '2024-03-06', 140),
+('BN29M', '21B91A6206', 5000, '2024-03-06', 40);
 
 -- --------------------------------------------------------
 
@@ -394,6 +385,13 @@ CREATE TABLE `reviews` (
   `rating` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`coustmer_id`, `product_id`, `review`, `rating`) VALUES
+('21B91A6206', 'HF007', 'Good ', 5);
+
 -- --------------------------------------------------------
 
 --
@@ -414,8 +412,8 @@ CREATE TABLE `students` (
   `photo` varchar(80) NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `reacharge` int(5) NOT NULL DEFAULT 0,
-  `cridets` int(5) NOT NULL DEFAULT 0
+  `reacharge` float NOT NULL DEFAULT 0,
+  `cridets` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -423,8 +421,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_name`, `student_id`, `student_mobile`, `Batch`, `Department`, `Section`, `father_name`, `mother_name`, `home_town`, `Transportation`, `photo`, `password`, `email`, `reacharge`, `cridets`) VALUES
-('Default User', '000000', '000000', '0000', '000', '00', NULL, NULL, NULL, NULL, 'saiPraveen.jpg', '000000', '', 0, 0),
-('Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727272', '2027', 'CSE', 'D', 'Trimurthulu ch', 'Ganga Tulasi ch', 'Tholeru, veeravasaram', 'RTC', '21B91A6206_whatsapp-image-2024-02-12-at-6.20.36-pm.jpeg', '123123', 'ravikumar_csd@srkrec.com', 999849, 99809);
+('Default User', '000000', '', '', '', 'A', NULL, NULL, NULL, NULL, 'defaultuser.png', '', '', 0, 0),
+('Ravi Kumar Satya Sai Praveen', '21B91A6206', '9052727402', '2025', 'CSD', 'A', 'Trimurthulu', 'Ganga Tulasi', 'Tholeru', 'Room', '21B91A6206_saipraveen-pic.jpeg', '123123', 'ravikumar_csd@srkrec.edu.in', 12.05, 4802);
 
 -- --------------------------------------------------------
 
@@ -437,6 +435,14 @@ CREATE TABLE `tags` (
   `tag_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`product_id`, `tag_name`) VALUES
+('HF003', 'biriyani'),
+('HF004', 'biriyani');
+
 -- --------------------------------------------------------
 
 --
@@ -448,13 +454,6 @@ CREATE TABLE `wishlist` (
   `product_id` varchar(15) NOT NULL,
   `product_quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`coustmer_id`, `product_id`, `product_quantity`) VALUES
-('000000', 'SNK0002', 0);
 
 --
 -- Indexes for dumped tables
@@ -491,6 +490,12 @@ ALTER TABLE `credites`
   ADD PRIMARY KEY (`order_id`);
 
 --
+-- Indexes for table `offer`
+--
+ALTER TABLE `offer`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -501,6 +506,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_details`
   ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_rewies`
+--
+ALTER TABLE `order_rewies`
+  ADD PRIMARY KEY (`student_id`,`order_id`);
 
 --
 -- Indexes for table `products`
@@ -555,6 +566,16 @@ ALTER TABLE `tags`
 --
 ALTER TABLE `wishlist`
   ADD PRIMARY KEY (`coustmer_id`,`product_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `offer`
+--
+ALTER TABLE `offer`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
