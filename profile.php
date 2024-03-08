@@ -1,13 +1,4 @@
 <?php
-require 'vendor/autoload.php';
-require('vendor\razorpay\razorpay\Razorpay.php');
-
-use Razorpay\Api\Api;
-use Razorpay\Api\Errors\SignatureVerificationError;
-
-
-
-$api = new Api('rzp_test_ag4z4ezm2Nz4GN', 'bjR8bEg9x081Pg2YDSV7FlFJ');
 
 include "connect.php";
 if (empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('Location: login.php');
