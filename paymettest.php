@@ -22,6 +22,43 @@
         
 
     ?>
+
+
+<!-- Include Razorpay Checkout script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!-- Create a button to initiate payment -->
+<button id="rzp-button">Pay Now</button>
+
+<script>
+    document.getElementById('rzp-button').addEventListener('click', function () {
+        var options = {
+            "key": "rzp_test_ag4z4ezm2Nz4GN",
+            "amount": 100, // Amount in paise
+            "currency": "INR",
+            "name": "Your Company Name",
+            "description": "Purchase Description",
+            "handler": function (response) {
+                // Handle payment success
+                console.log(response);
+                // Redirect or perform other actions based on payment success
+                //window.location.href = "success.php"; // Redirect to success page
+            },
+            "prefill": {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    });
+</script>
+
+
     
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
