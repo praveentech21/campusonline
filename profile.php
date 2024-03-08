@@ -1,4 +1,14 @@
 <?php
+require 'vendor/autoload.php';
+require('vendor\razorpay\razorpay\Razorpay.php');
+
+use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
+
+
+
+$api = new Api('rzp_test_ag4z4ezm2Nz4GN', 'bjR8bEg9x081Pg2YDSV7FlFJ');
+
 include "connect.php";
 if (empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('Location: login.php');
 $student_id = $_SESSION['student_id'];
@@ -333,6 +343,8 @@ if (isset($_POST['editdetails'])) {
                                 </div>
                                 <div id="accountdata" class="collapse" aria-labelledby="account" data-bs-parent="#accordion100">
                                     <div class="card-body">
+
+                                        <a href="#" class="btn btn-outline btn-success mb-2" data-bs-toggle="modal" data-bs-target="#rechargepopup">Reacharge Cridets</a>
 
                                         <h4>Avabile Criedents</h4>
 
@@ -701,15 +713,17 @@ if (isset($_POST['editdetails'])) {
 
         </div>
 
+        <!-- Feed Back Modal Starts Here Shiva -->
+
         <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="formModalLabel">Large Modal Title</h4>
+                        <h4 class="modal-title" id="formModalLabel">Order Review</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form id="demo-form" class="mb-4" novalidate="novalidate" enctype="multipart/form-data" >
+                        <form id="demo-form" class="mb-4" novalidate="novalidate" enctype="multipart/form-data">
 
                             <!-- Add student ID input field here -->
                             <input type="hidden" id="studentId" name="studentId">
@@ -747,7 +761,7 @@ if (isset($_POST['editdetails'])) {
                                     </div>
                                 </div>
                             </div> -->
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -757,6 +771,85 @@ if (isset($_POST['editdetails'])) {
                 </div>
             </div>
         </div>
+
+        <!-- Feed Back Modal Ends Here Shiva -->
+
+        <!-- Recharge Modal Starts Here Shiva -->
+        <div class="modal fade" id="rechargepopup" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+            <?php
+            $stud_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `students` WHERE `student_id` = '$student_id'"));
+            ?>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="defaultModalLabel">Recharge Cridets</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+
+                                        Name
+                                    </td>
+                                    <td>
+                                        <?php echo $stud_details['student_name'] ?>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Student ID
+                                    </td>
+                                    <td>
+                                        <?php echo $stud_details['student_id'] ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Student Mobile
+                                    </td>
+                                    <td>
+                                        <?php echo $stud_details['student_mobile'] ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Avabile Cridets
+                                    </td>
+                                    <td>
+                                        <?php echo $student['cridets'] ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <input type="hidden" id="recharge_student" value="<?php echo $stud_details['student_id'] ?>">
+                        <input type="hidden" id="student_name" value="<?php echo $stud_details['student_name'] ?>">
+                        <input type="hidden" id="student_mobile" value="<?php echo $stud_details['student_mobile'] ?>">
+                        <input type="hidden" id="student_email" value="<?php echo $stud_details['email'] ?>">
+                        <div class="form-group row align-items-center">
+                            <label class="col-sm-3 text-start text-sm-end mb-0">Recharge Amount</label>
+                            <div class="col-sm-9">
+                                <input type="number" id="recharge_amount_to_pay" class="form-control" placeholder="Recharge Amount" required />
+                            </div>
+                        </div>
+                        <!-- pay button here -->
+                        <div class="form-group ">
+                            <button id="rzp-button" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">Pay</button>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recharge Modal Ends Here Shiva -->
 
         <?php include 'shoping_fotter.php'; ?>
         <!-- Fotter Come Here Shiva -->
@@ -810,6 +903,58 @@ if (isset($_POST['editdetails'])) {
             // Close modal
             $('#formModal').modal('hide');
         }
+    </script>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        document.getElementById('rzp-button').addEventListener('click', function() {
+            var student_id = document.getElementById('recharge_student').value;
+            var recharge_amount_to_pay = document.getElementById('recharge_amount_to_pay').value * 100; //amount in paise
+
+            var student_email = document.getElementById('student_email').value;
+            var student_mobile = document.getElementById('student_mobile').value;
+            var student_name = document.getElementById('student_name').value;
+
+            var options = {
+                "key": "rzp_live_2D4bAGktbYxm16",
+                "amount": recharge_amount_to_pay, // Amount in paise
+                "currency": "INR",
+                "name": "SRKR CampusOnline",
+                "description": student_id,
+                "handler": function(response) {
+                    console.log(response.razorpay_payment_id);
+                    $.ajax({
+                type: 'POST',
+                url: 'recharge_update.php',
+                data: {
+                    orderAmount: recharge_amount_to_pay,
+                    paymentId: response.razorpay_payment_id,
+                    studentid: student_id
+                },
+                success: function(response) {
+                    console.log(response);
+                    // Handle success response if needed
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending order details:', error);
+                    // Handle error response if needed
+                }
+            });
+                },
+                "prefill": {
+                    "name": student_name,
+                    "email": student_email,
+                    "contact": student_mobile
+                },
+                "theme": {
+                    "color": "#1e86f5"
+                }
+            };
+            var rzp = new Razorpay(options);
+
+            rzp.open();
+        });
     </script>
 
 
