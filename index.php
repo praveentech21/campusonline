@@ -213,7 +213,7 @@ $today = date("Y-m-d");
                                         <li class="page-item"><a class="page-link" href="<?php echo $pagation_link.'1'; ?>"><i
                                                     class="fas fa-angle-left"></i></a></li>
 													<?php for ($i = 2; $i <= $total_pages-1; $i++) { ?>
-                                        <li class="page-item active"><a class="page-link" href="<?php echo $pagation_link.$i; ?>">1</a></li>
+                                        <li class="page-item active"><a class="page-link" href="<?php echo $pagation_link.$i; ?>"><?php echo $i ?></a></li>
 										<?php } ?>
                                         <li class="page-item"><a class="page-link" href="<?php echo $pagation_link.$total_pages; ?>"><i
                                                     class="fas fa-angle-right"></i></a></li>
