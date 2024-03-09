@@ -18,7 +18,8 @@ if (isset($_POST['paymentId']) and isset($_POST['orderAmount'])) {
     if ($upd_recharge && mysqli_query($con, "UPDATE `students` SET `reacharge`=$total_recharge_avabile WHERE `student_id` ='$studentid' ")) {
         $response = array(
             'status' => 'success',
-            'message' => "Order Amount: $orderAmount, Payment ID: $paymentId"
+            'message' => "Order Amount: $orderAmount, Payment_ID: $paymentId",
+            'Payment_ID' => $paymentId
         );
     } else {
         $response = array(

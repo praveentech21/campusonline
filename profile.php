@@ -925,6 +925,17 @@ if (isset($_POST['editdetails'])) {
                 },
                 success: function(response) {
                     console.log(response);
+                    // get payment_id from response and send it to server
+                    var paymentId = response.Payment_ID;
+                    console.log('Payment ID:', paymentId);
+                    if (paymentId == null) {
+                        alert('Recharge failed');
+                        return;
+                    }
+                    else{
+                        alert('Recharge successful your payment id is ' + paymentId);
+                        window.location.href = 'profile.php';
+                    }
                     // Handle success response if needed
                 },
                 error: function(xhr, status, error) {
