@@ -813,7 +813,7 @@ if (isset($_POST['editdetails'])) {
                                         Avabile Cridets
                                     </td>
                                     <td>
-                                        <?php echo $student['cridets'] ?>
+                                        <?php echo $student['reacharge'] ?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -924,14 +924,60 @@ if (isset($_POST['editdetails'])) {
                     var responseData = JSON.parse(response);
                     var orderId = responseData.id;
 
-                    console.log('Order ID:', orderId);
-
                     if (orderId == null) {
                         alert('Recharge Initiate failed please try again later');
                         //window.location.href = 'profile.php';
                     } else {
-                        document.getElementById('orderid').value = orderId;
                         console.log('Order ID:', orderId);
+                        $.ajax({
+                            type: 'POST',
+                            url: 'recharge_update.php',
+                            data: {
+                                payment: "initiate_payment",
+                                orderAmount: recharge_amount_to_pay,
+                                orderId: orderId,
+                                studentid: student_id
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                // get payment_id from response and send it to server
+                                var paymentId = response.Order_ID;
+                                console.log('Payment ID:', paymentId);
+                                if (orderId == null) {
+                                    alert('Recharge Initiate failed please try again later');
+                                    return;
+                                } 
+                                // Handle success response if needed
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error sending order details:', error);
+                                // Handle error response if needed
+                            }
+                        });
+                        var options = {
+                            "key": "rzp_test_bZFi6V3FyQ5lBT", // Enter the Key ID generated from the Dashboard
+                            "amount": recharge_amount_to_pay, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                            "currency": "INR",
+                            "name": "SRKR Campus Online",
+                            "description": "SRKR Campusonline Reacharge of Student" + student_id,
+                            "image": "http://srkrcampusonline.rf.gd/Bhavani/img/campus_online_200_96.png",
+                            "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                            "callback_url": "http://srkrcampusonline.rf.gd/recharge_update.php",
+                            "prefill": {
+                                "name": student_name,
+                                "email": student_email,
+                                "contact": student_mobile
+                            },
+                            "notes": {
+                                "address": "Razorpay Corporate Office"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+                        };
+                        var rzp = new Razorpay(options);
+
+                        rzp.open();
                     }
                 },
                 error: function(xhr, status, error) {
@@ -940,58 +986,6 @@ if (isset($_POST['editdetails'])) {
                 }
             });
 
-            var orderId = document.getElementById('orderid').value;
-            $.ajax({
-                type: 'POST',
-                url: 'recharge_update.php',
-                data: {
-                    payment: "initiate_payment",
-                    orderAmount: recharge_amount_to_pay,
-                    orderId: orderId,
-                    studentid: student_id
-                },
-                success: function(response) {
-                    console.log(response);
-                    // get payment_id from response and send it to server
-                    var paymentId = response.Order_ID;
-                    console.log('Payment ID:', paymentId);
-                    if (orderId == null) {
-                        alert('Recharge Initiate failed please try again later');
-                        return;
-                    } else {
-                        alert('Recharge Initiated successful your payment id is ' + paymentId);
-                    }
-                    // Handle success response if needed
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending order details:', error);
-                    // Handle error response if needed
-                }
-            });
-            var options = {
-                "key": "rzp_test_bZFi6V3FyQ5lBT", // Enter the Key ID generated from the Dashboard
-                "amount": recharge_amount_to_pay, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "SRKR Campus Online",
-                "description": "SRKR Campusonline Reacharge of Student" + student_id,
-                "image": "http://srkrcampusonline.rf.gd/Bhavani/img/campus_online_200_96.png",
-                "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "callback_url": "http://srkrcampusonline.rf.gd/recharge_update.php",
-                "prefill": {
-                    "name": student_name,
-                    "email": student_email,
-                    "contact": student_mobile
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp = new Razorpay(options);
-
-            rzp.open();
         });
     </script>
 

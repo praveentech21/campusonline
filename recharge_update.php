@@ -33,46 +33,46 @@ if (isset($_POST['payment']) and $_POST['payment'] == "initiate_payment") {
 } 
 elseif (isset($_POST['razorpay_payment_id']) ) {
 
-    require_once('vendor/razorpay/razorpay/Razorpay.php');
+      require_once('vendor/razorpay/razorpay/Razorpay.php');
 
-    $apiKey = 'rzp_test_bZFi6V3FyQ5lBT'; 
-    $apiSecret = 'nEJCjWeTtdKUpifSKfyQV2oX';
- 
-    $api = new Razorpay\Api\Api($apiKey, $apiSecret);
- 
-    $paymentId = $_POST['razorpay_payment_id'];
-    $orderId = $_POST['razorpay_order_id'];
-    $signature = $_POST['razorpay_signature'];
+   $apiKey = 'rzp_test_bZFi6V3FyQ5lBT'; 
+   $apiSecret = 'nEJCjWeTtdKUpifSKfyQV2oX';
 
-    echo $paymentId."<br>".$orderId."<br>".$signature;
- 
-    try {
-        $attributes = array(
-            'razorpay_payment_id' => $paymentId,
-            'razorpay_order_id' => $orderId,
-            'razorpay_signature' => $signature
-        );
- 
-        $api->utility->verifyPaymentSignature($attributes);
+   $api = new Razorpay\Api\Api($apiKey, $apiSecret);
 
-        $update_recharge = mysqli_query($conn, "UPDATE `recharges` SET `status`=1,`recharge_id`='$paymentId',`signature`='$signature' WHERE `order_id` = '$orderId'");
+   $paymentId = $_POST['razorpay_payment_id'];
+   $orderId = $_POST['razorpay_order_id'];
+   $signature = $_POST['razorpay_signature'];
 
-        $student_details = mysqli_fetch_assoc(mysqli_query($conn, "SELECT `total_recharge`, `student_id` FROM `recharges` WHERE `order_id` = '$orderId'"));
+   try {
+       $attributes = array(
+           'razorpay_payment_id' => $paymentId,
+           'razorpay_order_id' => $orderId,
+           'razorpay_signature' => $signature
+       );
+
+       $api->utility->verifyPaymentSignature($attributes);
+
+        $update_recharge = mysqli_query($con, "UPDATE `recharges` SET `status`=1,`recharge_id`='$paymentId',`signature`='$signature' WHERE `order_id` = '$orderId'");
+
+        $student_details = mysqli_fetch_assoc(mysqli_query($con, "SELECT `total_recharge`, `student_id` FROM `recharges` WHERE `order_id` = '$orderId'"));
 
         $total_recharge_avabile = $student_details['total_recharge'];
         $studentid  = $student_details['student_id'];
 
-        $update_student = mysqli_query($conn, "UPDATE `students` SET `reacharge` = $total_recharge_avabile WHERE `student_id` = '$studentid')");
+        $update_student = mysqli_query($con, "UPDATE `students` SET `reacharge` = $total_recharge_avabile WHERE `student_id` = '$studentid'");
 
         http_response_code(200);
-        echo 'Payment success';
+        echo '<script>alert("Payment Sucessfull")</script>';
+        echo '<script>window.location.href = "profile.php"</script>';
     } catch (Exception $e) {
         echo $e->getMessage();
 
-        $update_recharge = mysqli_query($conn, "UPDATE `recharges` SET `status`=0,`recharge_id`='$paymentId',`signature`='$signature' WHERE `order_id` = '$orderId'");
+        $update_recharge = mysqli_query($con, "UPDATE `recharges` SET `status`=5,`recharge_id`='$paymentId',`signature`='$signature' WHERE `order_id` = '$orderId'");
 
         http_response_code(400);
-        echo 'Payment failed';
+        echo '<script>alert("Payment failed")</script>';
+        echo '<script>window.location.href = "profile.php"</script>';
     }
 } else {
     $response = array(
