@@ -31,26 +31,28 @@ if (isset($_POST['payment']) and $_POST['payment'] == "initiate_payment") {
     header('Content-Type: application/json');
     echo json_encode($response);
 } 
-elseif (isset($_POST['razorpay_payment_id']) and isset($_POST['razorpay_order_id'])) {
+elseif (isset($_POST['razorpay_payment_id']) ) {
 
     require_once('vendor/razorpay/razorpay/Razorpay.php');
 
-    $apiKey = 'rzp_test_bZFi6V3FyQ5lBT';
+    $apiKey = 'rzp_test_bZFi6V3FyQ5lBT'; 
     $apiSecret = 'nEJCjWeTtdKUpifSKfyQV2oX';
-
+ 
     $api = new Razorpay\Api\Api($apiKey, $apiSecret);
-
+ 
     $paymentId = $_POST['razorpay_payment_id'];
     $orderId = $_POST['razorpay_order_id'];
     $signature = $_POST['razorpay_signature'];
 
+    echo $paymentId."<br>".$orderId."<br>".$signature;
+ 
     try {
         $attributes = array(
             'razorpay_payment_id' => $paymentId,
             'razorpay_order_id' => $orderId,
             'razorpay_signature' => $signature
         );
-
+ 
         $api->utility->verifyPaymentSignature($attributes);
 
         $update_recharge = mysqli_query($conn, "UPDATE `recharges` SET `status`=1,`recharge_id`='$paymentId',`signature`='$signature' WHERE `order_id` = '$orderId'");
