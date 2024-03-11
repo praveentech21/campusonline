@@ -66,29 +66,6 @@ if (isset($_POST['editdetails'])) {
     }
 }
 
-if (isset($_POST['recharge'])) {
-    $recharge_amount_to_pay = $_POST['recharge_amount_to_pay'];
-    $student_email = $student['email'];
-    $student_mobile = $student['student_mobile'];
-    $student_name = $student['student_name'];
-    $student_id = $student['student_id'];
-    $recharge_in_paise = $recharge_amount_to_pay * 100;
-
-    require_once('vendor/razorpay/razorpay/Razorpay.php');
-    $api = new Razorpay\Api\Api("rzp_test_bZFi6V3FyQ5lBT", "nEJCjWeTtdKUpifSKfyQV2oX");
-
-    $orderData = [
-        'amount' => $recharge_in_paise, // amount in paise (e.g. ₹10 = 1000 paise)
-        'currency' => 'INR',
-        'receipt' => 'order_receipt',
-        'payment_capture' => 1 // auto capture payment
-    ];
-
-    $order = $api->order->create($orderData);
-    $orderId = $order['id'];
-    echo "<input type='hidden' id='orderid' value='$orderId'>";
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -842,23 +819,21 @@ if (isset($_POST['recharge'])) {
                             </tbody>
                         </table>
 
-                        <form action="#" method="post">
-
-                            <input type="hidden" name="recharge_student" id="recharge_student" value="<?php echo $stud_details['student_id'] ?>">
-                            <input type="hidden" name="student_name" id="student_name" value="<?php echo $stud_details['student_name'] ?>">
-                            <input type="hidden" name="student_mobile" id="student_mobile" value="<?php echo $stud_details['student_mobile'] ?>">
-                            <input type="hidden" name="student_email" id="student_email" value="<?php echo $stud_details['email'] ?>">
-                            <div class="form-group row align-items-center">
-                                <label class="col-sm-3 text-start text-sm-end mb-0">Recharge Amount</label>
-                                <div class="col-sm-9">
-                                    <input type="number" name="recharge_amount_to_pay" id="recharge_amount_to_pay" class="form-control" placeholder="Recharge Amount" required />
-                                </div>
+                        <input type="hidden" id="recharge_student" value="<?php echo $stud_details['student_id'] ?>">
+                        <input type="hidden" id="student_name" value="<?php echo $stud_details['student_name'] ?>">
+                        <input type="hidden" id="student_mobile" value="<?php echo $stud_details['student_mobile'] ?>">
+                        <input type="hidden" id="student_email" value="<?php echo $stud_details['email'] ?>">
+                        <input type="hidden" id="orderid">
+                        <div class="form-group row align-items-center">
+                            <label class="col-sm-3 text-start text-sm-end mb-0">Recharge Amount</label>
+                            <div class="col-sm-9">
+                                <input type="number" id="recharge_amount_to_pay" class="form-control" placeholder="Recharge Amount" required />
                             </div>
-                            <!-- pay button here -->
-                            <div class="form-group ">
-                                <button type="submit" id="rzp-button1" name="payamount" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">Pay</button>
-                            </div>
-                        </form>
+                        </div>
+                        <!-- pay button here -->
+                        <div class="form-group ">
+                            <button id="rzp-button1" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">Pay</button>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -936,10 +911,39 @@ if (isset($_POST['recharge'])) {
             var student_mobile = document.getElementById('student_mobile').value;
             var student_name = document.getElementById('student_name').value;
 
+            $.ajax({
+                type: 'POST',
+                url: 'create_order.php',
+                data: {
+                    work: "create_order",
+                    orderAmount: recharge_amount_to_pay,
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    var responseData = JSON.parse(response);
+                    var orderId = responseData.id;
+
+                    console.log('Order ID:', orderId);
+
+                    if (orderId == null) {
+                        alert('Recharge Initiate failed please try again later');
+                        //window.location.href = 'profile.php';
+                    } else {
+                        document.getElementById('orderid').value = orderId;
+                        console.log('Order ID:', orderId);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending order details:', error);
+                    // Handle error response if needed
+                }
+            });
+
             var orderId = document.getElementById('orderid').value;
             $.ajax({
                 type: 'POST',
-                url: 'recharge_update1.php',
+                url: 'recharge_update.php',
                 data: {
                     payment: "initiate_payment",
                     orderAmount: recharge_amount_to_pay,
@@ -972,7 +976,7 @@ if (isset($_POST['recharge'])) {
                 "description": "SRKR Campusonline Reacharge of Student" + student_id,
                 "image": "http://srkrcampusonline.rf.gd/Bhavani/img/campus_online_200_96.png",
                 "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "callback_url": "http://srkrcampusonline.rf.gd/paymenthandel.php",
+                "callback_url": "http://srkrcampusonline.rf.gd/recharge_update.php",
                 "prefill": {
                     "name": student_name,
                     "email": student_email,
