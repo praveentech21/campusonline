@@ -1,7 +1,9 @@
 <?php
 
 include "connect.php";
+
 if (empty($_SESSION['student_id']) or $_SESSION['student_id'] == '000000') header('Location: login.php');
+
 $student_id = $_SESSION['student_id'];
 $student = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM students WHERE `student_id` = '$student_id'"));
 
@@ -62,6 +64,29 @@ if (isset($_POST['editdetails'])) {
     } else {
         echo "<script>alert('Details Not Updated');</script>";
     }
+}
+
+if (isset($_POST['recharge'])) {
+    $recharge_amount_to_pay = $_POST['recharge_amount_to_pay'];
+    $student_email = $student['email'];
+    $student_mobile = $student['student_mobile'];
+    $student_name = $student['student_name'];
+    $student_id = $student['student_id'];
+    $recharge_in_paise = $recharge_amount_to_pay * 100;
+
+    require_once('vendor/razorpay/razorpay/Razorpay.php');
+    $api = new Razorpay\Api\Api("rzp_test_bZFi6V3FyQ5lBT", "nEJCjWeTtdKUpifSKfyQV2oX");
+
+    $orderData = [
+        'amount' => $recharge_in_paise, // amount in paise (e.g. ₹10 = 1000 paise)
+        'currency' => 'INR',
+        'receipt' => 'order_receipt',
+        'payment_capture' => 1 // auto capture payment
+    ];
+
+    $order = $api->order->create($orderData);
+    $orderId = $order['id'];
+    echo "<input type='hidden' id='orderid' value='$orderId'>";
 }
 
 ?>
@@ -817,20 +842,23 @@ if (isset($_POST['editdetails'])) {
                             </tbody>
                         </table>
 
-                        <input type="hidden" id="recharge_student" value="<?php echo $stud_details['student_id'] ?>">
-                        <input type="hidden" id="student_name" value="<?php echo $stud_details['student_name'] ?>">
-                        <input type="hidden" id="student_mobile" value="<?php echo $stud_details['student_mobile'] ?>">
-                        <input type="hidden" id="student_email" value="<?php echo $stud_details['email'] ?>">
-                        <div class="form-group row align-items-center">
-                            <label class="col-sm-3 text-start text-sm-end mb-0">Recharge Amount</label>
-                            <div class="col-sm-9">
-                                <input type="number" id="recharge_amount_to_pay" class="form-control" placeholder="Recharge Amount" required />
+                        <form action="#" method="post">
+
+                            <input type="hidden" name="recharge_student" id="recharge_student" value="<?php echo $stud_details['student_id'] ?>">
+                            <input type="hidden" name="student_name" id="student_name" value="<?php echo $stud_details['student_name'] ?>">
+                            <input type="hidden" name="student_mobile" id="student_mobile" value="<?php echo $stud_details['student_mobile'] ?>">
+                            <input type="hidden" name="student_email" id="student_email" value="<?php echo $stud_details['email'] ?>">
+                            <div class="form-group row align-items-center">
+                                <label class="col-sm-3 text-start text-sm-end mb-0">Recharge Amount</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="recharge_amount_to_pay" id="recharge_amount_to_pay" class="form-control" placeholder="Recharge Amount" required />
+                                </div>
                             </div>
-                        </div>
-                        <!-- pay button here -->
-                        <div class="form-group ">
-                            <button id="rzp-button" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">Pay</button>
-                        </div>
+                            <!-- pay button here -->
+                            <div class="form-group ">
+                                <button type="submit" id="rzp-button1" name="payamount" class="btn btn-primary btn-modern float-end" data-loading-text="Loading...">Pay</button>
+                            </div>
+                        </form>
 
                     </div>
                     <div class="modal-footer">
@@ -852,6 +880,9 @@ if (isset($_POST['editdetails'])) {
     <script src="Bhavani/vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
     <script src="Bhavani/vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js"></script>
     <script src="Bhavani/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <!-- Theme Base, Components and Settings -->
     <script src="Bhavani/js/theme.js"></script>
@@ -896,10 +927,8 @@ if (isset($_POST['editdetails'])) {
         }
     </script>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
     <script>
-        document.getElementById('rzp-button').addEventListener('click', function() {
+        document.getElementById('rzp-button1').addEventListener('click', function() {
             var student_id = document.getElementById('recharge_student').value;
             var recharge_amount_to_pay = document.getElementById('recharge_amount_to_pay').value * 100; //amount in paise
 
@@ -907,49 +936,53 @@ if (isset($_POST['editdetails'])) {
             var student_mobile = document.getElementById('student_mobile').value;
             var student_name = document.getElementById('student_name').value;
 
-            var options = {
-                "key": "rzp_live_2D4bAGktbYxm16",
-                "amount": recharge_amount_to_pay, // Amount in paise
-                "currency": "INR",
-                "name": "SRKR CampusOnline",
-                "description": student_id,
-                "handler": function(response) {
-                    console.log(response.razorpay_payment_id);
-                    $.ajax({
-                        type: 'POST',
-                        url: 'recharge_update.php',
-                        data: {
-                            orderAmount: recharge_amount_to_pay,
-                            paymentId: response.razorpay_payment_id,
-                            studentid: student_id
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            // get payment_id from response and send it to server
-                            var paymentId = response.Payment_ID;
-                            console.log('Payment ID:', paymentId);
-                            if (paymentId == null) {
-                                alert('Recharge failed');
-                                return;
-                            } else {
-                                alert('Recharge successful your payment id is ' + paymentId);
-                                window.location.href = 'profile.php';
-                            }
-                            // Handle success response if needed
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error sending order details:', error);
-                            // Handle error response if needed
-                        }
-                    });
+            var orderId = document.getElementById('orderid').value;
+            $.ajax({
+                type: 'POST',
+                url: 'recharge_update1.php',
+                data: {
+                    payment: "initiate_payment",
+                    orderAmount: recharge_amount_to_pay,
+                    orderId: orderId,
+                    studentid: student_id
                 },
+                success: function(response) {
+                    console.log(response);
+                    // get payment_id from response and send it to server
+                    var paymentId = response.Order_ID;
+                    console.log('Payment ID:', paymentId);
+                    if (orderId == null) {
+                        alert('Recharge Initiate failed please try again later');
+                        return;
+                    } else {
+                        alert('Recharge Initiated successful your payment id is ' + paymentId);
+                    }
+                    // Handle success response if needed
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending order details:', error);
+                    // Handle error response if needed
+                }
+            });
+            var options = {
+                "key": "rzp_test_bZFi6V3FyQ5lBT", // Enter the Key ID generated from the Dashboard
+                "amount": recharge_amount_to_pay, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "SRKR Campus Online",
+                "description": "SRKR Campusonline Reacharge of Student" + student_id,
+                "image": "http://srkrcampusonline.rf.gd/Bhavani/img/campus_online_200_96.png",
+                "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "callback_url": "http://srkrcampusonline.rf.gd/paymenthandel.php",
                 "prefill": {
                     "name": student_name,
                     "email": student_email,
                     "contact": student_mobile
                 },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
                 "theme": {
-                    "color": "#1e86f5"
+                    "color": "#3399cc"
                 }
             };
             var rzp = new Razorpay(options);
