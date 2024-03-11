@@ -406,6 +406,55 @@ if (isset($_POST['editdetails'])) {
                                             </tbody>
                                         </table>
 
+                                        <h4>Recharge History</h4>
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Order ID
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                    <th>
+                                                        Cash Back
+                                                    </th>
+                                                    <th>
+                                                        Account Reacharge
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $recharges_till_now = mysqli_query($con, "SELECT * FROM `recharges` WHERE `student_id` = '$student_id' ORDER BY date(`date`) DESC");
+                                                    while ($rech_each = mysqli_fetch_assoc($recharges_till_now)) {
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $rech_each['order_id'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $rech_each['amount'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $rech_each['cashback'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $rech_each['total_recharge'] ?>    
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $rech_each['date'] ?>
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                                
+                                            </tbody>
+                                        </table>
+
                                         <div class="accordion" id="accordion6">
                                             <div class="card card-default">
                                                 <div class="card-header">
