@@ -916,33 +916,32 @@ if (isset($_POST['editdetails'])) {
                 "handler": function(response) {
                     console.log(response.razorpay_payment_id);
                     $.ajax({
-                type: 'POST',
-                url: 'recharge_update.php',
-                data: {
-                    orderAmount: recharge_amount_to_pay,
-                    paymentId: response.razorpay_payment_id,
-                    studentid: student_id
-                },
-                success: function(response) {
-                    console.log(response);
-                    // get payment_id from response and send it to server
-                    var paymentId = response.Payment_ID;
-                    console.log('Payment ID:', paymentId);
-                    if (paymentId == null) {
-                        alert('Recharge failed');
-                        return;
-                    }
-                    else{
-                        alert('Recharge successful your payment id is ' + paymentId);
-                        window.location.href = 'profile.php';
-                    }
-                    // Handle success response if needed
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending order details:', error);
-                    // Handle error response if needed
-                }
-            });
+                        type: 'POST',
+                        url: 'recharge_update.php',
+                        data: {
+                            orderAmount: recharge_amount_to_pay,
+                            paymentId: response.razorpay_payment_id,
+                            studentid: student_id
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // get payment_id from response and send it to server
+                            var paymentId = response.Payment_ID;
+                            console.log('Payment ID:', paymentId);
+                            if (paymentId == null) {
+                                alert('Recharge failed');
+                                return;
+                            } else {
+                                alert('Recharge successful your payment id is ' + paymentId);
+                                window.location.href = 'profile.php';
+                            }
+                            // Handle success response if needed
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error sending order details:', error);
+                            // Handle error response if needed
+                        }
+                    });
                 },
                 "prefill": {
                     "name": student_name,
