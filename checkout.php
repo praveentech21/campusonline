@@ -220,7 +220,7 @@ $total = 0;
 
 													<div class="d-flex flex-column">
 														<label class="d-flex align-items-center text-color-grey mb-0" for="cridets">
-															<input id="cridets" type="radio" class="me-2" name="payment_method" value=1 checked />
+															<input id="cridets" type="radio" class="me-2" name="payment_method" value=1 />
 															Payment from Cridets
 														</label>
 														<label class="d-flex align-items-center text-color-grey mb-0" for="recharge">
