@@ -141,12 +141,12 @@ $today = date("Y-m-d");
 													</a> -->
                                             </div>
                                             <?php } else { ?>
-                                            <div class="addtocart-btn-wrapper">
+                                            <!-- <div class="addtocart-btn-wrapper">
                                                 <a href="#" class="text-decoration-none addtocart-btn"
                                                     title="Out of Stock">
                                                     <i class="icons icon-bag"></i>
                                                 </a>
-                                            </div>
+                                            </div> -->
                                             <?php } ?>
                                             <a href="shop-product-quick-view.php?sku=<?php echo $row['sku']; ?>"
                                                 class="quick-view text-uppercase font-weight-semibold text-2">
@@ -172,11 +172,11 @@ $today = date("Y-m-d");
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <a href="#"
+                                                <a href="index.php?category_id=<?php echo $row['category_id']; ?>"
                                                     class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1"><?php echo $category_name; ?></a>
                                                 <h3
                                                     class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
-                                                    <a href="shop-product-sidebar-right.html"
+                                                    <a href="product.php?product_id=<?php echo $row['sku']; ?>"
                                                         class="text-color-dark text-color-hover-primary"><?php echo $row['product_name'] ?></a>
                                                 </h3>
                                             </div>
@@ -256,7 +256,7 @@ $today = date("Y-m-d");
                                     <div class="product row row-gutter-sm align-items-center mb-4">
                                         <div class="col-5 col-lg-5">
                                             <div class="product-thumb-info border-0">
-                                                <a href="shop-product-sidebar-left.html">
+                                                <a href="product.php?product_id=<?php echo $product_details['sku'] ?>">
                                                     <div class="product-thumb-info-image">
                                                         <img alt="" class="img-fluid"
                                                             src="Bhavani/img/products/<?php echo $product_details['photo1'] ?>">
@@ -265,11 +265,11 @@ $today = date("Y-m-d");
                                             </div>
                                         </div>
                                         <div class="col-7 col-lg-7 ms-md-0 ms-lg-0 ps-lg-1 pt-1">
-                                            <a href="#"
+                                            <a href="index.php?category_id=<?php echo $product_details['category_id'] ?>"
                                                 class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-2"><?php echo $category_name ?></a>
                                             <h3
                                                 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
-                                                <a href="shop-product-sidebar-right.html"
+                                                <a href="product.php?product_id=<?php echo $product_details['sku'] ?>"
                                                     class="text-color-dark text-color-hover-primary text-decoration-none"><?php echo $product_details['product_name'] ?></a>
                                             </h3>
                                             <div title="Rated 5 out of 5">
